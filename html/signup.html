@@ -1,0 +1,61 @@
+<!Doctype html>
+<head>
+<link rel="stylesheet" href="../CSS/signup.css">
+</head>
+
+<div class="container">
+    
+ <div class="loginbox">
+    <P id="title"><b>Create Account</b></P>
+    <div class="steps">
+  <div class="step active">
+    <div class="circle">1</div>
+    <p>Signup</p>
+  </div>
+
+  <div class="step">
+    <div class="circle">2</div>
+    <p>OTP</p>
+  </div>
+
+  <div class="step">
+    <div class="circle">3</div>
+    <p>Complete</p>
+  </div>
+</div>
+    <p>Go ahead and join our family now</p>
+
+<form  onsubmit="return validate()">
+<input type="text" id="username" placeholder="username">
+<span id="usernameError" class="error"></span>
+<br>
+<input type="tel" id="pho" name="ph"  placeholder="phone number">
+<span id="phoneError" class="error"></span>
+
+<br>
+<input type="password" id="password" name="pass" placeholder="password">
+ <span id="passwordError" class="error"></span>
+ <br>
+ <input type="password" id="confirm" placeholder="confirmation password">
+  <span id="confirmError" class="error"></span>
+ <br>
+
+
+ 
+<button id="button" type="submit">Signup</button>
+<br>
+ <p>Already have an account ?<a href="login.html">Login</a></p>
+
+
+
+
+</form>
+</div>
+</div>
+
+
+
+<script src="../js/home.js">
+    
+</script>
+</body>

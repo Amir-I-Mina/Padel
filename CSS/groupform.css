@@ -1,0 +1,139 @@
+body{
+    background-color: #f8fafc;
+}
+
+.navbar {
+    
+    background-color: #1e293b;
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color:white;
+}
+
+.nav-links a:hover {
+    color: rgb(37, 99, 235);
+}
+
+
+.page-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+
+/* LEFT SIDE */
+.info-section {
+    padding: 50px 40px;
+    flex: 1;
+    background-color: #f1f5f9;
+}
+
+.info-section h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #1f2937;
+}
+
+.info-section p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.back {
+    text-decoration: none;
+    color: #374151;
+    font-size: 14px;
+}
+
+/* RIGHT SIDE FORM */
+.form-card {
+    padding: 50px 40px;
+    flex: 1;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+}
+
+/* LABELS */
+.form-card label {
+    font-size: 14px;
+    display: inline;
+    margin-top: 12px;
+}
+
+
+.form-card select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 18px 0;
+    border-radius: 8px;
+    border: none;
+    background-color: #334155;
+    color: white;
+    outline: none;
+}
+
+/* FOCUS EFFECT */
+.form-card select:focus {
+    border: 1px solid #3b82f6;
+}
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #3b82f6;
+    cursor: pointer;
+}
+
+.checkbox label {
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+
+/* BUTTON */
+.form-card button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-card button:hover {
+    opacity: 0.9;
+}
+

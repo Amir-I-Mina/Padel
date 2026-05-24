@@ -1,0 +1,80 @@
+/* HERO */
+.hero {
+    background-color: #0f172a;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* CARDS */
+.card-grid { display: flex; gap: 25px; justify-content: center; flex-wrap: wrap; }
+.tournament-card {
+    background: white;
+    width: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.card-image { height: 200px; background-size: cover; background-position: center; }
+.card-content { padding: 20px; }
+.status-badge { background-color: #dcfce7; color: #166534; font-size: 11px; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
+
+
+/* THE SPLIT FORM BOX */
+.registration-box {
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.form-info {
+    flex: 1;
+    background-color: #f1f5f9;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-inputs {
+    flex: 1;
+    background-color: #161e2e;
+    padding: 50px;
+    color: white;
+}
+
+/* INPUT STYLING */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px 0;
+    background: #2d3748;
+    border: 1px solid #3f4e66;
+    border-radius: 6px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.btn-action {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    background: #3b82f6;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}

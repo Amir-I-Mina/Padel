@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/ManageCoaches.css">
+</head>
+
+<body>
+
+
+<div class="navbar">
+    <div class="logo">Yalla Padel</div>
+
+    <div class="nav-links">
+        <a href="#">HOME</a>
+        <a href="../html/listOfCoaches.html">LIST OF COACHES</a>
+        
+    </div>
+</div>
+
+
+<div class="hero">
+    <a href="../html/adminMenu.html" class="back">← BACK TO LIST</a>
+    <h1>MANAGE COACHES</h1>
+</div>
+
+
+<div class="top-bar">
+    <button class="addCoachBtn">+ Add Coach</button>
+</div>
+
+
+<div class="dashboardContainer">
+
+    
+    <div class="coach-card" style="display:none; position:relative;">
+
+        
+        <div class="menu">
+            ⋮
+            <div class="menu-options">
+                <p class="edit">Edit</p>
+                <p class="delete">Delete</p>
+            </div>
+        </div>
+
+        <div class="Name">Coach Name: <span class="name"></span></div>
+        <p>Phone: <span class="phone"></span></p>
+        <p>Location: <span class="location"></span></p>
+        <p>Days: <span class="days"></span></p>
+        <p>Time: <span class="time"></span></p>
+        <p>Salary: <span class="Salary"></span></p>
+
+    </div>
+
+</div>
+
+
+<div id="coach" class="form-container" style="display:none;">
+
+    <h2>Add / Edit Coach</h2>
+
+    <form class="coachForm">
+
+        <label for="name">Coach Name</label>
+        <input type="text" id="name" placeholder="Enter coach name"><span class="nameError"></span>
+
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" placeholder="Enter phone number"><span class="phoneError"></span>
+
+        <label for="exprience">Experience</label>
+        <input type="text" id="exprience" placeholder="Years of experience"><span class="ExError"></span>
+
+        <label for="location">Location</label>
+        <input type="text" id="location" placeholder="Enter location"><span class="LocError"></span>
+
+        <label for="days">Days</label>
+        <input type="text" id="days" placeholder="e.g. Sunday, Tuesday"><span class="DayError"></span>
+
+        <label for="time">Time</label>
+        <input type="text" id="time" placeholder="e.g. 6 PM - 8 PM"><span class="timeError"></span>
+
+        <label for="salary">Salary</label>
+        <input type="text" id="salary" placeholder="Enter salary"><span class="SalaryError"></span>
+
+        <button type="submit" id="saveCoach">Save</button>
+
+    </form>
+
+</div>
+
+<script src="../js/ManageCoaches.js"></script>
+
+</body>
+</html>

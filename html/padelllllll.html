@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Padel Store | Equipment & Gear</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div>
+            <button class="nav-link" onclick="location.href='home.html'">HOME</button>
+            <button class="nav-link" onclick="location.href='padelllllll.html'" style="color: #60a5fa;">STORE</button>
+            
+            <div class="cart-container">
+                <button class="nav-link" onclick="toggleCart()">🛒 CART</button>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1 class="hero-title">Yalla Padel STORE</h1>
+        <p class="hero-subtitle">Premium equipment</p>
+    </div>
+
+    <div class="container">
+        <div class="card-grid" id="productGrid">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p style="text-align: center; color: #64748b;">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cartTotal">0</span> EGP</div>
+            <button class="btn-action btn-checkout" onclick="proceedToCheckout()">PROCEED TO CHECKOUT</button>
+        </div>
+    </div>
+
+    <script src="../js/YallaPadel.js"></script>
+</body>
+</html>

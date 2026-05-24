@@ -1,0 +1,119 @@
+/* --- Global Reset & Layout --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #f8fafc; 
+    color: #1e293b; 
+    line-height: 1.6; 
+}
+
+.navbar { 
+    background: #0f172a; 
+    color: white; 
+    padding: 15px 5%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+}
+
+.brand-text { font-weight: 800; font-size: 22px; }
+.nav-link { 
+    color: #cbd5e1; 
+    text-decoration: none; 
+    margin-left: 20px; 
+    font-weight: 600; 
+    font-size: 13px; 
+    transition: 0.2s;
+}
+.nav-link:hover, .nav-link.active { color: #3b82f6; }
+
+.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.panel { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+}
+
+/* --- Refined Buttons --- */
+button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary { 
+    background: #3b82f6; 
+    color: white; 
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2); 
+}
+.btn-primary:hover { 
+    background: #2563eb; 
+    transform: translateY(-1px); 
+}
+
+.btn-edit { 
+    background: #f1f5f9; 
+    color: #475569; 
+    border: 1px solid #e2e8f0; 
+}
+.btn-edit:hover { background: #e2e8f0; color: #1e293b; }
+
+.btn-danger { 
+    background: #fff1f2; 
+    color: #e11d48; 
+    border: 1px solid #fecdd3; 
+}
+.btn-danger:hover { background: #ffe4e6; }
+
+.btn-approve { 
+    background: #dcfce7; 
+    color: #15803d; 
+    border: 1px solid #bbf7d0; 
+    flex: 1;
+}
+
+/* --- Table & Badges --- */
+.admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.admin-table th { text-align: left; padding: 12px; color: #64748b; border-bottom: 2px solid #f1f5f9; }
+.admin-table td { padding: 15px 12px; border-bottom: 1px solid #f1f5f9; }
+
+.badge { 
+    padding: 4px 12px; 
+    border-radius: 99px; 
+    font-size: 11px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+}
+.badge.open { background: #dcfce7; color: #166534; }
+.badge.ongoing { background: #fef9c3; color: #854d0e; }
+.badge.finished { background: #f1f5f9; color: #475569; }
+
+/* --- Approvals Grid --- */
+.approval-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.approval-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; }
+
+/* --- Modals --- */
+.modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(15, 23, 42, 0.8); 
+    z-index: 2000; 
+    justify-content: center; align-items: center; 
+}
+.modal-content { background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; }
+.modal-input { width: 100%; padding: 12px; margin: 10px 0 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 10px; }

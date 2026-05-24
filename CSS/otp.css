@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(248, 250, 252);
+    margin: 0;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginbox {
+    background: rgb(255, 255, 255);
+    width: 380px;
+    padding: 50px 30px 30px;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+
+#title {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 20px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    color: gray;
+}
+
+.circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgb(220, 220, 220);
+    margin: 0 auto 8px;
+    line-height: 35px;
+    font-weight: bold;
+}
+
+
+.step.active .circle,
+.step.done .circle {
+    background-color: rgb(37, 99, 235);
+    color: white;
+}
+
+
+input {
+    width: 90%;
+    height: 40px;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    background-color: rgb(203, 213, 225);
+}
+
+button {
+    width: 95%;
+    height: 45px;
+    margin-top: 20px;
+    background-color: rgb(37, 99, 235);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: rgb(29, 78, 216);
+}
+
+
+.error {
+    color: red;
+    display: block;
+    margin-top: 5px;
+}

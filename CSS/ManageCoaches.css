@@ -1,0 +1,273 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8fafc;
+}
+
+.navbar {
+    background-color: #0f172a;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+    opacity: 0.7;
+}
+
+
+.hero {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #1e293b;
+    color: white;
+}
+
+.hero .back {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    opacity: 0.9;
+    transition: 0.2s;
+}
+
+.hero .back:hover {
+    opacity: 1;
+}
+
+.top-bar {
+    max-width: 1100px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addCoachBtn {
+    background-color: #22c55e;
+    color: white;
+    border: none;
+
+    padding: 10px 16px;
+    border-radius: 10px;
+
+    font-size: 14px;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.addCoachBtn:hover {
+    opacity: 0.85;
+}
+
+
+.dashboardContainer {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+
+    text-align: center;
+    font-size: 18px;
+    color: #64748b;
+}
+
+
+.coach-card {
+    width: 300px;
+    background: white;
+
+    border-radius: 18px;
+    padding: 20px;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border: 1px solid #e2e8f0;
+
+    transition: 0.3s;
+
+    position: relative;
+}
+
+.coach-card:hover {
+    transform: translateY(-5px);
+}
+
+.menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.menu-options {
+    display: none;
+
+    position: absolute;
+    top: 28px;
+    right: 0;
+
+    background: white;
+    border-radius: 10px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 1px solid #e2e8f0;
+
+    overflow: hidden;
+}
+
+.menu-options p {
+    margin: 0;
+    padding: 10px 14px;
+
+    font-size: 13px;
+    color: #1e293b;
+
+    cursor: pointer;
+}
+
+.menu-options p:hover {
+    background-color: #f1f5f9;
+}
+
+
+.coach-card .Name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+
+.coach-card p {
+    font-size: 13px;
+    color: #475569;
+    margin: 6px 0;
+}
+
+.coach-card p b {
+    color: #1e293b;
+}
+
+
+.form-container label {
+    display: block;
+    font-size: 13px;
+    margin-left: 7px;
+    margin-bottom: 5px;
+    color: #cbd5e1;
+}
+
+
+.form-container input {
+    width: 393px;
+    padding: 7px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+    border: 1px solid #334155;
+
+    background-color: #0f172a;
+    color: white;
+
+    font-size: 13px;
+
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-container input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+
+.form-container {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 425px;
+    height: 560px;
+    padding: 15px;
+
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    color: white;
+    background: rgba(30, 41, 59, 0.7);
+    overflow-y: auto; 
+    overflow-x: hidden;
+    border-radius: 25px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: #f8fafc;
+}
+
+
+.form-container button {
+    width: 410px;
+    padding: 7px;
+
+    border: none;
+    border-radius: 10px;
+
+    margin-top: 9px;
+
+    background: #22c55e;
+    color: white;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.form-container button:hover {
+    background: #16a34a;
+    transform: scale(1.02);
+}
+.form-container span {
+    color: red;
+    font-size: 12px;
+}

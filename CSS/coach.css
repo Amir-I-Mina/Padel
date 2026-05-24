@@ -1,0 +1,175 @@
+/* --- PAGE BACKGROUND --- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8fafc;
+}
+
+/* --- CONTAINER --- */
+#coachContainer {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* --- COACH CARD (TEMPLATE) --- */
+.tournament-card {
+    width: 300px;
+    background: white;
+
+    border-radius: 18px;
+    padding: 20px;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border: 1px solid #e2e8f0;
+
+    transition: 0.3s;
+}
+
+/* hover effect */
+.tournament-card:hover {
+    transform: translateY(-5px);
+}
+
+/* --- NAME --- */
+.tournament-card .name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+/* --- INFO TEXT --- */
+.tournament-card p {
+    font-size: 13px;
+    color: #475569;
+    margin: 6px 0;
+}
+
+/* labels inside text */
+.tournament-card p b {
+    color: #1e293b;
+}
+
+/* --- EMPTY MESSAGE --- */
+#coachContainer {
+    text-align: center;
+    font-size: 18px;
+    color: #64748b;
+}
+
+/* --- TEMPLATE HIDDEN (important safety) --- */
+#coachTemplate {
+    display: none;
+}
+
+/* --- NAVBAR (if you use it) --- */
+.navbar {
+    
+    background-color: #1e293b;
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color:white;
+}
+
+.nav-links a:hover {
+    color: rgb(37, 99, 235);
+}
+
+/* HERO SECTION */
+.hero {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #1e293b;
+    color: white;
+}
+
+/* back button */
+.hero .back {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    opacity: 0.9;
+    transition: 0.2s;
+}
+
+.hero .back:hover {
+    opacity: 1;
+}
+
+ button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+ button:hover {
+    opacity: 0.9;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 50px;
+    margin-top: 40px;
+
+    color: white;
+
+    background: rgb(15, 23, 42);
+   
+    border-top: 1px solid rgba(255,255,255,0.1);
+
+}
+
+.footer-left {
+    max-width: 60%;
+}
+
+.footer-left h3 {
+    margin-bottom: 10px;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-right h4 {
+    margin-bottom: 10px;
+}

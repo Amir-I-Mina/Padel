@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8fafc;
+}
+
+.navbar {
+    
+    background-color: #1e293b;
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color:white;
+}
+
+.nav-links a:hover {
+    color: rgb(37, 99, 235);
+}
+
+/* --- HERO --- */
+.hero {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #1e293b;
+    color: white;
+}
+.hero .back {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    opacity: 0.9;
+    transition: 0.2s;
+}
+
+.hero .back:hover {
+    opacity: 1;
+}
+
+/* --- CONTAINER (SAME LAYOUT STYLE) --- */
+#dashboardContainer {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* --- COACH CARD (SAME AS TOURNAMENT CARD) --- */
+.coach-card {
+    width: 300px;
+    background: white;
+
+    border-radius: 18px;
+    padding: 20px;
+
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border: 1px solid #e2e8f0;
+
+    transition: 0.3s;
+}
+
+.coach-card:hover {
+    transform: translateY(-5px);
+}
+
+/* NAME */
+.coach-card .Training {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+/* TEXT */
+.coach-card p {
+    font-size: 13px;
+    color: #475569;
+    margin: 6px 0;
+}
+
+.coach-card p b {
+    color: #1e293b;
+}
+
+/* EMPTY MESSAGE */
+#dashboardContainer {
+    text-align: center;
+    font-size: 18px;
+    color: #64748b;
+}

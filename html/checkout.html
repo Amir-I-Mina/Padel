@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Checkout</title>
+<link rel="stylesheet" href="../CSS/kevin.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo"> Yalla Padel </div>
+
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        
+    </div>
+</div>
+
+<h1>🧾 Checkout</h1>
+
+<div class="box">
+
+<p><b>📍 Club:</b> <span id="club"></span></p>
+<p><b>🎾 Court:</b> <span id="court"></span></p>
+<p><b>📅 Date:</b> <span id="date"></span></p>
+<p><b>⏰ Time:</b> <span id="time"></span></p>
+
+<hr>
+
+<label>💳 Payment</label>
+<select>
+<option>Cash</option>
+<option>Visa</option>
+</select>
+
+<label>🏷 Promo Code</label>
+<input type="text">
+
+<p><b>💰 Total: 450 EGP</b></p>
+
+<button class="confirm-btn" onclick="confirmBooking()">Confirm</button>
+
+</div>
+
+<script src="../js/script.js"></script>
+<script>
+    loadCheckout();
+</script>
+
+
+</body>
+</html>

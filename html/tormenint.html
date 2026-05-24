@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments | Padel Hub</title>
+    <link rel="stylesheet" href="../CSS/bishoy.css">
+    <link rel="stylesheet" href="../CSS/tournament.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div class="nav-links">
+            <a href="home.html" class="nav-link" target="_self">Home</a>
+            <a href="tormenint.html" class="nav-link" target="_self">Tournaments</a>
+            <a href="Matches.html" class="nav-link" target="_self">Matches</a>
+            <a href="leaderboard.html" class="nav-link" target="_self">Leaderboard</a>
+        </div>
+    </nav>
+
+    <section id="list-view">
+        <div class="hero">
+            <h1 class="hero-title">Padel Tournaments</h1>
+            <p>Select your format and join the ranking.</p>
+        </div>
+
+        <div class="container">
+            <div class="card-grid">
+                <div class="tournament-card">
+                    <div class="card-image" style="background-image: url('../images/Gemini_Generated_Image_g5b0p8g5b0p8g5b0.png');"></div>
+                    <div class="card-content">
+                        <span class="status-badge">OPEN</span>
+                        <h2>Spring Doubles Cup</h2>
+                        <p>2v2 Team • 2 Players Required</p>
+                        <button class="btn-action" onclick="goReg('doubles')">Register Team</button>
+                    </div>
+                </div>
+
+                <div class="tournament-card">
+                    <div class="card-image" style="background-image: url('../images/Gemini_Generated_Image_ohnunohnunohnuno.png');"></div>
+                    <div class="card-content">
+                        <span class="status-badge">OPEN</span>
+                        <h2>Solo Masters League</h2>
+                        <p>1v1 Individual • 1 Player Only</p>
+                        <button class="btn-action" onclick="goReg('solo')">Register Solo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="details-view" class="section-hidden container" style="padding-top: 50px;">
+        <button class="back-btn" onclick="show('list')">← BACK TO LIST</button>
+        
+        <div class="registration-box">
+            <div class="form-info">
+                <h2 id="title-display">Tournament</h2>
+                <p id="desc-display">Enter your details to join the bracket.</p>
+            </div>
+            <div class="form-inputs">
+                <form onsubmit="alert('Registration Successful!'); show('list');">
+                    <label id="label-team">Team Name</label>
+                    <input type="text" id="input-team" class="input-field" placeholder="e.g. Smash Kings" required>
+
+                    <label id="label-p1">Player 1 (Captain)</label>
+                    <input type="text" class="input-field" placeholder="Full Name" required>
+
+                    <div id="player2-section">
+                        <label>Player 2</label>
+                        <input type="text" id="input-p2" class="input-field" placeholder="Full Name">
+                    </div>
+
+                    <button type="submit" class="btn-action" style="background-color: #3b82f6;">Submit Entry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/bishoy.js"></script>
+</body>
+</html>

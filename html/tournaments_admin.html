@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournaments | Admin</title>
+    <link rel="stylesheet" href="tournament_admin.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div class="nav-links">
+            <a href="tournaments_admin.html" class="nav-link active">Tournaments</a>
+            <a href="points.html" class="nav-link">Add Points</a>
+            <a href="approvals.html" class="nav-link">Approvals</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="panel">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>Tournament Management</h2>
+                <button class="btn-primary" onclick="openAddModal()">+ Add New</button>
+            </div>
+            <table class="admin-table">
+                <thead><tr><th>Tournament</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="tournament-list">
+                    <tr id="row-1">
+                        <td><strong id="name-1">Spring Doubles</strong></td>
+                        <td><span class="badge open" id="status-1">OPEN</span></td>
+                        <td>
+                            <button class="btn-edit" onclick="openEditModal(1)">Edit</button>
+                            <button class="btn-danger" onclick="deleteItem('row-1')">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3>New Tournament</h3>
+            <input type="text" id="add-name" class="modal-input" placeholder="Tournament Name">
+            <select id="add-status" class="modal-input">
+                <option value="OPEN">OPEN</option>
+                <option value="ONGOING">ONGOING</option>
+            </select>
+            <div class="modal-footer">
+                <button class="btn-edit" onclick="closeModal('addModal')">Cancel</button>
+                <button class="btn-primary" onclick="addTournament()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Details</h3>
+            <input type="hidden" id="edit-id">
+            <input type="text" id="edit-name" class="modal-input">
+            <select id="edit-status" class="modal-input">
+                <option value="OPEN">OPEN</option>
+                <option value="ONGOING">ONGOING</option>
+                <option value="FINISHED">FINISHED</option>
+            </select>
+            <div class="modal-footer">
+                <button class="btn-edit" onclick="closeModal('editModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveEdit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    <script src="tournament_admin.js"></script>
+</body>
+</html>
