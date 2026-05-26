@@ -195,3 +195,143 @@ input, select {
     font-weight: bold;
     border-radius: 8px;
 }
+
+/* ===== ADMIN PAGE STYLES ===== */
+.admin-dashboard {
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.admin-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.admin-card h2 {
+    font-size: 22px;
+    border-left: 5px solid #2563eb;
+    padding-left: 15px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.grid-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: flex-start;
+}
+
+.control-group {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 15px;
+    flex: 1;
+    min-width: 220px;
+    border: 1px solid #e2e8f0;
+}
+
+.control-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #1e293b;
+}
+
+.control-group input, .control-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.admin-btn {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.admin-btn:hover {
+    background: #061747;
+}
+
+.danger-btn {
+    background: #dc2626;
+}
+
+.danger-btn:hover {
+    background: #991b1b;
+}
+
+.success-btn {
+    background: #16a34a;
+}
+
+.success-btn:hover {
+    background: #0f6e34;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.badge-status {
+    background: #e6f7e6;
+    color: #2e7d32;
+    padding: 4px 8px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.message-toast {
+    background: #1e293b;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 40px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .admin-dashboard {
+        padding: 15px;
+    }
+    .container {
+        padding: 20px;
+    }
+}
