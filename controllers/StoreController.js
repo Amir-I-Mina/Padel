@@ -1,8 +1,6 @@
 const Product = require('../models/productSchema');
 
-// ─── STORE (Customer-facing) ───────────────────────────────────────────────
 
-// GET /api/products  →  load all in-stock products for the store page
 exports.getAllProducts = async (req, res) => {
   try {
     const { search } = req.query;
@@ -23,7 +21,6 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// GET /api/products/:id  →  single product details
 exports.getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -35,7 +32,6 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// ─── ADMIN (Management) ────────────────────────────────────────────────────
 
 // GET /api/admin/products  →  all products (including out-of-stock)
 exports.getAdminAllProducts = async (req, res) => {
@@ -58,7 +54,6 @@ exports.getAdminAllProducts = async (req, res) => {
   }
 };
 
-// GET /admin/manage-products  →  render admin products page
 exports.manage_get_products = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
@@ -69,7 +64,6 @@ exports.manage_get_products = async (req, res) => {
   }
 };
 
-// POST /api/admin/products  →  add new product
 exports.addProduct = async (req, res) => {
   try {
     const { name, price, desc, category, hasOptions, sizes, colors, image } = req.body;
@@ -97,7 +91,6 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-// PUT /api/admin/products/:id  →  update product
 exports.updateProduct = async (req, res) => {
   try {
     const { name, price, desc, category, hasOptions, sizes, colors, image } = req.body;
@@ -121,7 +114,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// PATCH /api/admin/products/:id/stock  →  toggle in stock / out of stock
 exports.toggleStock = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -140,7 +132,6 @@ exports.toggleStock = async (req, res) => {
   }
 };
 
-// DELETE /api/admin/products/:id  →  delete product
 exports.deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
