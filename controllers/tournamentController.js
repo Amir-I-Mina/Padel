@@ -1,11 +1,12 @@
-// Replace with your actual Tournament Model
-const Tournament = require('../models/tournamentSchema'); 
+// tournamentController.js (User-Facing Functions)
+const Tournament = require('../models/tournamentSchema');
 
-// 1. Get all tournaments (e.g., for the public view)
+// 1. Get all OPEN tournaments (Public landing/list page)
 exports.getAllTournaments = async (req, res) => {
     try {
         const { search } = req.query;
-        let query = { status: "OPEN" }; // Only showing open ones for players
+        // Only show tournaments that are currently OPEN
+        let query = { status: "OPEN" };
 
         if (search) {
             query.$or = [
@@ -15,75 +16,36 @@ exports.getAllTournaments = async (req, res) => {
         }
 
         const tournaments = await Tournament.find(query).sort({ createdAt: -1 });
-        res.json({ success: true, tournaments });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
-
-// 2. Admin: Get ALL tournaments (including closed ones)
-exports.getAdminAllTournaments = async (req, res) => {
-    try {
-        const tournaments = await Tournament.find().sort({ createdAt: -1 });
-        res.json({ success: true, tournaments });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
-
-// 3. Admin: Render Management Page
-exports.manage_get_tournaments = async (req, res) => {
-    try {
-        const tournaments = await Tournament.find().sort({ createdAt: -1 });
-        res.render('AdminPage/manage-tournaments', { tournaments, currentPage: 'tournaments' });
-    } catch (err) {
-        res.status(500).send('Error loading tournament dashboard');
-    }
-};
-
-// 4. Admin: Create a new tournament
-exports.addTournament = async (req, res) => {
-    try {
-        const { name, type, status } = req.body;
-        if (!name) return res.status(400).json({ success: false, message: 'Tournament name required' });
-
-        const tournament = new Tournament({
-            name,
-            type: type || 'doubles',
-            status: status || 'OPEN'
-        });
-
-        await tournament.save();
-        res.status(201).json({ success: true, tournament });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
-
-// 5. Admin: Update Tournament
-exports.updateTournament = async (req, res) => {
-    try {
-        const { name, status } = req.body;
-        const tournament = await Tournament.findByIdAndUpdate(
-            req.params.id, 
-            { name, status }, 
-            { new: true }
-        );
-        if (!tournament) return res.status(404).json({ success: false, message: 'Not found' });
         
-        res.json({ success: true, tournament });
+        // This renders the public-facing view
+        res.render('tournaments', { tournaments, cssFile: 'tournament.css' });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// 6. Admin: Delete Tournament
-exports.deleteTournament = async (req, res) => {
+// 2. View details of a specific tournament
+exports.getTournamentById = async (req, res) => {
     try {
-        const tournament = await Tournament.findByIdAndDelete(req.params.id);
-        if (!tournament) return res.status(404).json({ success: false, message: 'Not found' });
-        res.json({ success: true, message: 'Deleted successfully' });
+        const tournament = await Tournament.findById(req.params.id);
+        if (!tournament) {
+            return res.status(404).json({ success: false, message: 'Tournament not found' });
+        }
+        res.render('tournament_details', { tournament });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// 3. Handle Team Registration (User submits a form)
+exports.handleTeamRegistration = async (req, res) => {
+    try {
+        // Logic to save a registration request (pending admin approval)
+        const { teamName, player1, player2, tournamentId } = req.body;
+        
+        // Add your logic to save to a Registration model here
+        res.status(200).json({ success: true, message: "Registration submitted successfully!" });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
     }
 };
