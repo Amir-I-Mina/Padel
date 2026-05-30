@@ -1,6 +1,5 @@
 const Booking = require('../models/bookingSchema');
 
-// GET /clubs - Show clubs page
 exports.getClubsPage = async (req, res) => {
   try {
     res.render('clubs', { currentPage: 'clubs' });
@@ -9,7 +8,7 @@ exports.getClubsPage = async (req, res) => {
   }
 };
 
-// POST /api/select-club - Select a club
+
 exports.selectClub = async (req, res) => {
   try {
     const { clubName } = req.body;
@@ -18,7 +17,7 @@ exports.selectClub = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Club name is required' });
     }
     
-    // Store in session or send back
+   
     req.session.selectedClub = clubName;
     
     res.json({ success: true, club: clubName });
@@ -27,7 +26,7 @@ exports.selectClub = async (req, res) => {
   }
 };
 
-// GET /booking - Show booking page
+
 exports.getBookingPage = async (req, res) => {
   try {
     const club = req.session.selectedClub;
@@ -40,7 +39,6 @@ exports.getBookingPage = async (req, res) => {
   }
 };
 
-// GET /api/available-slots - Get available time slots for a court/date
 exports.getAvailableSlots = async (req, res) => {
   try {
     const { club, court, date } = req.query;
@@ -65,12 +63,11 @@ exports.getAvailableSlots = async (req, res) => {
   }
 };
 
-// POST /api/create-booking - Create a booking
 exports.createBooking = async (req, res) => {
   try {
     const { club, court, date, time, paymentMethod, promoCode } = req.body;
     
-    // Check if slot is already booked
+    
     const existingBooking = await Booking.findOne({
       club,
       court,
@@ -99,7 +96,7 @@ exports.createBooking = async (req, res) => {
     
     await booking.save();
     
-    // Store in session for checkout
+    
     req.session.currentBooking = booking;
     
     res.status(201).json({ 
@@ -112,7 +109,7 @@ exports.createBooking = async (req, res) => {
   }
 };
 
-// GET /checkout - Show checkout page
+
 exports.getCheckoutPage = async (req, res) => {
   try {
     const booking = req.session.currentBooking;
@@ -125,7 +122,7 @@ exports.getCheckoutPage = async (req, res) => {
   }
 };
 
-// POST /api/confirm-booking - Confirm booking
+
 exports.confirmBooking = async (req, res) => {
   try {
     const { bookingId, paymentMethod, promoCode } = req.body;
@@ -135,7 +132,7 @@ exports.confirmBooking = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Booking not found' });
     }
     
-    // Apply promo code discount if valid
+    
     let finalPrice = booking.price;
     if (promoCode && promoCode === 'DISCOUNT10') {
       finalPrice = booking.price * 0.9;
@@ -147,7 +144,7 @@ exports.confirmBooking = async (req, res) => {
     
     await booking.save();
     
-    // Clear session
+   
     req.session.currentBooking = null;
     
     res.json({ 
@@ -161,7 +158,7 @@ exports.confirmBooking = async (req, res) => {
   }
 };
 
-// GET /api/my-bookings - Get user's bookings (optional)
+
 exports.getMyBookings = async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
