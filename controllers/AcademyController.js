@@ -1,5 +1,5 @@
-const Coach = require("../models/Coach");
-const Booking = require("../models/Booking");
+const Coach = require("../models/CoachModels");
+const Booking = require("../models/BookingAcademy");
 
 
 // ======================================
