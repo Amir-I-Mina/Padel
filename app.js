@@ -1,27 +1,36 @@
-const express = require ('express') ;
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const fileUpload = require('express-fileupload');
+const path = require('path');
 
-const app = express ();
+const Coach = require('./models/CoachModels');
+const User = require('./models/UserModel');
+const BookingAcademy = require('./models/BookingAcademy');
+const courts = require('./models/courtsBoking');
 
-const mongoose = require('mongoose' ) ;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-const fileUpload = require('express-fileupload') ;
+const productRoutes = require('./routes/productRoutes');
+app.use('/products', productRoutes);
 
-const path = require ('path') ;
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/admin', adminRoutes);
 
-const Coach = require ('./models/CoachModels') ;
-const User = require ('./models/UserModel') ;
-const BookingAcademy = require ('./models/BookingAcademy') ;
-const courts = require('./models/courtsBoking') ;
+const dbURI = 'mongodb://Padelweb:padel12345@...';
 
-const dbURI ='mongodb://Padelweb:padel12345@acgk4oui-shard-00-00.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-01.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-02.dfnd8so.mongodb.net:27017/?ssl=true&replicaSet=atlas-57qqm7-shard-0&authSource=admin&appName=PadelWebDatabase'
+const orderRoutes = require('./routes/orderRoutes');
+app.use('/orders', orderRoutes);
 
 mongoose.connect(dbURI)
-      .then(async () => {
-    console.log('Connected to MongoDB');
-      app.listen(8080, () => {
-          console.log("Server running");
-      });
-  })
-  .catch(err => {
-      console.log(err);
-  });
+    .then(async () => {
+        console.log('Connected to MongoDB');
+        app.listen(8080, () => {
+            console.log("Server running");
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    });
