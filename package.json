@@ -1,0 +1,27 @@
+{
+  "name": "padel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amir-I-Mina/Padel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Amir-I-Mina/Padel/issues"
+  },
+  "homepage": "https://github.com/Amir-I-Mina/Padel#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "mongoose": "^9.6.3"
+  }
+}

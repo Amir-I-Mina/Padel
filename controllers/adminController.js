@@ -1,4 +1,4 @@
-const Coach = require("../models/Coach");
+const Coach = require("../models/CoachModels");
 const Product = require('../models/productSchema');
 const Tournament = require('../models/tournamentSchema');
 const Booking = require('../models/bookingSchema');
