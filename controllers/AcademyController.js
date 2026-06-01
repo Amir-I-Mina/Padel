@@ -3,39 +3,43 @@ const Booking = require("../models/BookingAcademy");
 
 
 // ======================================
-// GET PRIVATE TRAINING PAGE
+// GET PRIVATE TRAINING PAGE DATA
 // ======================================
 
 const user_getPrivateTrainingPage = async (req, res) => {
-
     try {
 
-        res.render("academy/privateTraining");
+        res.json({
+            success: true,
+            trainingType: "private"
+        });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error loading private training page");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
 
 // ======================================
-// GET GROUP TRAINING PAGE
+// GET GROUP TRAINING PAGE DATA
 // ======================================
 
 const user_getGroupTrainingPage = async (req, res) => {
-
     try {
 
-        res.render("academy/groupTraining");
+        res.json({
+            success: true,
+            trainingType: "group"
+        });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error loading group training page");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
@@ -45,24 +49,19 @@ const user_getGroupTrainingPage = async (req, res) => {
 // ======================================
 
 const user_getDashboard = async (req, res) => {
-
     try {
 
-        const userId = req.session.user._id;
-
         const bookings = await Booking.find({
-            userId: userId
+            userId: req.session.user._id
         }).populate("coachId");
 
-        res.render("academy/dashboard", {
-            bookings
-        });
+        res.json(bookings);
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error loading dashboard");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
@@ -72,33 +71,24 @@ const user_getDashboard = async (req, res) => {
 // ======================================
 
 const user_findPrivateCoaches = async (req, res) => {
-
     try {
 
-        const {
-            location,
-            day,
-            time
-        } = req.body;
+        const { location, day, time } = req.body;
 
         const coaches = await Coach.find({
-
-            location: location,
+            location,
             availableDays: day,
             availableTimes: time,
             trainingType: "private"
-
         });
 
-        res.render("academy/availableCoaches", {
-            coaches
-        });
+        res.json(coaches);
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error finding private coaches");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
@@ -108,33 +98,24 @@ const user_findPrivateCoaches = async (req, res) => {
 // ======================================
 
 const user_findGroupCoaches = async (req, res) => {
-
     try {
 
-        const {
-            location,
-            day,
-            time
-        } = req.body;
+        const { location, day, time } = req.body;
 
         const coaches = await Coach.find({
-
-            location: location,
+            location,
             availableDays: day,
             availableTimes: time,
             trainingType: "group"
-
         });
 
-        res.render("academy/availableCoaches", {
-            coaches
-        });
+        res.json(coaches);
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error finding group coaches");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
@@ -144,7 +125,6 @@ const user_findGroupCoaches = async (req, res) => {
 // ======================================
 
 const user_bookTraining = async (req, res) => {
-
     try {
 
         const {
@@ -155,28 +135,22 @@ const user_bookTraining = async (req, res) => {
             location
         } = req.body;
 
-        const userId = req.session.user._id;
-
-        const newBooking = new Booking({
-
-            userId,
+        const booking = await Booking.create({
+            userId: req.session.user._id,
             coachId,
             trainingType,
             day,
             time,
             location
-
         });
 
-        await newBooking.save();
-
-        res.redirect("/academy/dashboard");
+        res.status(201).json(booking);
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error booking training");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
@@ -186,26 +160,32 @@ const user_bookTraining = async (req, res) => {
 // ======================================
 
 const user_cancelBooking = async (req, res) => {
-
     try {
 
-        const bookingId = req.params.id;
+        const booking = await Booking.findByIdAndDelete(req.params.id);
 
-        await Booking.findByIdAndDelete(bookingId);
+        if (!booking) {
 
-        res.redirect("/academy/dashboard");
+            return res.status(404).json({
+                error: "Booking not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Booking cancelled successfully"
+        });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error canceling booking");
+        res.status(500).json({
+            error: err.message
+        });
     }
 };
 
 
 module.exports = {
-
     user_getPrivateTrainingPage,
     user_getGroupTrainingPage,
     user_getDashboard,
@@ -213,5 +193,4 @@ module.exports = {
     user_findGroupCoaches,
     user_bookTraining,
     user_cancelBooking
-
 };

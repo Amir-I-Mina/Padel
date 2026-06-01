@@ -136,159 +136,153 @@ const admin_deleteProduct = async (req, res) => {
 // ======================================
 
 const admin_getCoachList = async (req, res) => {
-
     try {
 
         const coaches = await Coach.find();
 
-        res.render("academy/admin/coachList", {
+        res.status(200).json({
+            success: true,
             coaches
         });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error loading coaches");
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 };
 
 
-const admin_getAddCoachPage = async (req, res) => {
-
+const admin_getManageCoaches = async (req, res) => {
     try {
 
-        res.render("academy/admin/addCoach");
+        const coaches = await Coach.find();
 
-    } catch (err) {
-
-        console.log(err);
-
-        res.status(500).send("Error loading add coach page");
-    }
-};
-
-
-const admin_addCoach = async (req, res) => {
-
-    try {
-
-        const {
-            name,
-            age,
-            phone,
-            location,
-            experience,
-            availableDays,
-            availableTimes,
-            trainingType
-        } = req.body;
-
-        const coach = new Coach({
-
-            name,
-            age,
-            phone,
-            location,
-            experience,
-            availableDays,
-            availableTimes,
-            trainingType
-
+        res.status(200).json({
+            success: true,
+            coaches
         });
 
-        await coach.save();
-
-        res.redirect("/academy/admin/coaches");
-
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error adding coach");
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 };
 
 
-const admin_getEditCoachPage = async (req, res) => {
-
+const admin_getCoachById = async (req, res) => {
     try {
 
         const coach = await Coach.findById(req.params.id);
 
         if (!coach) {
 
-            return res.status(404).send("Coach not found");
+            return res.status(404).json({
+                success: false,
+                message: "Coach not found"
+            });
         }
 
-        res.render("academy/admin/editCoach", {
+        res.status(200).json({
+            success: true,
             coach
         });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error loading coach");
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 };
 
+
+
+const admin_addCoach = async (req, res) => {
+    try {
+
+        const coach = await Coach.create(req.body);
+
+        res.status(201).json({
+            success: true,
+            coach
+        });
+
+    } catch (err) {
+
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
 
 
 const admin_updateCoach = async (req, res) => {
-
     try {
 
-        const {
-            name,
-            age,
-            phone,
-            location,
-            experience,
-            availableDays,
-            availableTimes,
-            trainingType
-        } = req.body;
-
-        await Coach.findByIdAndUpdate(
+        const coach = await Coach.findByIdAndUpdate(
             req.params.id,
+            req.body,
             {
-                name,
-                age,
-                phone,
-                location,
-                experience,
-                availableDays,
-                availableTimes,
-                trainingType
+                new: true,
+                runValidators: true
             }
         );
 
-        res.redirect("/academy/admin/coaches");
+        if (!coach) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Coach not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            coach
+        });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error updating coach");
+        res.status(400).json({
+            success: false,
+            message: err.message
+        });
     }
 };
 
 
-
 const admin_deleteCoach = async (req, res) => {
-
     try {
 
-        await Coach.findByIdAndDelete(req.params.id);
+        const coach = await Coach.findByIdAndDelete(req.params.id);
 
-        res.redirect("/academy/admin/coaches");
+        if (!coach) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Coach not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Coach deleted successfully"
+        });
 
     } catch (err) {
 
-        console.log(err);
-
-        res.status(500).send("Error deleting coach");
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
     }
 };
 
@@ -609,9 +603,9 @@ module.exports = {
     admin_get_homeManagement,
     admin_get_users,
     admin_getCoachList,
-    admin_getAddCoachPage,
+    admin_getManageCoaches,
+    admin_getCoachById,
     admin_addCoach,
-    admin_getEditCoachPage,
     admin_updateCoach,
     admin_deleteCoach,
     getAdminAllTournaments,
