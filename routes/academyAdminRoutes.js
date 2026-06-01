@@ -5,14 +5,45 @@ const academyAdminController =
     require("../controllers/academyAdminController");
 
 
-router.get("/coach-list",academyAdminController.admin_getCoachList);
+// GET ALL COACHES (Coach Listing)
+router.get(
+    "/coaches",
+    academyAdminController.admin_getCoachList
+);
 
-router.get("/manage-coaches",academyAdminController.admin_getManageCoaches);
 
-router.post("/add-coach",academyAdminController.admin_addCoach);
+// GET DATA FOR MANAGE COACHES PAGE
+router.get(
+    "/manage-coaches",
+    academyAdminController.admin_getManageCoaches
+);
 
-router.post("/update-coach/:id",academyAdminController.admin_updateCoach);
 
-router.post("/delete-coach/:id",academyAdminController.admin_deleteCoach);
+// GET ONE COACH
+router.get(
+    "/coaches/:id",
+    academyAdminController.admin_getCoachById
+);
+
+
+// ADD COACH
+router.post(
+    "/coaches",
+    academyAdminController.admin_addCoach
+);
+
+
+// UPDATE COACH
+router.put(
+    "/coaches/:id",
+    academyAdminController.admin_updateCoach
+);
+
+
+// DELETE COACH
+router.delete(
+    "/coaches/:id",
+    academyAdminController.admin_deleteCoach
+);
 
 module.exports = router;

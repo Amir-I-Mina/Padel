@@ -4,6 +4,7 @@ const router = express.Router();
 const academyController = require("../controllers/academyController");
 
 
+// GET DATA
 router.get(
     "/private-training",
     academyController.user_getPrivateTrainingPage
@@ -20,24 +21,26 @@ router.get(
 );
 
 
+// FIND COACHES
 router.post(
-    "/find-private-coaches",
+    "/private-coaches",
     academyController.user_findPrivateCoaches
 );
 
 router.post(
-    "/find-group-coaches",
+    "/group-coaches",
     academyController.user_findGroupCoaches
 );
 
 
+// BOOKINGS
 router.post(
-    "/book-training",
+    "/bookings",
     academyController.user_bookTraining
 );
 
-router.post(
-    "/cancel-booking/:id",
+router.delete(
+    "/bookings/:id",
     academyController.user_cancelBooking
 );
 
