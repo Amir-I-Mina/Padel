@@ -27,7 +27,8 @@ const signupUser = async (req, res) => {
             username,
             phone,
             password,
-            isVerified: false
+            isVerified: false,
+            role: "user"
         });
 
         await newUser.save();
@@ -47,10 +48,15 @@ const verifyOTP = async (req, res) => {
 
         const { phone } = req.body;
 
-        await User.findOneAndUpdate(
-            { phone },
-            { isVerified: true }
-        );
+        const user = await User.findOne({ phone });
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        user.isVerified = true;
+
+        await user.save();
 
         res.redirect("/login");
 
@@ -78,6 +84,10 @@ const loginUser = async (req, res) => {
 
         if (!user.isVerified) {
             return res.status(400).send("Please verify your account first");
+        }
+
+        if (user.role === "admin") {
+            return res.redirect("/admin/dashboard");
         }
 
         res.redirect("/home");
