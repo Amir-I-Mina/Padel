@@ -1,66 +1,76 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        
-<link rel="stylesheet" href="../CSS/form.css">
-    </head>
+<head>
+    <title>Private Training</title>
 
-    <body>
-   <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+    <link rel="stylesheet" href="/CSS/form.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">Yalla Padel</div>
 
     <div class="nav-links">
-        <a href="home.html">Home</a>
+        <a href="/academy">Home</a>
     </div>
 </div>
 
-   <div class="page-container">
 
-    
+<div class="page-container">
+
     <div class="info-section">
-        <a href="academy.html" class="back">← BACK TO LIST</a>
+
+        <a href="/academy" class="back">← BACK TO LIST</a>
 
         <h2>Private Training</h2>
+
         <p>
             Register for your training session. Choose your preferred location,
             days, and time slots carefully.
         </p>
+
     </div>
 
-    
+
     <div class="form-card">
-        <form id="bookingForm">
+
+        <!-- IMPORTANT: connect to backend route -->
+        <form id="bookingForm" action="/academy/find-private-coaches" method="POST">
 
             <label for="location">Location</label>
-<select id="location">
-    <option disabled selected>Choose location</option>
-    <option value="Smash Club">Smash Club</option>
-    <option value="Cairo International Stadium">Cairo International Stadium</option>
-    <option value="HPark">HPark</option>
-    <option value="Wadi Degla">Wadi Degla</option>
-    <option value="Shams Club">Shams Club</option>
-</select>
 
-<label><b>Days</b></label><br><br>
+            <select id="location" name="location" required>
+                <option disabled selected>Choose location</option>
+                <option value="Smash Club">Smash Club</option>
+                <option value="Cairo International Stadium">Cairo International Stadium</option>
+                <option value="HPark">HPark</option>
+                <option value="Wadi Degla">Wadi Degla</option>
+                <option value="Shams Club">Shams Club</option>
+            </select>
 
-<input type="checkbox" name="days" value="Monday-Wednesday"> Monday-Wednesday<br><br>
-<input type="checkbox" name="days" value="Sunday-Tuesday"> Sunday-Tuesday<br><br>
-<input type="checkbox" name="days" value="Thursday-Saturday"> Thursday-Saturday<br><br>
 
-<label><b>Time Slots</b></label><br><br>
+            <label><b>Days</b></label><br><br>
 
-<input type="checkbox" name="time" value="6-7"> 6:00PM-7:00PM<br><br>
-<input type="checkbox" name="time" value="7-8"> 7:00PM-8:00PM<br><br>
-<input type="checkbox" name="time" value="9-10"> 9:00PM-10:00PM<br><br>
+            <input type="radio" name="day" value="Monday-Wednesday"> Monday-Wednesday<br><br>
+            <input type="radio" name="day" value="Sunday-Tuesday"> Sunday-Tuesday<br><br>
+            <input type="radio" name="day" value="Thursday-Saturday"> Thursday-Saturday<br><br>
+
+
+            <label><b>Time Slots</b></label><br><br>
+
+            <input type="radio" name="time" value="6-7"> 6:00PM-7:00PM<br><br>
+            <input type="radio" name="time" value="7-8"> 7:00PM-8:00PM<br><br>
+            <input type="radio" name="time" value="9-10"> 9:00PM-10:00PM<br><br>
+
 
             <button type="submit">Find coaches</button>
 
         </form>
+
     </div>
 
 </div>
 
-<script src="../js/form.js"></script>
-
-        
-    </body>
+</body>
 </html>
