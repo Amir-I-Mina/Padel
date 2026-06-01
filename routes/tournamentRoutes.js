@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const userCtrl = require('../controllers/tournamentController'); // Your user-facing controller
+const userCtrl = require('../controllers/tournamentController'); // Client-facing functions
+const adminCtrl = require('../controllers/adminController');     // Admin-facing functions
 
-// --- PUBLIC ROUTES (Client Only) ---
-
-// Retrieves a list of all open tournaments
+// --- PUBLIC ROUTES (Client-Facing) ---
 router.get('/', userCtrl.getAllTournaments);
-
-// Retrieves details for a specific tournament by ID
 router.get('/:id', userCtrl.getTournamentById);
-
-// Handles team registration for a tournament
 router.post('/register', userCtrl.handleTeamRegistration);
+
+// --- ADMIN ROUTES (Tournament Management) ---
+router.get('/admin/tournaments', adminCtrl.getAdminAllTournaments);
+router.post('/admin/tournaments/add', adminCtrl.addTournament);
+router.post('/admin/tournaments/update/:id', adminCtrl.updateTournament);
+router.post('/admin/tournaments/delete/:id', adminCtrl.deleteTournament);
+router.post('/admin/tournaments/approve', adminCtrl.apiProcessApproval);
 
 module.exports = router;

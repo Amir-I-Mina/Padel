@@ -1,42 +1,14 @@
-body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8fafc;
-}
+body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; margin: 0; }
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+.container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
+/* Fixed: Added !important to ensure it works across all pages */
 .section-hidden {
-    display: none ;
+    display: none !important;
 }
 
 /* NAVBAR */
-.navbar {
-    background-color: #0f172a;
-    color: white;
-    padding: 15px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
+.navbar { background-color: #0f172a; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
 .brand-text { font-weight: 800; font-size: 22px; }
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-}
-
+.nav-link { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 13px; text-transform: uppercase; }
 .nav-link:hover { color: #3b82f6; }

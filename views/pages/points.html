@@ -2,31 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Points | Admin</title>
-    <link rel="stylesheet" href="tournament_admin.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Yalla Padel</title>
+    <link rel="stylesheet" href="bishoy.css">
+    <link rel="stylesheet" href="tournament.css">
 </head>
 <body>
+
     <nav class="navbar">
         <div class="brand-text">Yalla Padel</div>
         <div class="nav-links">
-            <a href="tournaments.html" class="nav-link">Tournaments</a>
-            <a href="points.html" class="nav-link active">Add Points</a>
-            <a href="approvals.html" class="nav-link">Approvals</a>
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="tormenint.html" class="nav-link">Tournaments</a>
+            <a href="Matches.html" class="nav-link">Matches</a>
+            <a href="leaderboard.html" class="nav-link">Leaderboard</a>
         </div>
     </nav>
-    <main class="container">
-        <div class="panel" style="max-width: 500px; margin: auto;">
-            <h2>Assign Points</h2>
-            <label>Select Team</label>
-            <select class="modal-input">
-                <option>Smash Kings</option>
-                <option>Net Ninjas</option>
-            </select>
-            <label>Point Amount</label>
-            <input type="number" id="point-amount" class="modal-input" placeholder="0">
-            <button class="btn-primary" style="width:100%" onclick="updatePoints()">Update Leaderboard</button>
-        </div>
-    </main>
-    <script src="tournament_admin.js"></script>
+
+    <div class="container" style="padding-top: 50px;">
+        <h1 style="text-align: center;">Leaderboard</h1>
+        
+        <table style="width:100%; border-collapse: collapse; margin-top: 20px; background: white;">
+            <thead>
+                <tr style="background: #0f172a; color: white;">
+                    <th style="padding: 15px; text-align: left;">Rank</th>
+                    <th style="padding: 15px; text-align: left;">Player/Team</th>
+                    <th style="padding: 15px; text-align: left;">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 15px;">1</td>
+                    <td style="padding: 15px;">Smash Kings</td>
+                    <td style="padding: 15px;">1500</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 15px;">2</td>
+                    <td style="padding: 15px;">Net Ninjas</td>
+                    <td style="padding: 15px;">1250</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>

@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 
 const tournamentSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true },
-    type: { type: String, required: true, trim: true },
-    status: { 
-        type: String, 
-        enum: ["OPEN", "ONGOING", "FINISHED"], 
-        default: "OPEN" 
-    },
-    // This allows the Admin to define pairings for the tournament
+    type: { type: String, enum: ["doubles", "solo"], required: true },
+    status: { type: String, enum: ["OPEN", "ONGOING", "FINISHED"], default: "OPEN" },
+    
+    // Linking to the Team model using ObjectIds
+    teams: [{ type: mongoose.Schema.Types.ObjectId, ref: "Team" }], 
+    
     matches: [{
         teamA: { type: String, required: true },
         teamB: { type: String, required: true },

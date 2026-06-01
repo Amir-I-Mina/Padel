@@ -1,14 +1,29 @@
-.match-fixture {
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-left: 6px solid #3b82f6;
+/* Global Match Styles */
+.match-fixture { background: white; border-radius: 12px; margin-bottom: 25px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #3b82f6; }
+.match-header { display: flex; align-items: center; justify-content: space-between; }
+.vs-badge { background: #0f172a; color: white; padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; }
+
+/* Tab Buttons */
+.tab-btn { background: #334155; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+.tab-btn:hover { background: #3b82f6; }
+
+/* Tree Bracket Layout */
+.bracket-wrapper { display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+.final-match { margin-bottom: 10px; text-align: center; }
+.bracket-container { display: flex; justify-content: center; gap: 40px; margin-top: 10px; }
+
+/* Match Box */
+.match-box { 
+    background: #0f172a; color: white; padding: 15px; border-radius: 12px; width: 280px; 
+    display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
 }
-.match-header { display: flex; align-items: center; justify-content: space-around; }
-.vs-badge { background: #0f172a; color: white; padding: 10px 20px; border-radius: 30px; font-weight: 900; font-size: 1.2rem; }
-.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin: 0 3px; }
-.win { background-color: #22c55e; }
-.loss { background-color: #ef4444; }
-.empty { background-color: #e2e8f0; }
+.team-name { font-size: 0.85rem; font-weight: 600; flex: 1; text-align: center; transition: 0.3s; }
+.vs-text { font-size: 0.7rem; font-weight: 900; color: #94a3b8; padding: 0 10px; }
+
+/* Winner Highlighting */
+.winner { color: #fbbf24; font-weight: 900; }
+.loser { color: #64748b; text-decoration: line-through; }
+.score { display: block; font-size: 0.75rem; color: #fbbf24; margin-top: 4px; font-weight: 800; }
+
+/* Tree Connector */
+.bracket-connector { width: 2px; height: 30px; background: #94a3b8; }

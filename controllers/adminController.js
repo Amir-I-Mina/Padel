@@ -291,7 +291,11 @@ const admin_deleteCoach = async (req, res) => {
         res.status(500).send("Error deleting coach");
     }
 };
-// 1. Get ALL tournaments
+
+// ======================================
+// Tournament & Registration Admin
+// ======================================
+
 exports.getAdminAllTournaments = async (req, res) => {
     try {
         const tournaments = await Tournament.find().sort({ createdAt: -1 });
@@ -304,19 +308,17 @@ exports.getAdminAllTournaments = async (req, res) => {
     }
 };
 
-// 2. Add a new tournament
 exports.addTournament = async (req, res) => {
     try {
         const { name, type, status } = req.body;
         const tournament = new Tournament({ name, type, status });
         await tournament.save();
-        res.status(201).json({ success: true, message: 'Tournament created' });
+        res.status(201).json({ success: true, message: 'Tournament created successfully' });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-// 3. Update an existing tournament
 exports.updateTournament = async (req, res) => {
     try {
         const { name, status, type } = req.body;
@@ -325,29 +327,27 @@ exports.updateTournament = async (req, res) => {
             { name, status, type }, 
             { new: true }
         );
-        if (!tournament) return res.status(404).json({ success: false, message: 'Not found' });
         res.json({ success: true, tournament });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-// 4. Delete a tournament
 exports.deleteTournament = async (req, res) => {
     try {
-        const tournament = await Tournament.findByIdAndDelete(req.params.id);
-        if (!tournament) return res.status(404).json({ success: false, message: 'Not found' });
+        await Tournament.findByIdAndDelete(req.params.id);
         res.json({ success: true, message: 'Tournament deleted' });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// 5. Process Team Registrations (Moderation)
+// MODERATION: Approve or Reject
 exports.apiProcessApproval = async (req, res) => {
     try {
-        const { id, action } = req.body;
-        res.status(200).json({ success: true, message: `Action ${action} performed on ${id}` });
+        const { id, action } = req.body; // action: 'APPROVED' or 'REJECTED'
+        await Registration.findByIdAndUpdate(id, { status: action });
+        res.status(200).json({ success: true, message: `Registration ${action}` });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

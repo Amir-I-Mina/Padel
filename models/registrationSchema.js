@@ -11,14 +11,25 @@ const registrationSchema = new mongoose.Schema({
         ref: "Tournament", // Links to the tournament event
         required: true 
     },
-    teamName: { type: String, required: true, trim: true },
-    captainName: { type: String, required: true, trim: true },
+    teamName: { 
+        type: String, 
+        required: true, 
+        trim: true 
+    },
+    captainName: { 
+        type: String, 
+        required: true, 
+        trim: true 
+    },
     status: { 
         type: String, 
         enum: ["PENDING", "APPROVED", "REJECTED"], 
         default: "PENDING" 
     },
-    points: { type: Number, default: 0 }
+    points: { 
+        type: Number, 
+        default: 0 
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("TournamentRegistration", registrationSchema);
