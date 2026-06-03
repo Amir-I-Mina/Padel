@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../CSS/dashboard.css">
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" href="/CSS/dashboard.css">
 </head>
 
 <body>
 
 <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+    <div class="logo">Yalla Padel</div>
+
     <div class="nav-links">
-        <a href="/home">Home</a>
+        <a href="/academy">Home</a>
     </div>
 </div>
 
+
 <div class="hero">
+
     <a href="/academy" class="back">← BACK TO LIST</a>
+
     <h1>USER DASHBOARD</h1>
+
     <p>All your booked trainings will appear here</p>
+
 </div>
 
-<div id="dashboardContainer">
+
+<div class="dashboard-container">
+
     <% if (bookings && bookings.length > 0) { %>
-        <% bookings.forEach(training => { %>
+
+        <% bookings.forEach(booking => { %>
+
             <div class="coach-card">
-                <div class="Training"><%= training.type %> Training</div>
-                <p>Coach Name: <span class="name"><%= training.coachName %></span></p>
-                <p>Phone: <span class="phone"><%= training.phone %></span></p>
-                <p>Location: <span class="location"><%= training.location %></span></p>
-                <p>Days: <span class="days"><%= training.days %></span></p>
-                <p>Time: <span class="time"><%= training.time %></span></p>
+
+                <div class="Training">
+                    <h3><%= booking.trainingType %> Training</h3>
+                </div>
+
+                <p>Coach Name: <%= booking.coachId?.name %></p>
+                <p>Phone: <%= booking.coachId?.phone %></p>
+                <p>Location: <%= booking.location %></p>
+                <p>Days: <%= booking.day %></p>
+                <p>Time: <%= booking.time %></p>
+
+                <!-- CANCEL BOOKING -->
+                <form action="/academy/cancel-booking/<%= booking._id %>" method="POST">
+                    <button type="submit">Cancel</button>
+                </form>
+
             </div>
+
         <% }) %>
+
     <% } else { %>
-        <p>No trainings booked yet.</p>
+
+        <p>No bookings found.</p>
+
     <% } %>
+
 </div>
 
-<script src="../js/dashboard.js"></script>
 </body>
 </html>
