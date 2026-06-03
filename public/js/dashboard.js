@@ -1,42 +1,73 @@
-window.onload = function () {
+window.onload = async function () {
 
-    // get saved coaches
-    let data = JSON.parse(localStorage.getItem("selectedCoaches")) || [];
+const container =
+    document.getElementById("dashboardContainer");
 
-    let container = document.getElementById("dashboardContainer");
-    let template = document.querySelector(".coach-card");
+const template =
+    document.querySelector(".coach-card");
 
-    // safety check
-    if (!container || !template) {
-        alert("Dashboard elements missing");
+if (!container || !template) {
+    return;
+}
+
+try {
+
+    const response =
+        await fetch("/academy/dashboard");
+
+    const data =
+        await response.json();
+
+    if (
+        !data.success ||
+        data.bookings.length === 0
+    ) {
+
+        container.innerHTML =
+            "<p>No bookings found</p>";
+
         return;
     }
 
-    // no data
-    if (data.length === 0) {
-        container.innerHTML = "No coaches booked yet";
-        return;
-    }
-
-    // clear old content
     container.innerHTML = "";
 
-    // loop through coaches
-    data.forEach(function (coach) {
+    data.bookings.forEach((booking) => {
 
-        let card = template.cloneNode(true);
+        const card =
+            template.cloneNode(true);
+
         card.style.display = "block";
 
-        // fill data
-        card.querySelector(".Training").innerText = coach.training;
-        card.querySelector(".name").innerText = coach.name;
-        card.querySelector(".phone").innerText = coach.phone;
-        card.querySelector(".location").innerText = coach.location;
+        card.querySelector(".Training").innerText =
+            booking.trainingType;
+
+        card.querySelector(".name").innerText =
+            booking.coachId.name;
+
+        card.querySelector(".phone").innerText =
+            booking.coachId.phone;
+
+        card.querySelector(".location").innerText =
+            booking.location;
+
         card.querySelector(".days").innerText =
-            Array.isArray(coach.days) ? coach.days.join(", ") : coach.days;
-        card.querySelector(".time").innerText = coach.time;
+            booking.day;
+
+        card.querySelector(".time").innerText =
+            booking.time;
 
         container.appendChild(card);
+
     });
-    
+
+} catch (err) {
+
+    console.error(err);
+
+    container.innerHTML =
+        "<p>Error loading bookings</p>";
+
+}
+
+
 };

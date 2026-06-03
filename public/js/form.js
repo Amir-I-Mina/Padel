@@ -1,29 +1,65 @@
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", function() {
+const form = document.getElementById("bookingForm");
 
-    const form = document.getElementById("bookingForm");
+form.addEventListener("submit", async (e) => {
 
-    form.addEventListener("submit", function(event) {
+    e.preventDefault();
 
-        event.preventDefault();
+    const trainingType =
+        form.dataset.type;
 
-        let location = document.getElementById("location").value;
+    const endpoint =
+        trainingType === "private"
+            ? "/academy/find-private-coaches"
+            : "/academy/find-group-coaches";
 
-        let days = [];
-        document.querySelectorAll('input[name="days"]:checked')
-            .forEach(cb => days.push(cb.value));
+    const location =
+        document.getElementById("location").value;
 
-        let time = [];
-        document.querySelectorAll('input[name="time"]:checked')
-            .forEach(cb => time.push(cb.value));
+    const day =
+        document.querySelector('input[name="days"]:checked')?.value;
 
-        localStorage.setItem("location", location);
-        localStorage.setItem("days", JSON.stringify(days));
-        localStorage.setItem("time", JSON.stringify(time));
+    const time =
+        document.querySelector('input[name="time"]:checked')?.value;
 
-        console.log("Saved:", location, days, time); // 🔥 debug
+    try {
 
-        window.location.href = "coach.html";
-    });
+        const response = await fetch(
+            endpoint,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    location,
+                    day,
+                    time
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            localStorage.setItem(
+                "coaches",
+                JSON.stringify(data.coaches)
+            );
+
+            window.location.href =
+                "/academy/coach-list";
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+});
+
 
 });
