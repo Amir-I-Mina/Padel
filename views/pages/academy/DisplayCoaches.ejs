@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../CSS/coach.css">
+    <title>Coaches</title>
+
+    <link rel="stylesheet" href="/CSS/coach.css">
 </head>
 
 <body>
 
 <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+    <div class="logo">Yalla Padel</div>
 
     <div class="nav-links">
-        <a href="home.html">Home</a>
-        <a href="dashboard.html">dashboard</a>        
+        <a href="/academy">Home</a>
+        <a href="/academy/dashboard">Dashboard</a>
     </div>
 </div>
 
 
 <div class="hero">
-    <a href="private.html" class="back">← BACK TO LIST</a>
+
+    <a href="/academy" class="back">← BACK TO LIST</a>
 
     <h1>PADEL ACADEMY</h1>
-    <p>Select your training type and improve your skills.</p>
-</div>
 
-
-<div id="coachContainer"></div>
-
-
-<div id="coachTemplate" class="tournament-card" style="display:none;">
-
-    <h3 class="name"></h3>
-
-    <p class="age"></p>
-    <p class="experience"></p>
-    <p class="phone"></p>
-    <p class="location"></p>
-    <p class="days"></p>
-    <p class="time"></p>
-
- 
-
-    
+    <p>Select your coach and improve your skills.</p>
 
 </div>
 
 
+<!-- COACH LIST (EJS RENDERED) -->
+<div class="coach-container">
+
+    <% if (coaches && coaches.length > 0) { %>
+
+        <% coaches.forEach(coach => { %>
+
+            <div class="tournament-card">
+
+                <h3><%= coach.name %></h3>
+
+                <p>Age: <%= coach.age %></p>
+                <p>Experience: <%= coach.experience %></p>
+                <p>Phone: <%= coach.phone %></p>
+                <p>Location: <%= coach.location %></p>
+
+                <p>Days: <%= coach.availableDays %></p>
+                <p>Time: <%= coach.availableTimes %></p>
+
+                <!-- BOOK BUTTON -->
+                <form action="/academy/book-training" method="POST">
+
+                    <input type="hidden" name="coachId" value="<%= coach._id %>">
+                    <input type="hidden" name="location" value="<%= coach.location %>">
+
+                    <button type="submit">Book Now</button>
+
+                </form>
+
+            </div>
+
+        <% }) %>
+
+    <% } else { %>
+
+        <p>No coaches found.</p>
+
+    <% } %>
+
+</div>
+
+
+<!-- FOOTER -->
 <div class="footer" id="contact">
 
     <div class="footer-left">
@@ -57,13 +84,12 @@
         <h4>Follow us</h4>
 
         <div class="socials">
-            <a href="#"><img src="../images/facee.jpeg"></a>
-            <a href="#"><img src="../images/instaaa.jpeg"></a>
+            <a href="#"><img src="/images/facee.jpeg"></a>
+            <a href="#"><img src="/images/instaaa.jpeg"></a>
         </div>
     </div>
 
 </div>
 
- <script src="../js/coaches.js"></script>
 </body>
 </html>
