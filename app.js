@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const path = require('path');
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
