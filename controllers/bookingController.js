@@ -1,4 +1,4 @@
-const Booking = require('../models/bookingSchema');
+const Booking = require('../models/courtBooking');
 
 exports.getClubsPage = async (req, res) => {
   try {

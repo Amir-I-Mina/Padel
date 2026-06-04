@@ -1,4 +1,4 @@
-const Product = require('../models/productSchema');
+const Product = require('../models/ProductSchema');
 
 exports.getStorePage = (req, res) => {
     res.render('pages/padelllllll');

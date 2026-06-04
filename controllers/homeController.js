@@ -1,4 +1,4 @@
-const Court = require('../models/courtSchema');
+const Court = require('../models/courtBooking');
 const Tournament = require('../models/tournamentSchema');
 
 

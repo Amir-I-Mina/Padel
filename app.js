@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const Coach = require('./models/CoachModels');
 const User = require('./models/UserModel');
 const BookingAcademy = require('./models/BookingAcademy');
-const courts = require('./models/courtsBoking');
+const courts = require('./models/courtBooking');
 
 
 
@@ -18,9 +18,11 @@ const productRoutes = require('./routes/ProductsRoutes');
 app.use('/products', productRoutes);
 const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
-const orderRoutes = require('./routes/order');
+const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
 
+const homeRoutes = require('./routes/homeRoutes');
+app.use('/', homeRoutes);
 
 const academyRoutes = require("./routes/academyRoutes");
 const academyAdminRoutes = require("./routes/academyAdminRoutes");
@@ -32,7 +34,7 @@ app.use("/academy/admin", academyAdminRoutes);
 
 
 
-const dbURI = 'mongodb://Padelweb:<db_password>@ac-tgk4oui-shard-00-00.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-01.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-02.dfnd8so.mongodb.net:27017/?ssl=true&replicaSet=atlas-57qqm7-shard-0&authSource=admin&appName=PadelWebDatabase';
+const dbURI = 'mongodb://Padelweb:padel12345@ac-tgk4oui-shard-00-00.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-01.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-02.dfnd8so.mongodb.net:27017/?ssl=true&replicaSet=atlas-57qqm7-shard-0&authSource=admin&appName=PadelWebDatabase';
 
 mongoose.connect(dbURI)
     .then(async () => {

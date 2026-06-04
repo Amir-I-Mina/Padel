@@ -20,7 +20,7 @@ addCoachBtn.addEventListener("click", function () {
     formTitle.innerText = "Add Coach";
 
     coachForm.action =
-        "/academy/admin/add-coach";
+        "/academy/admin/Add-coach";
 
     formContainer.style.display = "block";
 });
@@ -59,7 +59,7 @@ document
                 this.dataset.type;
 
             coachForm.action =
-                "/academy/admin/update-coach/" +
+                "/academy/admin/editcoach/" +
                 this.dataset.id;
 
             formContainer.style.display =

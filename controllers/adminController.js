@@ -1,7 +1,7 @@
 const Coach = require("../models/CoachModels");
-const Product = require('../models/productSchema');
+const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
-const Booking = require('../models/bookingSchema');
+const Booking = require('../models/courtBooking');
 
 
 
@@ -608,11 +608,6 @@ module.exports = {
     admin_addCoach,
     admin_updateCoach,
     admin_deleteCoach,
-    getAdminAllTournaments,
-    addTournament,
-    updateTournament,
-    deleteTournament,
-    apiProcessApproval,
     showBookings,
     getBookings,
     getBookingDetails,

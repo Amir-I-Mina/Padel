@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const academyAdminController =
-    require("../controllers/academyAdminController");
+    require("../controllers/adminController");
 
 
 // GET ALL COACHES (Coach Listing)
 router.get(
-    "/coaches",
+    "/coaches-List",
     academyAdminController.admin_getCoachList
 );
 
@@ -28,21 +28,21 @@ router.get(
 
 // ADD COACH
 router.post(
-    "/coaches",
+    "/Add-coaches",
     academyAdminController.admin_addCoach
 );
 
 
 // UPDATE COACH
 router.put(
-    "/coaches/:id",
+    "/editcoaches/:id",
     academyAdminController.admin_updateCoach
 );
 
 
 // DELETE COACH
 router.delete(
-    "/coaches/:id",
+    "/delete-coach/:id",
     academyAdminController.admin_deleteCoach
 );
 
