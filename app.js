@@ -6,6 +6,13 @@ const path = require('path');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+const session = require("express-session");
+
+app.use(session({
+    secret: "academy_secret_key",
+    resave: false,
+    saveUninitialized: false
+}));
 
 const Coach = require('./models/CoachModels');
 const User = require('./models/UserModel');
