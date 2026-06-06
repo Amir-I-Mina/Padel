@@ -8,19 +8,17 @@ const Booking = require("../models/BookingAcademy");
 
 const user_getPrivateTrainingPage = async (req, res) => {
     try {
-
-        res.json({
-            success: true,
+        // Render the EJS page for private training
+        res.render("academy/PrivateTraining", {
             trainingType: "private"
         });
-
     } catch (err) {
-
-        res.status(500).json({
+        res.status(500).render("error", {
             error: err.message
         });
     }
 };
+
 
 
 // ======================================
@@ -30,16 +28,17 @@ const user_getPrivateTrainingPage = async (req, res) => {
 const user_getGroupTrainingPage = async (req, res) => {
     try {
 
-        res.json({
-            success: true,
+        res.render("academy/GroupTraining", {
             trainingType: "group"
         });
+        
 
     } catch (err) {
 
-        res.status(500).json({
+        res.status(500).render("error", {
             error: err.message
         });
+        
     }
 };
 
@@ -50,20 +49,17 @@ const user_getGroupTrainingPage = async (req, res) => {
 
 const user_getDashboard = async (req, res) => {
     try {
-
         const bookings = await Booking.find({
             userId: req.session.user._id
         }).populate("coachId");
 
-        res.json(bookings);
-
+        // Render the EJS dashboard view and pass bookings
+        res.render("academy/UserDashboard", { bookings });
     } catch (err) {
-
-        res.status(500).json({
-            error: err.message
-        });
+        res.status(500).render("error", { error: err.message });
     }
 };
+
 
 
 // ======================================
