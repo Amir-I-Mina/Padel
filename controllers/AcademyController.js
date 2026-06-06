@@ -78,7 +78,7 @@ const user_findPrivateCoaches = async (req, res) => {
         });
 
         // Render the EJS page and inject the coaches data
-        res.render("page/academy/DisplayCoaches", { coaches, location, day, time });
+        res.render("pages/academy/DisplayCoaches", { coaches, location, day, time });
     } catch (err) {
         res.status(500).render("error", { error: err.message });
     }
@@ -101,7 +101,7 @@ const user_findGroupCoaches = async (req, res) => {
         });
 
         // Render the EJS page and inject the coaches data
-        res.render("page/academy/DisplayCoaches", { coaches, location, day, time });
+        res.render("pages/academy/DisplayCoaches", { coaches, location, day, time });
     } catch (err) {
         res.status(500).render("error", { error: err.message });
     }

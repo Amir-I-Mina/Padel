@@ -173,3 +173,14 @@ body {
 .footer-right h4 {
     margin-bottom: 10px;
 }
+.socials img {
+    width: 30px;
+    margin-left: 10px;
+    transition: 0.2s;
+}
+.no-coaches {
+    text-align: center;
+    font-size: 18px;
+    color: #64748b;
+    margin-top: 40px;
+}
