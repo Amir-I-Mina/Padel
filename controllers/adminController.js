@@ -137,42 +137,28 @@ const admin_deleteProduct = async (req, res) => {
 
 const admin_getCoachList = async (req, res) => {
     try {
-
         const coaches = await Coach.find();
 
-        res.status(200).json({
-            success: true,
-            coaches
-        });
-
+        res.render("page/academy/listOfCoaches", { coaches });
     } catch (err) {
-
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        
+        res.status(500).render("error", { error: err.message });
     }
 };
 
 
 const admin_getManageCoaches = async (req, res) => {
     try {
-
         const coaches = await Coach.find();
 
-        res.status(200).json({
-            success: true,
-            coaches
-        });
-
+        // Render the Manage Coaches EJS page
+        res.render("page/academy/ManageCoaches", { coaches });
     } catch (err) {
-
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
+        // Render an error page if something goes wrong
+        res.status(500).render("error", { error: err.message });
     }
 };
+
 
 
 const admin_getCoachById = async (req, res) => {

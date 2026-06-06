@@ -9,7 +9,7 @@ const Booking = require("../models/BookingAcademy");
 const user_getPrivateTrainingPage = async (req, res) => {
     try {
         // Render the EJS page for private training
-        res.render("academy/PrivateTraining", {
+        res.render("pages/academy/PrivateTraining", {
             trainingType: "private"
         });
     } catch (err) {
@@ -28,7 +28,7 @@ const user_getPrivateTrainingPage = async (req, res) => {
 const user_getGroupTrainingPage = async (req, res) => {
     try {
 
-        res.render("academy/GroupTraining", {
+        res.render("pages/academy/GroupTraining", {
             trainingType: "group"
         });
         
@@ -54,7 +54,7 @@ const user_getDashboard = async (req, res) => {
         }).populate("coachId");
 
         // Render the EJS dashboard view and pass bookings
-        res.render("academy/UserDashboard", { bookings });
+        res.render("pages/academy/UserDashboard", { bookings });
     } catch (err) {
         res.status(500).render("error", { error: err.message });
     }
