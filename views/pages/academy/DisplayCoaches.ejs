@@ -49,7 +49,7 @@
                 <p>Time: <%= coach.availableTimes %></p>
 
                 <!-- BOOK BUTTON -->
-                <form action="/academy/book-training" method="POST">
+                <form action="/academy/bookings" method="POST">
 
                     <input type="hidden" name="coachId" value="<%= coach._id %>">
                     <input type="hidden" name="location" value="<%= coach.location %>">

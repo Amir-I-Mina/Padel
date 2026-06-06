@@ -68,7 +68,6 @@ const user_getDashboard = async (req, res) => {
 
 const user_findPrivateCoaches = async (req, res) => {
     try {
-
         const { location, day, time } = req.body;
 
         const coaches = await Coach.find({
@@ -78,13 +77,10 @@ const user_findPrivateCoaches = async (req, res) => {
             trainingType: "private"
         });
 
-        res.json(coaches);
-
+        // Render the EJS page and inject the coaches data
+        res.render("page/academy/DisplayCoaches", { coaches, location, day, time });
     } catch (err) {
-
-        res.status(500).json({
-            error: err.message
-        });
+        res.status(500).render("error", { error: err.message });
     }
 };
 
@@ -95,7 +91,6 @@ const user_findPrivateCoaches = async (req, res) => {
 
 const user_findGroupCoaches = async (req, res) => {
     try {
-
         const { location, day, time } = req.body;
 
         const coaches = await Coach.find({
@@ -105,13 +100,10 @@ const user_findGroupCoaches = async (req, res) => {
             trainingType: "group"
         });
 
-        res.json(coaches);
-
+        // Render the EJS page and inject the coaches data
+        res.render("page/academy/DisplayCoaches", { coaches, location, day, time });
     } catch (err) {
-
-        res.status(500).json({
-            error: err.message
-        });
+        res.status(500).render("error", { error: err.message });
     }
 };
 
