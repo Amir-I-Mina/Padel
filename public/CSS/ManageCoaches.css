@@ -65,7 +65,7 @@ body {
     justify-content: flex-end;
 }
 
-.addCoachBtn {
+#addCoachBtn {
     background-color: #22c55e;
     color: white;
     border: none;
@@ -79,7 +79,7 @@ body {
     transition: 0.2s;
 }
 
-.addCoachBtn:hover {
+#addCoachBtn:hover {
     opacity: 0.85;
 }
 
@@ -207,6 +207,29 @@ body {
 }
 
 .form-container input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.form-container select {
+    width: 410px;
+    padding: 7px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+    border: 1px solid #334155;
+
+    background-color: #0f172a;
+    color: white;
+
+    font-size: 13px;
+
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-container select:focus {
     border-color: #22c55e;
     box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
 }

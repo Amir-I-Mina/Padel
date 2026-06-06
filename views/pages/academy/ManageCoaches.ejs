@@ -83,45 +83,49 @@
 
 </div>
 
+
 <div id="coachFormContainer" class="form-container" style="display:none;">
-
     <h2 id="formTitle">Add Coach</h2>
-
     <form id="coachForm" action="/academy/admin/add-coach" method="POST">
-
         <label>Coach Name</label>
         <input type="text" id="name" name="name">
+        <span class="nameError"></span>
 
         <label>Age</label>
         <input type="number" id="age" name="age">
+        <span class="ageError"></span>
 
         <label>Phone</label>
         <input type="text" id="phone" name="phone">
+        <span class="phoneError"></span>
 
         <label>Location</label>
         <input type="text" id="location" name="location">
+        <span class="locationError"></span>
 
         <label>Experience</label>
         <input type="text" id="experience" name="experience">
+        <span class="experienceError"></span>
 
         <label>Available Days</label>
         <input type="text" id="availableDays" name="availableDays">
+        <span class="daysError"></span>
 
         <label>Available Times</label>
         <input type="text" id="availableTimes" name="availableTimes">
+        <span class="timesError"></span>
 
         <label>Training Type</label>
-
         <select id="trainingType" name="trainingType">
             <option value="private">Private</option>
             <option value="group">Group</option>
         </select>
 
         <button type="submit">Save Coach</button>
-
+        <button type="button" id="closeForm">Cancel</button>
     </form>
-
 </div>
+
 
 <script src="/js/ManageCoaches.js"></script>
 

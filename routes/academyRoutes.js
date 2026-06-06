@@ -36,12 +36,14 @@ router.post(
 
 // BOOKINGS
 router.post(
-    "/bookings",isLoggedIn,
+    "/bookings",
+    //isLoggedIn,
     academyController.user_bookTraining
 );
 
 router.delete(
-    "/bookings/:id",isLoggedIn,
+    "/bookings/:id",
+    //isLoggedIn,
     academyController.user_cancelBooking
 );
 

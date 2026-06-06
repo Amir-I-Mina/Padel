@@ -11,7 +11,7 @@ require("../middleware/authMiddleware");
 // GET ALL COACHES (Coach Listing)
 router.get(
     "/coaches-List",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_getCoachList
 );
 

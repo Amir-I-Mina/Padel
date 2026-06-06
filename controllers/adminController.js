@@ -139,7 +139,7 @@ const admin_getCoachList = async (req, res) => {
     try {
         const coaches = await Coach.find();
 
-        res.render("page/academy/listOfCoaches", { coaches });
+        res.render("pages/academy/listOfCoaches", { coaches });
     } catch (err) {
         
         res.status(500).render("error", { error: err.message });
@@ -152,7 +152,7 @@ const admin_getManageCoaches = async (req, res) => {
         const coaches = await Coach.find();
 
         // Render the Manage Coaches EJS page
-        res.render("page/academy/ManageCoaches", { coaches });
+        res.render("pages/academy/ManageCoaches", { coaches });
     } catch (err) {
         // Render an error page if something goes wrong
         res.status(500).render("error", { error: err.message });
