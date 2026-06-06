@@ -1,5 +1,6 @@
 const Booking = require('../models/courtBooking');
 
+
 exports.getClubsPage = async (req, res) => {
   try {
     res.render('clubs', { currentPage: 'clubs' });
@@ -12,17 +13,23 @@ exports.getClubsPage = async (req, res) => {
 exports.selectClub = async (req, res) => {
   try {
     const { clubName } = req.body;
-    
+
     if (!clubName) {
-      return res.status(400).json({ success: false, message: 'Club name is required' });
+      return res.render('clubs', {
+        currentPage: 'clubs',
+        error: 'Please select a club'
+      });
     }
-    
-   
+
     req.session.selectedClub = clubName;
-    
-    res.json({ success: true, club: clubName });
+
+    res.render('booking', {
+      club: clubName,
+      currentPage: 'booking'
+    });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).send(error.message);
   }
 };
 
@@ -30,44 +37,83 @@ exports.selectClub = async (req, res) => {
 exports.getBookingPage = async (req, res) => {
   try {
     const club = req.session.selectedClub;
+
     if (!club) {
       return res.redirect('/clubs');
     }
-    res.render('booking', { club, currentPage: 'booking' });
+
+    res.render('booking', {
+      club,
+      currentPage: 'booking'
+    });
+
   } catch (error) {
     res.status(500).send('Error loading booking page');
   }
 };
 
+
 exports.getAvailableSlots = async (req, res) => {
   try {
+
     const { club, court, date } = req.query;
-    
-    const bookedSlots = await Booking.find({ 
-      club, 
-      court, 
+
+    const bookedSlots = await Booking.find({
+      club,
+      court,
       date,
       status: 'confirmed'
     }).select('time');
-    
+
     const bookedTimes = bookedSlots.map(slot => slot.time);
-    
-    const allSlots = ['10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', 
-                      '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM'];
-    
-    const availableSlots = allSlots.filter(slot => !bookedTimes.includes(slot));
-    
-    res.json({ success: true, availableSlots, bookedTimes });
+
+    const allSlots = [
+      '10 AM',
+      '11 AM',
+      '12 PM',
+      '1 PM',
+      '2 PM',
+      '3 PM',
+      '4 PM',
+      '5 PM',
+      '6 PM',
+      '7 PM',
+      '8 PM',
+      '9 PM',
+      '10 PM'
+    ];
+
+    const availableSlots = allSlots.filter(
+      slot => !bookedTimes.includes(slot)
+    );
+
+    res.json({
+      success: true,
+      availableSlots,
+      bookedTimes
+    });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
+
 exports.createBooking = async (req, res) => {
   try {
-    const { club, court, date, time, paymentMethod, promoCode } = req.body;
-    
-    
+
+    const {
+      club,
+      court,
+      date,
+      time,
+      paymentMethod,
+      promoCode
+    } = req.body;
+
     const existingBooking = await Booking.findOne({
       club,
       court,
@@ -75,14 +121,15 @@ exports.createBooking = async (req, res) => {
       time,
       status: 'confirmed'
     });
-    
+
     if (existingBooking) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'This time slot is already booked' 
+      return res.render('booking', {
+        club,
+        currentPage: 'booking',
+        error: 'This time slot is already booked'
       });
     }
-    
+
     const booking = new Booking({
       club,
       court,
@@ -93,30 +140,36 @@ exports.createBooking = async (req, res) => {
       promoCode: promoCode || '',
       status: 'confirmed'
     });
-    
+
     await booking.save();
-    
-    
+
     req.session.currentBooking = booking;
-    
-    res.status(201).json({ 
-      success: true, 
-      booking, 
-      message: 'Booking created successfully' 
+
+    res.render('checkout', {
+      booking,
+      currentPage: 'checkout'
     });
+
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
+    res.status(400).send(error.message);
   }
 };
 
 
 exports.getCheckoutPage = async (req, res) => {
   try {
+
     const booking = req.session.currentBooking;
+
     if (!booking) {
       return res.redirect('/clubs');
     }
-    res.render('checkout', { booking, currentPage: 'checkout' });
+
+    res.render('checkout', {
+      booking,
+      currentPage: 'checkout'
+    });
+
   } catch (error) {
     res.status(500).send('Error loading checkout page');
   }
@@ -125,45 +178,63 @@ exports.getCheckoutPage = async (req, res) => {
 
 exports.confirmBooking = async (req, res) => {
   try {
-    const { bookingId, paymentMethod, promoCode } = req.body;
-    
+
+    const {
+      bookingId,
+      paymentMethod,
+      promoCode
+    } = req.body;
+
     const booking = await Booking.findById(bookingId);
+
     if (!booking) {
-      return res.status(404).json({ success: false, message: 'Booking not found' });
+      return res.render('error', {
+        message: 'Booking not found'
+      });
     }
-    
-    
+
     let finalPrice = booking.price;
+
     if (promoCode && promoCode === 'DISCOUNT10') {
       finalPrice = booking.price * 0.9;
     }
-    
-    booking.paymentMethod = paymentMethod || booking.paymentMethod;
+
+    booking.paymentMethod =
+      paymentMethod || booking.paymentMethod;
+
     booking.promoCode = promoCode || '';
+
     booking.status = 'confirmed';
-    
+
     await booking.save();
-    
-   
+
     req.session.currentBooking = null;
-    
-    res.json({ 
-      success: true, 
+
+    res.render('success', {
       booking,
       finalPrice,
-      message: 'Booking confirmed successfully' 
+      currentPage: 'success'
     });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).send(error.message);
   }
 };
 
 
 exports.getMyBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().sort({ createdAt: -1 });
-    res.json({ success: true, bookings });
+
+    const bookings = await Booking.find()
+      .sort({ createdAt: -1 });
+
+    res.render('myBookings', {
+      bookings,
+      currentPage: 'myBookings'
+    });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).send(error.message);
   }
 };
+
