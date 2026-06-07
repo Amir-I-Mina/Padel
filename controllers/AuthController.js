@@ -1,5 +1,5 @@
 const User = require("../models/UserModel");
-
+const bcrypt = require("bcrypt");
 const getLogin = (req, res) => {
     res.render("login");
 };
@@ -23,13 +23,15 @@ const signupUser = async (req, res) => {
             return res.status(400).send("Phone number already exists");
         }
 
-        const newUser = new User({
-            username,
-            phone,
-            password,
-            isVerified: false,
-            role: "user"
-        });
+       const hashedPassword = await bcrypt.hash(password, 10);
+
+   const newUser = new User({
+    username,
+    phone,
+    password: hashedPassword,
+    isVerified: false,
+    role: "user"
+});
 
         await newUser.save();
 
@@ -73,10 +75,18 @@ const loginUser = async (req, res) => {
 
         const { phone, password } = req.body;
 
-        const user = await User.findOne({
-            phone,
-            password
-        });
+       const user = await User.findOne({ phone });
+
+if (!user) {
+    return res.status(400).send("Invalid phone or password");
+}
+
+const validPassword =
+    await bcrypt.compare(password, user.password);
+
+if (!validPassword) {
+    return res.status(400).send("Invalid phone or password");
+}
 
         if (!user) {
             return res.status(400).send("Invalid phone or password");
