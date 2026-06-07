@@ -1,3 +1,6 @@
+/* Global reset and box-sizing */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
 body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; margin: 0; }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -12,3 +15,9 @@ body { font-family: 'Segoe UI', sans-serif; background-color: #f8fafc; margin: 0
 .brand-text { font-weight: 800; font-size: 22px; }
 .nav-link { color: white; text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 13px; text-transform: uppercase; }
 .nav-link:hover { color: #3b82f6; }
+/* Active nav link */
+.nav-link.active-link,
+.nav-link.active-link:hover {
+    color: #3b82f6;
+    font-weight: 800;
+}

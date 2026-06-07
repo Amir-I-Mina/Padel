@@ -1,18 +1,53 @@
 const express = require('express');
 const router = express.Router();
-const userCtrl = require('../controllers/tournamentController'); // Client-facing functions
-const adminCtrl = require('../controllers/adminController');     // Admin-facing functions
+const tournamentController = require('./tournamentController');
+const TournamentRegistration = require('./models/registrationSchema');
 
-// --- PUBLIC ROUTES (Client-Facing) ---
-router.get('/', userCtrl.getAllTournaments);
-router.get('/:id', userCtrl.getTournamentById);
-router.post('/register', userCtrl.handleTeamRegistration);
-
-// --- ADMIN ROUTES (Tournament Management) ---
-router.get('/admin/tournaments', adminCtrl.getAdminAllTournaments);
-router.post('/admin/tournaments/add', adminCtrl.addTournament);
-router.post('/admin/tournaments/update/:id', adminCtrl.updateTournament);
-router.post('/admin/tournaments/delete/:id', adminCtrl.deleteTournament);
-router.post('/admin/tournaments/approve', adminCtrl.apiProcessApproval);
+router.get('/tournaments', tournamentController.getAllTournaments);
+router.get('/matches', async (req, res) => {
+    try {
+        const Tournament = require('./models/tournamentSchema');
+        const Registration = require('./models/registrationSchema');
+        
+        let tournaments = await Tournament.find().sort({ createdAt: -1 });
+        let registrations = await Registration.find({ status: 'APPROVED' }).sort({ createdAt: 1 });
+        
+        if (!tournaments || tournaments.length === 0) {
+            tournaments = [];
+        }
+        if (!registrations) {
+            registrations = [];
+        }
+        
+        res.render('Matches', { tournaments, registrations });
+    } catch (error) {
+        res.render('Matches', { tournaments: [], registrations: [] });
+    }
+});
+router.get('/', (req, res) => {
+    res.redirect('/tournaments');
+});
+router.post('/tournaments', tournamentController.handleTeamRegistration);
+router.get('/leaderboard', async (req, res) => {
+    try {
+        const teams = await TournamentRegistration.find({ status: 'APPROVED' }).sort({ points: -1 });
+        if (!teams || teams.length === 0) {
+            const sample = [
+                { teamName: 'Smash Kings', points: 1500 },
+                { teamName: 'Net Ninjas', points: 1250 },
+                { teamName: 'Padel Pros', points: 900 }
+            ];
+            return res.render('leaderboard', { teams: sample });
+        }
+        res.render('leaderboard', { teams });
+    } catch (err) {
+        const sample = [
+            { teamName: 'Smash Kings', points: 1500 },
+            { teamName: 'Net Ninjas', points: 1250 },
+            { teamName: 'Padel Pros', points: 900 }
+        ];
+        res.render('leaderboard', { teams: sample });
+    }
+});
 
 module.exports = router;

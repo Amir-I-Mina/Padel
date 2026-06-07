@@ -1,8 +1,9 @@
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
-const Tournament = require('../models/tournamentSchema');
 const Booking = require('../models/courtBooking');
-
+const Tournament = require('../models/tournamentSchema');   
+const Registration = require('../models/registrationSchema'); 
+const mongoose = require('mongoose');
 
 
 
@@ -272,67 +273,145 @@ const admin_deleteCoach = async (req, res) => {
     }
 };
 
-// ======================================
-// Tournament & Registration Admin
-// ======================================
+const sampleTournaments = [
+    { id: 'sample-0', name: 'Spring Doubles', type: '2v2', status: 'CLOSED', registrations: 24 },
+    { id: 'sample-1', name: 'Net Masters', type: '2v2', status: 'OPEN', registrations: 18 },
+    { id: 'sample-2', name: 'Padel Cup', type: '2v2', status: 'OPEN', registrations: 32 }
+];
 
-exports.getAdminAllTournaments = async (req, res) => {
+const fallbackTournaments = [...sampleTournaments];
+
+const isMongoReady = () => mongoose.connection.readyState === 1;
+
+const getAdminAllTournaments = async (req, res) => {
     try {
-        const tournaments = await Tournament.find().sort({ createdAt: -1 });
-        res.render('AdminPage/manage-tournaments', { 
-            tournaments, 
-            currentPage: 'tournaments' 
-        });
+        if (!isMongoReady()) {
+            return res.render('tournaments_admin', { tournaments: fallbackTournaments });
+        }
+
+        let tournaments = await Tournament.find().sort({ createdAt: -1 });
+        if (!tournaments || tournaments.length === 0) {
+            tournaments = fallbackTournaments;
+        }
+
+        res.render('tournaments_admin', { tournaments });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.render('tournaments_admin', { tournaments: fallbackTournaments });
     }
 };
 
-exports.addTournament = async (req, res) => {
+const admin_get_approvals = async (req, res) => {
+    try {
+        if (!isMongoReady()) {
+            return res.render('approvals', { registrations: [] });
+        }
+
+        let registrations = await Registration.find({ status: 'PENDING' }).sort({ createdAt: -1 });
+        res.render('approvals', { registrations });
+    } catch (error) {
+        res.render('approvals', { registrations: [] });
+    }
+};
+
+const admin_get_treeEditor = async (req, res) => {
+    try {
+        if (!isMongoReady()) {
+            return res.render('tree_editor', { registrations: [], approvedTeams: [] });
+        }
+
+        // Only show APPROVED teams in the bracket
+        let registrations = await Registration.find({ status: 'APPROVED' }).sort({ createdAt: 1 });
+        let approvedTeams = await Registration.find({ status: 'APPROVED' });
+        res.render('tree_editor', { registrations, approvedTeams });
+    } catch (error) {
+        res.render('tree_editor', { registrations: [], approvedTeams: [] });
+    }
+};
+
+const addTournament = async (req, res) => {
     try {
         const { name, type, status } = req.body;
-        const tournament = new Tournament({ name, type, status });
+        if (!name) {
+            return res.status(400).json({ success: false, message: 'Tournament name is required.' });
+        }
+
+        if (!isMongoReady()) {
+            const newTournament = {
+                id: `new-${Date.now()}`,
+                name,
+                type: type || '2v2',
+                status: status || 'OPEN',
+                registrations: 0
+            };
+            fallbackTournaments.push(newTournament);
+            return res.status(201).json({ success: true, message: 'Tournament created successfully', tournament: newTournament });
+        }
+
+        const tournament = new Tournament({
+            name,
+            type,
+            status: status || 'OPEN'
+        });
         await tournament.save();
-        res.status(201).json({ success: true, message: 'Tournament created successfully' });
+        res.status(201).json({ success: true, message: 'Tournament created successfully', tournament });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-exports.updateTournament = async (req, res) => {
+const updateTournament = async (req, res) => {
     try {
         const { name, status, type } = req.body;
+        const id = req.params.id;
+
+        if (!isMongoReady() || typeof id === 'string' && (id.startsWith('sample-') || id.startsWith('new-'))) {
+            const tournament = fallbackTournaments.find(t => t.id === id);
+            if (!tournament) {
+                return res.status(404).json({ success: false, message: 'Tournament not found.' });
+            }
+
+            if (name) tournament.name = name;
+            if (status) tournament.status = status;
+            if (type) tournament.type = type;
+
+            return res.json({ success: true, tournament });
+        }
+
         const tournament = await Tournament.findByIdAndUpdate(
-            req.params.id, 
-            { name, status, type }, 
+            id,
+            { name, status, type },
             { new: true }
         );
+
+        if (!tournament) {
+            return res.status(404).json({ success: false, message: 'Tournament not found.' });
+        }
+
         res.json({ success: true, tournament });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-exports.deleteTournament = async (req, res) => {
+const deleteTournament = async (req, res) => {
     try {
-        await Tournament.findByIdAndDelete(req.params.id);
+        const id = req.params.id;
+
+        if (!isMongoReady() || typeof id === 'string' && (id.startsWith('sample-') || id.startsWith('new-'))) {
+            const index = fallbackTournaments.findIndex(t => t.id === id);
+            if (index === -1) {
+                return res.status(404).json({ success: false, message: 'Tournament not found.' });
+            }
+            fallbackTournaments.splice(index, 1);
+            return res.json({ success: true, message: 'Tournament deleted' });
+        }
+
+        await Tournament.findByIdAndDelete(id);
         res.json({ success: true, message: 'Tournament deleted' });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
-// MODERATION: Approve or Reject
-exports.apiProcessApproval = async (req, res) => {
-    try {
-        const { id, action } = req.body; // action: 'APPROVED' or 'REJECTED'
-        await Registration.findByIdAndUpdate(id, { status: action });
-        res.status(200).json({ success: true, message: `Registration ${action}` });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};
-
 //  bookings admin
 const showBookings = async (req, res) => {
     try {
@@ -604,6 +683,12 @@ module.exports = {
     getStats,
     createBooking,
     getAvailableSlots,
-    exportBookings
+    exportBookings,
+    getAdminAllTournaments,
+    admin_get_approvals,
+    admin_get_treeEditor,
+    addTournament,
+    updateTournament,
+    deleteTournament
 };
 

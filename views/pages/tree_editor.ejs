@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Tree | Admin</title>
+    <link rel="stylesheet" href="/tournament_admin.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div class="nav-links">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/tournaments">Tournaments</a>
+            <a class="nav-link" href="/matches">Matches</a>
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+            <a class="nav-link" href="/admin/tournaments">Admin</a>
+        </div>
+    </nav>
+
+    <nav class="admin-subnav">
+        <a href="/admin/tournaments" class="admin-tab">Tournaments</a>
+        <a href="/admin/approvals" class="admin-tab">Approvals</a>
+        <a href="/admin/tree-editor" class="admin-tab active">Tree Editor</a>
+    </nav>
+
+    <main class="container">
+        <div class="panel">
+            <h2>Tournament Bracket - Setup Matches</h2>
+            
+            <% if (approvedTeams && approvedTeams.length >= 2) { %>
+                <div id="match-container" style="margin-top:20px;">
+                    <p style="color: #666; margin-bottom: 20px;">
+                        📋 The knockout bracket is built from approved teams. Select winners to advance through each round.
+                    </p>
+                    <div id="bracket-container" class="tree-bracket"></div>
+                </div>
+            <% } else { %>
+                <p style="text-align: center; color: #666; padding: 20px;">
+                    ⏳ Need at least 2 APPROVED teams to create matches.<br>
+                    Go to the <strong>Approvals</strong> tab and approve teams first!
+                </p>
+            <% } %>
+        </div>
+    </main>
+
+    <script id="approved-teams-data" type="application/json"><%- JSON.stringify(approvedTeams.map(team => ({ id: team._id, name: team.teamName }))) %></script>
+    <script src="/tree-editor.js"></script>
+</body>
+</html>
