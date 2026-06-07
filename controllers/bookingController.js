@@ -92,4 +92,10 @@ const confirmBooking = async (req, res) => {
   }
 };
 
-
+module.exports = {
+  selectClub,
+  getBookingPage,
+  createBooking,
+  getCheckoutPage,
+  confirmBooking
+};
