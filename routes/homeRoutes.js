@@ -5,7 +5,7 @@ const homeController = require('../controllers/homeController');
 
 
 // HOME
-router.get('/', homeController.getHomePage);
+router.get('/home', homeController.getHomePage);
 
 
 // COURTS
