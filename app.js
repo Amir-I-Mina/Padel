@@ -28,6 +28,8 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
 const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
+const authRoutes = require('./routes/authRoutes');
+app.use('/', authRoutes);
 
 const homeRoutes = require('./routes/homeRoutes');
 app.use('/', homeRoutes);
@@ -41,8 +43,8 @@ app.use("/academy/admin", academyAdminRoutes);
 const admincourt = require("./routes/admincourt");
 const CourtRoutes = require("./routes/CourtRoutes");
 
-app.use("/academy", CourtRoutes);
-app.use("/academy/admin", admincourt);
+app.use("/booking", CourtRoutes);
+app.use("/booking/admin", admincourt);
 
 
 
