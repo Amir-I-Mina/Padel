@@ -1,259 +1,95 @@
-const Booking = require('../models/courtBooking');
+const Booking = require("../models/courtBooking");
 
 
-exports.getClubsPage = async (req, res) => {
-  try {
-    res.render('clubs', { currentPage: 'clubs' });
-  } catch (error) {
-    res.status(500).send('Error loading clubs page');
+const selectClub = (req, res) => {
+  const { clubName } = req.body;
+  const club = req.session.clubs.find(c => c.name === clubName);
+
+  if (club) {
+    req.session.selectedClub = club;
+    res.redirect("/booking");
+  } else {
+    res.status(404).send("Club not found");
   }
 };
 
 
-exports.selectClub = async (req, res) => {
-  try {
-    const { clubName } = req.body;
+const getBookingPage = (req, res) => {
+  const club = req.session.selectedClub;
+  if (!club) return res.redirect("/clubs");
 
-    if (!clubName) {
-      return res.render('clubs', {
-        currentPage: 'clubs',
-        error: 'Please select a club'
-      });
-    }
-
-    req.session.selectedClub = clubName;
-
-let mapUrl = '';
-
-if (clubName === 'Shams Club') {
-  mapUrl = 'https://maps.google.com/maps?q=Shams%20Club%20Cairo&t=&z=15&output=embed';
-}
-else if (clubName === 'Wadi Degla') {
-  mapUrl = 'https://maps.google.com/maps?q=Wadi%20Degla%20Club%20Cairo&t=&z=15&output=embed';
-}
-else if (clubName === 'HPark') {
-  mapUrl = 'https://maps.google.com/maps?q=HPark%20Cairo&t=&z=15&output=embed';
-}
-else if (clubName === 'Cairo Stadium') {
-  mapUrl = 'https://maps.google.com/maps?q=Cairo%20International%20Stadium&t=&z=15&output=embed';
-}
-else if (clubName === 'Smash Club') {
-  mapUrl = 'https://maps.google.com/maps?q=Smash%20Sporting%20Club%20Cairo&t=&z=15&output=embed';
-}
-
-res.render('booking', {
-  club: clubName,
-  mapUrl,
-  currentPage: 'booking'
-});
-
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+  res.render("booking", {
+    club: club.name,
+    price: club.price,
+    image: club.image,
+    mapUrl: club.mapUrl
+  });
 };
 
 
-exports.getBookingPage = async (req, res) => {
+const createBooking = async (req, res) => {
   try {
+    const { court, date, time, paymentMethod, promoCode, customerName, teamName } = req.body;
     const club = req.session.selectedClub;
 
-    if (!club) {
-      return res.redirect('/clubs');
-    }
+    let finalPrice = club.price;
 
-    res.render('booking', {
-      club,
-      currentPage: 'booking'
-    });
-
-  } catch (error) {
-    res.status(500).send('Error loading booking page');
-  }
-};
-
-
-exports.getAvailableSlots = async (req, res) => {
-  try {
-
-    const { club, court, date } = req.query;
-
-    const bookedSlots = await Booking.find({
-      club,
-      court,
-      date,
-      status: 'confirmed'
-    }).select('time');
-
-    const bookedTimes = bookedSlots.map(slot => slot.time);
-
-    const allSlots = [
-      '10 AM',
-      '11 AM',
-      '12 PM',
-      '1 PM',
-      '2 PM',
-      '3 PM',
-      '4 PM',
-      '5 PM',
-      '6 PM',
-      '7 PM',
-      '8 PM',
-      '9 PM',
-      '10 PM'
-    ];
-
-    const availableSlots = allSlots.filter(
-      slot => !bookedTimes.includes(slot)
-    );
-
-    res.json({
-      success: true,
-      availableSlots,
-      bookedTimes
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-};
-
-
-exports.createBooking = async (req, res) => {
-  try {
-
-    const {
-      club,
-      court,
-      date,
-      time,
-      paymentMethod,
-      promoCode
-    } = req.body;
-
-    const existingBooking = await Booking.findOne({
-      club,
-      court,
-      date,
-      time,
-      status: 'confirmed'
-    });
-
-    if (existingBooking) {
-      return res.render('booking', {
-        club,
-        currentPage: 'booking',
-        error: 'This time slot is already booked'
-      });
+    
+    const promo = req.session.promoCodes.find(p => p.code === promoCode);
+    if (promo) {
+      finalPrice = finalPrice * (1 - promo.discount / 100);
     }
 
     const booking = new Booking({
-      club,
+      club: club.name,
       court,
       date,
       time,
-      price: 450,
-      paymentMethod: paymentMethod || 'Cash',
-      promoCode: promoCode || '',
-      status: 'confirmed'
-    });
-
-    await booking.save();
-
-    req.session.currentBooking = booking;
-
-    res.render('checkout', {
-      booking,
-      currentPage: 'checkout'
-    });
-
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
-
-exports.getCheckoutPage = async (req, res) => {
-  try {
-
-    const booking = req.session.currentBooking;
-
-    if (!booking) {
-      return res.redirect('/clubs');
-    }
-
-    res.render('checkout', {
-      booking,
-      currentPage: 'checkout'
-    });
-
-  } catch (error) {
-    res.status(500).send('Error loading checkout page');
-  }
-};
-
-
-exports.confirmBooking = async (req, res) => {
-  try {
-
-    const {
-      bookingId,
+      price: finalPrice,
       paymentMethod,
-      promoCode
-    } = req.body;
-
-    const booking = await Booking.findById(bookingId);
-
-    if (!booking) {
-      return res.render('error', {
-        message: 'Booking not found'
-      });
-    }
-
-    let finalPrice = booking.price;
-
-    if (promoCode && promoCode === 'DISCOUNT10') {
-      finalPrice = booking.price * 0.9;
-    }
-
-    booking.paymentMethod =
-      paymentMethod || booking.paymentMethod;
-
-    booking.promoCode = promoCode || '';
-
-    booking.status = 'confirmed';
+      promoCode,
+      customerName,
+      teamName
+    });
 
     await booking.save();
-
-    req.session.currentBooking = null;
-
-    res.render('success', {
-      booking,
-      finalPrice,
-      currentPage: 'success'
-    });
-
-  } catch (error) {
-    res.status(500).send(error.message);
+    req.session.booking = booking;
+    res.redirect("/checkout");
+  } catch (err) {
+    res.status(400).send("Error creating booking: " + err.message);
   }
 };
 
 
-exports.getMyBookings = async (req, res) => {
+const getCheckoutPage = (req, res) => {
+  const booking = req.session.booking;
+  if (!booking) return res.redirect("/clubs");
+
+  const club = req.session.selectedClub;
+
+  res.render("checkout", {
+    booking,
+    image: club.image,
+    mapUrl: club.mapUrl
+  });
+};
+
+
+const confirmBooking = async (req, res) => {
   try {
+    const { paymentMethod } = req.body;
+    const booking = req.session.booking;
 
-    const bookings = await Booking.find()
-      .sort({ createdAt: -1 });
+    if (!booking) return res.redirect("/clubs");
 
-    res.render('myBookings', {
-      bookings,
-      currentPage: 'myBookings'
-    });
+    booking.paymentMethod = paymentMethod;
+    booking.status = "confirmed";
+    await booking.save();
 
-  } catch (error) {
-    res.status(500).send(error.message);
+    res.render("success", { booking });
+  } catch (err) {
+    res.status(400).send("Error confirming booking: " + err.message);
   }
 };
+
 

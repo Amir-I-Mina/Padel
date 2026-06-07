@@ -1,240 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <title>Yalla Padel | Admin Control Panel</title>
-
-    <link rel="stylesheet" href="/CSS/kevin.css">
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/CSS/admin.css">
 </head>
-
 <body>
-
-<div class="navbar">
-    <div class="logo">🎾 Yalla Padel | ADMIN PANEL</div>
-
+  <div class="navbar">
+    <div class="logo">🎾 Yalla Padel Admin</div>
     <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/clubs">Clubs</a>
-        <a href="/booking">Booking</a>
-        <a href="/admin" style="font-weight:bold; color:#3b82f6;">Admin Control</a>
+      <a href="/">Home</a>
     </div>
-</div>
+  </div>
 
-<h1>🛠️ Admin Dashboard — Full Control</h1>
+  <h1>⚙️ Admin Dashboard</h1>
 
-<div class="admin-dashboard">
+  <!-- ===== CLUB MANAGEMENT ===== -->
+  <section>
+    <h2>🏟 Manage Clubs</h2>
 
-    <!-- SECTION 1: Manage Clubs -->
-    <div class="admin-card">
-        <h2>🏟️ Manage Padel Clubs</h2>
-
-        <div class="grid-controls">
-
-            <div class="control-group">
-                <label>➕ Add New Club</label>
-
-                <input type="text" id="newClubName" placeholder="Club name (e.g., Palm Hills)">
-
-                <input type="number" id="newClubPrice" placeholder="Price per hour (EGP)" value="450">
-
-                <!-- NEW: Google Maps Link -->
-                <input type="text" id="newClubMap" placeholder="Google Maps Embed URL">
-
-                <button class="admin-btn success-btn" onclick="addClub()">
-                    + Add Club
-                </button>
-            </div>
-
-            <div class="control-group">
-                <label>✏️ Update Club Price</label>
-
-                <select id="clubSelectForPrice"></select>
-
-                <input type="number" id="updatePriceValue" placeholder="New price EGP">
-
-                <button class="admin-btn" onclick="updateClubPrice()">
-                    Update Price
-                </button>
-            </div>
-
-            <div class="control-group">
-                <label>🗑️ Remove Club</label>
-
-                <select id="clubSelectForRemove"></select>
-
-                <button class="admin-btn danger-btn" onclick="removeClub()">
-                    Delete Club
-                </button>
-            </div>
-
-        </div>
-
-        <div style="margin-top: 20px; overflow-x: auto;">
-
-            <h3 style="font-size: 16px; margin-bottom: 8px;">
-                📋 Current Clubs List
-            </h3>
-
-            <table id="clubsTable">
-                <thead>
-                    <tr>
-                        <th>Club Name</th>
-                        <th>Price (EGP/Hour)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody id="clubsTableBody"></tbody>
-            </table>
-
-        </div>
+    <!-- Add Club -->
+    <div class="form-box">
+      <input type="text" id="newClubName" placeholder="Club name">
+      <input type="number" id="newClubPrice" placeholder="Price">
+      <input type="text" id="newClubImage" placeholder="Image URL">
+      <input type="text" id="newClubMap" placeholder="Google Maps embed URL">
+      <button onclick="addClub()">Add Club</button>
     </div>
 
-    <!-- SECTION 2: Court Manager -->
-    <div class="admin-card">
-        <h2>🎾 Court Slots Manager</h2>
+    <!-- Existing Clubs -->
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Map</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="clubsTableBody">
+        <% clubs.forEach(club => { %>
+          <tr>
+            <td><img src="<%= club.image %>" alt="<%= club.name %>" width="80"></td>
+            <td><%= club.name %></td>
+            <td><%= club.price %> EGP</td>
+            <td>
+              <iframe src="<%= club.mapUrl %>" width="200" height="100" style="border:0;" allowfullscreen></iframe>
+            </td>
+            <td>
+              <button onclick="updateClubPrice('<%= club.name %>')">Update Price</button>
+              <button onclick="removeClub('<%= club.name %>')">Remove</button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
 
-        <div class="grid-controls">
-
-            <div class="control-group">
-                <label>🏷️ Select Court</label>
-
-                <select id="courtManageSelect">
-                    <option value="Court 1">Court 1</option>
-                    <option value="Court 2">Court 2</option>
-                    <option value="Court 3">Court 3</option>
-                </select>
-
-                <label>⏰ Time Slot</label>
-
-                <input type="text" id="timeSlotManage" placeholder="10 AM, 11 AM...">
-
-                <button class="admin-btn" onclick="disableTimeSlot()">
-                    ❌ Disable Slot
-                </button>
-
-                <button class="admin-btn success-btn" onclick="enableTimeSlot()">
-                    ✅ Enable Slot
-                </button>
-            </div>
-
-            <div class="control-group">
-                <label>🔄 Bulk Reset</label>
-
-                <button class="admin-btn" onclick="resetAllSlotsForCourt()">
-                    Reset All Slots (selected court)
-                </button>
-
-                <button class="admin-btn danger-btn" onclick="resetAllBookingsGlobally" style="margin-top: 8px;">
-                    ⚠️ Reset ALL Slots
-                </button>
-            </div>
-
-        </div>
-
-        <div style="margin-top: 20px;">
-            <h3>📅 Slot Availability Preview</h3>
-
-            <div id="slotPreview"
-                 style="background:#f1f5f9; border-radius:12px; padding:12px; font-size:13px;">
-            </div>
-        </div>
+  <!-- ===== PROMO MANAGEMENT ===== -->
+  <section>
+    <h2>🏷 Promo Codes</h2>
+    <div class="form-box">
+      <input type="text" id="promoCodeName" placeholder="Promo code">
+      <input type="number" id="promoDiscount" placeholder="Discount %">
+      <button onclick="addPromoCode()">Add Promo</button>
     </div>
 
-    <!-- SECTION 3: Promo Codes -->
-    <div class="admin-card">
-        <h2>🏷️ Promo Codes</h2>
+    <table>
+      <thead>
+        <tr><th>Code</th><th>Discount</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="promoTableBody">
+        <% promoCodes.forEach(promo => { %>
+          <tr>
+            <td><%= promo.code %></td>
+            <td><%= promo.discount %>%</td>
+            <td><button onclick="removePromoCode('<%= promo.code %>')">Remove</button></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
 
-        <div class="grid-controls">
+  <!-- ===== SLOT MANAGEMENT ===== -->
+  <section>
+    <h2>⏰ Manage Slots</h2>
+    <select id="courtManageSelect">
+      <option value="Court 1">Court 1</option>
+      <option value="Court 2">Court 2</option>
+      <option value="Court 3">Court 3</option>
+    </select>
+    <input type="text" id="timeSlotManage" placeholder="e.g. 10 AM">
+    <button onclick="disableTimeSlot()">Disable</button>
+    <button onclick="enableTimeSlot()">Enable</button>
+    <button onclick="resetAllSlotsForCourt()">Reset Court</button>
+    <button onclick="resetAllSlots()">Reset All</button>
 
-            <div class="control-group">
-                <label>➕ Add Promo Code</label>
+    <div id="slotPreview"></div>
+  </section>
 
-                <input type="text" id="promoCodeName" placeholder="Code: SAVE10">
+  <!-- ===== BOOKINGS MANAGEMENT ===== -->
+  <section>
+    <h2>📅 Bookings</h2>
+    <table>
+      <thead>
+        <tr><th>Club</th><th>Court</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="bookingsListAdmin">
+        <% if (bookings.length === 0) { %>
+          <tr><td colspan="6">No bookings yet</td></tr>
+        <% } else { %>
+          <% bookings.forEach(b => { %>
+            <tr>
+              <td><%= b.club %></td>
+              <td><%= b.court %></td>
+              <td><%= b.date %></td>
+              <td><%= b.time %></td>
+              <td><%= b.status %></td>
+              <td>
+                <form action="/admin/cancel-booking/<%= b._id %>" method="POST">
+                  <button type="submit">Cancel</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+    <form action="/admin/clear-bookings" method="POST">
+      <button type="submit">Clear All Bookings</button>
+    </form>
+  </section>
 
-                <input type="number" id="promoDiscount" placeholder="Discount % (e.g., 15)">
-
-                <button class="admin-btn success-btn" onclick="addPromoCode()">
-                    Add Code
-                </button>
-            </div>
-
-            <div class="control-group">
-                <label>🗑️ Remove Promo Code</label>
-
-                <select id="promoSelectRemove"></select>
-
-                <button class="admin-btn danger-btn" onclick="removePromoCode()">
-                    Delete
-                </button>
-            </div>
-
-            <div class="control-group">
-                <label>💰 Default Hourly Rate</label>
-
-                <input type="number" id="globalRateInput" value="450">
-
-                <button class="admin-btn" onclick="updateGlobalRate()">
-                    Set Base Rate
-                </button>
-            </div>
-
-        </div>
-
-        <div style="margin-top:15px;">
-            <table style="width:auto;">
-                <thead>
-                    <tr>
-                        <th>Promo Code</th>
-                        <th>Discount (%)</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody id="promoTableBody"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- SECTION 4: Bookings -->
-    <div class="admin-card">
-        <h2>📋 Active Bookings</h2>
-
-        <div id="bookingsOverview" style="max-height: 250px; overflow-y: auto;">
-
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Club</th>
-                        <th>Court</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody id="bookingsListAdmin"></tbody>
-            </table>
-
-            <p id="noBookingsMsg"
-               style="text-align:center; color:#64748b; display:none;">
-                No active bookings
-            </p>
-
-        </div>
-
-        <button class="admin-btn danger-btn"
-                onclick="clearAllBookings"
-                style="margin-top: 10px;">
-            🗑️ Cancel ALL Bookings
-        </button>
-    </div>
-
-</div>
-
-<script src="/js/script.js"></script>
-
+  <script src="/js/script.js"></script>
 </body>
 </html>
