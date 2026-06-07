@@ -21,7 +21,6 @@ const admin_get_users = (req, res) => {
 
 
 
-// ─── PRODUCT MANAGEMENT ───
 
 const admin_get_products = async (req, res) => {
     try {
@@ -132,9 +131,7 @@ const admin_deleteProduct = async (req, res) => {
     }
 };
 
-// ======================================
-// Academy Admin
-// ======================================
+
 
 const admin_getCoachList = async (req, res) => {
     try {
