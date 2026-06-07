@@ -19,7 +19,7 @@ router.get(
 // GET DATA FOR MANAGE COACHES PAGE
 router.get(
     "/manage-coaches",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_getManageCoaches
 );
 
@@ -35,7 +35,7 @@ router.get(
 // ADD COACH
 router.post(
     "/Add-coaches",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_addCoach
 );
 
@@ -43,7 +43,7 @@ router.post(
 // UPDATE COACH
 router.put(
     "/editcoaches/:id",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_updateCoach
 );
 
@@ -51,7 +51,7 @@ router.put(
 // DELETE COACH
 router.delete(
     "/delete-coach/:id",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_deleteCoach
 );
 
