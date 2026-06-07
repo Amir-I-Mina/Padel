@@ -11,7 +11,7 @@ const products = [
         category: 'rackets',
         hasOptions: false,
         inStock: true,
-        image: '/images/placeholder.png'
+        image: '/images/racketphoto.png'
     },
     {
         name: 'Premium Ball Pack (3 Cans)',
@@ -20,7 +20,7 @@ const products = [
         category: 'balls',
         hasOptions: false,
         inStock: true,
-        image: '/images/placeholder.png'
+        image: '/images/ballsphoto.png'
     },
     {
         name: 'Elite Padel Sport Kit',
@@ -31,7 +31,7 @@ const products = [
         sizes: ['S', 'M', 'L', 'XL'],
         colors: ['White', 'Black', 'Navy'],
         inStock: true,
-        image: '/images/placeholder.png'
+        image: '/images/kitphoto.png'
     }
 ];
 
