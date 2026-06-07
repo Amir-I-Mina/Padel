@@ -86,14 +86,15 @@ const loginUser = async (req, res) => {
             return res.status(400).send("Please verify your account first");
         }
 
+        req.session.user = {
+            id: user._id,
+            username: user.username,
+            role: user.role
+        };
+
         if (user.role === "admin") {
             return res.redirect("/admin/dashboard");
         }
-        req.session.user = {
-     id: user._id,
-     role: user.role,
-     username: user.username
-};
 
         res.redirect("/home");
 
@@ -115,6 +116,7 @@ const logoutUser = (req, res) => {
 
         res.redirect("/login");
     });
+
 };
 
 module.exports = {
