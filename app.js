@@ -41,8 +41,8 @@ app.use("/academy/admin", academyAdminRoutes);
 const admincourt = require("./routes/admincourt");
 const CourtRoutes = require("./routes/CourtRoutes");
 
-app.use("/academy", CourtRoutes);
-app.use("/academy/admin", admincourt);
+app.use("/booking", CourtRoutes);
+app.use("/booking/admin", admincourt);
 
 
 
