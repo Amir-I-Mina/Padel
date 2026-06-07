@@ -10,5 +10,7 @@ router.post("/create-booking", bookingController.createBooking);
 router.get("/checkout", bookingController.getCheckoutPage);
 router.post("/confirm-booking", bookingController.confirmBooking);
 router.get("/my-bookings", bookingController.getMyBookings);
+router.get('/my-bookings', bookingController.getMyBookings); 
+
 
 module.exports = router;
