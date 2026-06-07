@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Tree | Admin</title>
-    <link rel="stylesheet" href="/tournament_admin.css">
+    <link rel="stylesheet" href="/CSS/tournament_admin.css">
 </head>
 <body>
     <nav class="navbar">
@@ -44,6 +44,6 @@
     </main>
 
     <script id="approved-teams-data" type="application/json"><%- JSON.stringify(approvedTeams.map(team => ({ id: team._id, name: team.teamName }))) %></script>
-    <script src="/tree-editor.js"></script>
+    <script src="/js/tree-editor.js"></script>
 </body>
 </html>

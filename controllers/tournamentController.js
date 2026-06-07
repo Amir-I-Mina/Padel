@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Tournament = require('./models/tournamentSchema');
-const Registration = require('./models/registrationSchema');
+const Tournament = require('../models/tournamentSchema');
+const Registration = require('../models/registrationSchema');
 
 exports.getAllTournaments = async (req, res) => {
     const sampleTournaments = [
@@ -12,7 +12,7 @@ exports.getAllTournaments = async (req, res) => {
 
     try {
         if (mongoose.connection.readyState !== 1) {
-            return res.render('tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
+            return res.render('pages/tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
         }
 
         const { search } = req.query;
@@ -26,10 +26,10 @@ exports.getAllTournaments = async (req, res) => {
         }
 
         const tournaments = await Tournament.find(query).sort({ createdAt: -1 });
-        res.render('tournaments', { tournaments: tournaments.length ? tournaments : sampleTournaments, cssFile: 'tournament.css' });
+        res.render('pages/tournaments', { tournaments: tournaments.length ? tournaments : sampleTournaments, cssFile: 'tournament.css' });
     } catch (error) {
         console.error('Tournament load error:', error.message);
-        res.render('tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
+        res.render('pages/tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
     }
 };
 

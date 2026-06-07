@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matches | Yalla Padel</title>
-    <link rel="stylesheet" href="/bishoy.css">
-    <link rel="stylesheet" href="/matches.css">
+    <link rel="stylesheet" href="/CSS/bishoy.css">
+    <link rel="stylesheet" href="/CSS/matches.css">
 </head>
 <body class="matches-page">
 
@@ -20,7 +20,7 @@
         </div>
     </nav>
 
-    <div class="container" style="padding-top: 50px;"
+    <div class="container" style="padding-top: 50px;">
         <h2 style="text-align: center; margin-bottom: 30px;">Tournament Brackets</h2>
         
         <% if (tournaments && tournaments.length > 0) { %>
@@ -60,6 +60,6 @@
         <% } %>
     </div>
     <script id="approved-teams-data" type="application/json"><%- JSON.stringify(registrations || []) %></script>
-    <script src="/matches.js"></script>
+    <script src="/js/matches.js"></script>
 </body>
 </html>

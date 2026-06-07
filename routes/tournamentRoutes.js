@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const tournamentController = require('./tournamentController');
-const TournamentRegistration = require('./models/registrationSchema');
+const tournamentController = require('../controllers/tournamentController');
+const TournamentRegistration = require('../models/registrationSchema');
 
 router.get('/tournaments', tournamentController.getAllTournaments);
 router.get('/matches', async (req, res) => {
     try {
-        const Tournament = require('./models/tournamentSchema');
-        const Registration = require('./models/registrationSchema');
+       const Tournament = require('../models/tournamentSchema');
+        const Registration = require('../models/registrationSchema');
         
         let tournaments = await Tournament.find().sort({ createdAt: -1 });
         let registrations = await Registration.find({ status: 'APPROVED' }).sort({ createdAt: 1 });
@@ -19,9 +19,9 @@ router.get('/matches', async (req, res) => {
             registrations = [];
         }
         
-        res.render('Matches', { tournaments, registrations });
+        res.render('pages/Matches', { tournaments, registrations });
     } catch (error) {
-        res.render('Matches', { tournaments: [], registrations: [] });
+        res.render('pages/Matches', { tournaments: [], registrations: [] });
     }
 });
 router.get('/', (req, res) => {
@@ -37,16 +37,16 @@ router.get('/leaderboard', async (req, res) => {
                 { teamName: 'Net Ninjas', points: 1250 },
                 { teamName: 'Padel Pros', points: 900 }
             ];
-            return res.render('leaderboard', { teams: sample });
+            return res.render('pages/leaderboard', { teams: sample });
         }
-        res.render('leaderboard', { teams });
+        res.render('pages/leaderboard', { teams });
     } catch (err) {
         const sample = [
             { teamName: 'Smash Kings', points: 1500 },
             { teamName: 'Net Ninjas', points: 1250 },
             { teamName: 'Padel Pros', points: 900 }
         ];
-        res.render('leaderboard', { teams: sample });
+        res.render('pages/leaderboard', { teams: sample });
     }
 });
 

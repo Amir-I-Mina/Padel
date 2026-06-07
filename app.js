@@ -31,6 +31,9 @@ app.use('/orders', orderRoutes);
 const authRoutes = require('./routes/authRoutes');
 app.use('/', authRoutes);
 
+const tournamentRoutes = require('./routes/tournamentRoutes');
+app.use('/', tournamentRoutes);
+
 const homeRoutes = require('./routes/homeRoutes');
 app.use('/', homeRoutes);
 
