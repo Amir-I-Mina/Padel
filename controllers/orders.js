@@ -1,6 +1,5 @@
 const Order = require('../models/orders');
 
-// POST /orders  →  save new order
 exports.createOrder = async (req, res) => {
     try {
         const { items, total, customer } = req.body;
