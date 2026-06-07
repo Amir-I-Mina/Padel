@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>User Dashboard</title>
-
     <link rel="stylesheet" href="/CSS/dashboard.css">
 </head>
 
@@ -10,58 +9,50 @@
 
 <div class="navbar">
     <div class="logo">Yalla Padel</div>
-
     <div class="nav-links">
         <a href="/academy">Home</a>
     </div>
 </div>
 
-
 <div class="hero">
-
     <a href="/academy" class="back">← BACK TO LIST</a>
-
     <h1>USER DASHBOARD</h1>
-
     <p>All your booked trainings will appear here</p>
-
 </div>
 
-
 <div class="dashboard-container">
-
     <% if (bookings && bookings.length > 0) { %>
-
         <% bookings.forEach(booking => { %>
-
-            <div class="coach-card">
-
+            <div class="coach-card" data-booking-id="<%= booking._id %>">
                 <div class="Training">
                     <h3><%= booking.trainingType %> Training</h3>
                 </div>
-
                 <p>Coach Name: <%= booking.coachId?.name %></p>
                 <p>Phone: <%= booking.coachId?.phone %></p>
                 <p>Location: <%= booking.location %></p>
                 <p>Days: <%= booking.day %></p>
                 <p>Time: <%= booking.time %></p>
-
-                <!-- CANCEL BOOKING -->
-                <form action="/academy/cancel-booking/<%= booking._id %>" method="POST">
-                    <button type="submit">Cancel</button>
-                </form>
-
+                
+                <button class="cancel-btn" data-booking-id="<%= booking._id %>">Cancel</button>
             </div>
-
         <% }) %>
-
     <% } else { %>
-
         <p>No bookings found.</p>
-
     <% } %>
-
 </div>
+
+<!-- Cancel Confirmation Modal -->
+<div id="cancelModal" class="cancel-modal" style="display: none;">
+    <div class="cancel-modal-content">
+        <h3>Cancel Booking</h3>
+        <p>Are you sure you want to cancel this booking?</p>
+        <div class="cancel-modal-buttons">
+            <button id="confirmCancel" class="btn-yes">Yes, Cancel Booking</button>
+            <button id="cancelBtn" class="btn-no">No, Keep Booking</button>
+        </div>
+    </div>
+</div>
+
 <script src="/js/dashboard.js"></script>
 </body>
 </html>

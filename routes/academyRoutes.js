@@ -16,8 +16,8 @@ router.get(
 );
 
 router.get(
-    "/dashboard",
-    academyController.user_getDashboard
+    "/UserDashboard",
+    academyController.user_getUserDashboard
 );
 
 

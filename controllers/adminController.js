@@ -1,7 +1,7 @@
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
-const Booking = require('../models/courtBooking');
+const Bookings = require('../models/courtBooking');
 
 
 

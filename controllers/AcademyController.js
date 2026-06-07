@@ -47,19 +47,14 @@ const user_getGroupTrainingPage = async (req, res) => {
 // GET USER DASHBOARD
 // ======================================
 
-const user_getDashboard = async (req, res) => {
+const user_getUserDashboard = async (req, res) => {
     try {
-        console.log("1. Dashboard route accessed");
         
         const bookings = await Booking.find({
             userId: "6a25bc7c1c87f19f94201020"
         }).populate("coachId");
 
-        console.log("2. Bookings found:", bookings);
-
         res.render("pages/academy/UserDashboard", { bookings });
-        
-        console.log("3. Page rendered");
     } catch (err) {
         
         res.status(500).json({ 
@@ -197,7 +192,7 @@ const user_cancelBooking = async (req, res) => {
 module.exports = {
     user_getPrivateTrainingPage,
     user_getGroupTrainingPage,
-    user_getDashboard,
+    user_getUserDashboard,
     user_findPrivateCoaches,
     user_findGroupCoaches,
     user_bookTraining,

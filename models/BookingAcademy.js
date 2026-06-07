@@ -5,9 +5,15 @@ const bookingmodel = new mongoose.Schema({
     //userId: {
         //type: mongoose.Schema.Types.ObjectId,
         //ref: "User",
-        //required: true
+      //  required: true
     //},
 
+coachname: {
+    type: mongoose.Schema.Types.String,
+    required: true,
+    ref: "Coach",
+    trim: true
+},
     coachId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Coach",
