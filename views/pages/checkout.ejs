@@ -1,52 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Checkout</title>
-<link rel="stylesheet" href="../CSS/kevin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/CSS/kevin.css">
 </head>
 
 <body>
 
 <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+    <div class="logo">🎾 Yalla Padel</div>
 
     <div class="nav-links">
-        <a href="home.html">Home</a>
-        
+        <a href="/">Home</a>
     </div>
 </div>
 
-<h1>🧾 Checkout---</h1>
+<h1>🧾 Checkout</h1>
 
 <div class="box">
 
-<p><b>📍 Club:</b> <span id="club"></span></p>
-<p><b>🎾 Court:</b> <span id="court"></span></p>
-<p><b>📅 Date:</b> <span id="date"></span></p>
-<p><b>⏰ Time:</b> <span id="time"></span></p>
+    <p><b>📍 Club:</b> <%= booking.club %></p>
 
-<hr>
+    <p><b>🎾 Court:</b> <%= booking.court %></p>
 
-<label>💳 Payment</label>
-<select>
-<option>Cash</option>
-<option>Visaaaa</option>
-</select>
+    <p><b>📅 Date:</b> <%= booking.date %></p>
 
-<label>🏷 Promo Code</label>
-<input type="text">
+    <p><b>⏰ Time:</b> <%= booking.time %></p>
 
-<p><b>💰 Total: 450 EGP</b></p>
+    <hr>
 
-<button class="confirm-btn" onclick="confirmBooking()">Confirm</button>
+    <form action="/confirm-booking" method="POST">
+
+        <input
+            type="hidden"
+            name="bookingId"
+            value="<%= booking._id %>"
+        >
+
+        <label>💳 Payment Method</label>
+
+        <select name="paymentMethod">
+            <option value="Cash">Cash</option>
+            <option value="Visa">Visa</option>
+        </select>
+
+        <br><br>
+
+        <label>🏷 Promo Code</label>
+
+        <input
+            type="text"
+            name="promoCode"
+            placeholder="Enter promo code"
+        >
+
+        <br><br>
+
+        <p>
+            <b>💰 Total: <%= booking.price %> EGP</b>
+        </p>
+
+        <button
+            type="submit"
+            class="confirm-btn"
+        >
+            Confirm Booking
+        </button>
+
+    </form>
 
 </div>
-
-<script src="../js/script.js"></script>
-<script>
-    loadCheckout();
-</script>
-
 
 </body>
 </html>

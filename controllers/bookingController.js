@@ -23,10 +23,29 @@ exports.selectClub = async (req, res) => {
 
     req.session.selectedClub = clubName;
 
-    res.render('booking', {
-      club: clubName,
-      currentPage: 'booking'
-    });
+let mapUrl = '';
+
+if (clubName === 'Shams Club') {
+  mapUrl = 'https://maps.google.com/maps?q=Shams%20Club%20Cairo&t=&z=15&output=embed';
+}
+else if (clubName === 'Wadi Degla') {
+  mapUrl = 'https://maps.google.com/maps?q=Wadi%20Degla%20Club%20Cairo&t=&z=15&output=embed';
+}
+else if (clubName === 'HPark') {
+  mapUrl = 'https://maps.google.com/maps?q=HPark%20Cairo&t=&z=15&output=embed';
+}
+else if (clubName === 'Cairo Stadium') {
+  mapUrl = 'https://maps.google.com/maps?q=Cairo%20International%20Stadium&t=&z=15&output=embed';
+}
+else if (clubName === 'Smash Club') {
+  mapUrl = 'https://maps.google.com/maps?q=Smash%20Sporting%20Club%20Cairo&t=&z=15&output=embed';
+}
+
+res.render('booking', {
+  club: clubName,
+  mapUrl,
+  currentPage: 'booking'
+});
 
   } catch (error) {
     res.status(500).send(error.message);

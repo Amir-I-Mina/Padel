@@ -1,68 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Padel Clubs</title>
-<link rel="stylesheet" href="../CSS/kevin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yalla Padel | Clubs</title>
+    <link rel="stylesheet" href="/CSS/kevin.css">
 </head>
 
 <body>
+
 <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+    <div class="logo">🎾 Yalla Padel</div>
 
     <div class="nav-links">
-        <a href="home.html">Home</a>
-        
+        <a href="/">Home</a>
     </div>
 </div>
 
 <h1>PADEL CLUBS</h1>
 
+<% if (typeof error !== 'undefined') { %>
+    <div class="error-message">
+        <p><%= error %></p>
+    </div>
+<% } %>
+
 <div class="container">
 
     <div class="card">
         <div class="img-box">
-            <img src="../images/OIP (2).jfif">
+            <img src="/images/OIP (2).jfif" alt="Shams Club">
             <span class="price">450 EGP/HOUR</span>
-            <button onclick="selectClub('Shams Club')">Shams Club</button>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Shams Club">
+                <button type="submit">Shams Club</button>
+            </form>
         </div>
     </div>
 
     <div class="card">
         <div class="img-box">
-            <img src="../images/OIP (4).jfif">
+            <img src="/images/OIP (4).jfif" alt="Wadi Degla">
             <span class="price">450 EGP/HOUR</span>
-            <button onclick="selectClub('Wadi Degla')">Wadi Degla</button>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Wadi Degla">
+                <button type="submit">Wadi Degla</button>
+            </form>
         </div>
     </div>
 
     <div class="card">
         <div class="img-box">
-            <img src="../images/OIP.jfif">
+            <img src="/images/OIP.jfif" alt="HPark">
             <span class="price">450 EGP/HOUR</span>
-            <button onclick="selectClub('HPark')">HPark</button>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="HPark">
+                <button type="submit">HPark</button>
+            </form>
         </div>
     </div>
 
     <div class="card">
         <div class="img-box">
-            <img src="../images/OIP (2).jfif">
+            <img src="/images/OIP (2).jfif" alt="Cairo Stadium">
             <span class="price">450 EGP/HOUR</span>
-            <button onclick="selectClub('Cairo Stadium')">Cairo Stadium</button>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Cairo Stadium">
+                <button type="submit">Cairo Stadium</button>
+            </form>
         </div>
     </div>
 
     <div class="card">
         <div class="img-box">
-            <img src="../images/OIP (1).jfif">
+            <img src="/images/OIP (1).jfif" alt="Smash Club">
             <span class="price">450 EGP/HOUR</span>
-            <button onclick="selectClub('Smash Club')">Smash Club</button>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Smash Club">
+                <button type="submit">Smash Club</button>
+            </form>
         </div>
     </div>
 
 </div>
 
-<script src="../js/script.js"></script>
+</body>
+</html>     <img src="/images/OIP (2).jfif" alt="Cairo Stadium">
+            <span class="price">450 EGP/HOUR</span>
 
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Cairo Stadium">
+                <button type="submit">Cairo Stadium</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="img-box">
+            <img src="/images/OIP (1).jfif" alt="Smash Club">
+            <span class="price">450 EGP/HOUR</span>
+
+            <form action="/select-club" method="POST">
+                <input type="hidden" name="clubName" value="Smash Club">
+                <button type="submit">Smash Club</button>
+            </form>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
