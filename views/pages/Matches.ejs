@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches | Yalla Padel</title>
+    <link rel="stylesheet" href="/bishoy.css">
+    <link rel="stylesheet" href="/matches.css">
+</head>
+<body class="matches-page">
+
+    <nav class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div class="nav-links">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/tournaments">Tournaments</a>
+            <a class="nav-link" href="/matches">Matches</a>
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+            <a class="nav-link" href="/admin/tournaments">Admin</a>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 50px;"
+        <h2 style="text-align: center; margin-bottom: 30px;">Tournament Brackets</h2>
+        
+        <% if (tournaments && tournaments.length > 0) { %>
+            <!-- Tournament Selector -->
+            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:40px; flex-wrap: wrap;">
+                <% tournaments.forEach((tournament, idx) => { %>
+                    <button class="tab-btn" data-show-tournament="<%= tournament._id %>">
+                        <%= tournament.name %> (<%= tournament.type %>)
+                    </button>
+                <% }); %>
+            </div>
+
+            <!-- Bracket View -->
+            <% tournaments.forEach((tournament, idx) => { %>
+                <div id="tournament-<%= tournament._id %>" class="tournament-view" style="display: <%= idx === 0 ? 'block' : 'none' %>;">
+                    <h3 style="text-align: center; margin-bottom: 30px;">
+                        <%= tournament.name %> - <%= tournament.type %> Tournament
+                    </h3>
+                    
+                    <div style="max-width: 1000px; margin: 0 auto;">
+                        <% if (registrations && registrations.length > 0) { %>
+                            <div class="bracket-wrapper">
+                                <div id="bracket-<%= tournament._id %>" class="bracket-container"></div>
+                            </div>
+                        <% } else { %>
+                            <p style="text-align: center; color: #999; padding: 40px;">
+                                ⏳ No approved teams yet for this tournament. Check back soon!
+                            </p>
+                        <% } %>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p style="text-align: center; color: #999; padding: 40px;">
+                📊 No tournaments available yet. Check back soon!
+            </p>
+        <% } %>
+    </div>
+    <script id="approved-teams-data" type="application/json"><%- JSON.stringify(registrations || []) %></script>
+    <script src="/matches.js"></script>
+</body>
+</html>

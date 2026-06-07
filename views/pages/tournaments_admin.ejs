@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments | Admin</title>
+    <link rel="stylesheet" href="/tournament_admin.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div class="nav-links">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/tournaments">Tournaments</a>
+            <a class="nav-link" href="/matches">Matches</a>
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+            <a class="nav-link" href="/admin/tournaments">Admin</a>
+        </div>
+    </nav>
+
+    <nav class="admin-subnav">
+        <a href="/admin/tournaments" class="admin-tab active">Tournaments</a>
+        <a href="/admin/approvals" class="admin-tab">Approvals</a>
+        <a href="/admin/tree-editor" class="admin-tab">Tree Editor</a>
+    </nav>
+
+    <main class="container">
+        <div id="admin-message" class="admin-message hidden"></div>
+        <div class="panel dashboard-panel">
+            <h1>Admin Dashboard</h1>
+            <p>Welcome to the admin dashboard. Use the tabs above to manage tournaments, approvals, and tournament brackets.</p>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Tournament Management</h2>
+                <button class="btn-primary add-btn" onclick="askAddTournament()">Add Tournament</button>
+            </div>
+            <table class="admin-table">
+                <thead>
+                    <tr><th>Tournament</th><th>Type</th><th>Status</th><th>Registrations</th><th>Actions</th></tr>
+                </thead>
+                <tbody id="tournament-list">
+                    <% tournaments.forEach((tournament, idx) => { %>
+                        <% const safeId = tournament._id || tournament.id || `sample-${idx}`; %>
+                        <% const statusClass = (tournament.status || 'CLOSED').toUpperCase() === 'OPEN' ? 'open' : 'closed'; %>
+                        <tr id="row-<%= safeId %>">
+                            <td><strong id="name-<%= safeId %>"><%= tournament.name %></strong></td>
+                            <td><%= tournament.type || '2v2' %></td>
+                            <td>
+                            <span class="badge <%= statusClass %>" id="status-<%= safeId %>"><%= (tournament.status || 'CLOSED').toUpperCase() %></span>
+                            <button id="status-btn-<%= safeId %>" class="status-toggle <%= (tournament.status || 'CLOSED').toUpperCase() === 'OPEN' ? 'close' : 'open' %>" onclick="toggleStatus('<%= safeId %>')">
+                                <%= (tournament.status || 'CLOSED').toUpperCase() === 'OPEN' ? 'Close' : 'Open' %>
+                            </button>
+                        </td>
+                            <td><%= tournament.registrations || 0 %></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn-edit" onclick="editName('<%= safeId %>')">Edit</button>
+                                    <button class="btn-primary" onclick="window.location.href='/admin/tree-editor?tournamentId=<%= safeId %>'">Edit Tree</button>
+                                    <button class="btn-danger" onclick="deleteItem('<%= safeId %>')">Remove</button>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="/tournament_admin.js"></script>
+</body>
+</html>

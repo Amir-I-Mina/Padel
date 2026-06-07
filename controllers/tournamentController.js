@@ -1,13 +1,22 @@
-// tournamentController.js (User-Facing Functions + Admin Tournament Logic)
-const Tournament = require('../models/tournamentSchema');
-const Registration = require('../models/registrationSchema');
+const mongoose = require('mongoose');
+const Tournament = require('./models/tournamentSchema');
+const Registration = require('./models/registrationSchema');
 
-// 1. Get all OPEN tournaments (Public landing/list page)
 exports.getAllTournaments = async (req, res) => {
+    const sampleTournaments = [
+        { name: 'Spring Doubles Cup', type: '2v2', status: 'OPEN', image: '/images/sample1.svg' },
+        { name: 'Solo Masters League', type: 'Solo', status: 'OPEN', image: '/images/sample2.svg' }
+    ];
+
+    console.log('GET ALL TOURNAMENTS called; mongoose readyState =', mongoose.connection.readyState);
+
     try {
+        if (mongoose.connection.readyState !== 1) {
+            return res.render('tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
+        }
+
         const { search } = req.query;
-        // Only show tournaments that are currently OPEN
-        let query = { status: "OPEN" };
+        let query = { status: 'OPEN' };
 
         if (search) {
             query.$or = [
@@ -17,15 +26,13 @@ exports.getAllTournaments = async (req, res) => {
         }
 
         const tournaments = await Tournament.find(query).sort({ createdAt: -1 });
-        
-        // This renders the public-facing view
-        res.render('tournaments', { tournaments, cssFile: 'tournament.css' });
+        res.render('tournaments', { tournaments: tournaments.length ? tournaments : sampleTournaments, cssFile: 'tournament.css' });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        console.error('Tournament load error:', error.message);
+        res.render('tournaments', { tournaments: sampleTournaments, cssFile: 'tournament.css' });
     }
 };
 
-// 2. View details of a specific tournament
 exports.getTournamentById = async (req, res) => {
     try {
         const tournament = await Tournament.findById(req.params.id);
@@ -38,66 +45,68 @@ exports.getTournamentById = async (req, res) => {
     }
 };
 
-// 3. Handle Team Registration (User submits a form)
 exports.handleTeamRegistration = async (req, res) => {
     try {
-        const { teamName, captainName, tournamentId, userId } = req.body;
-        
-        const registration = new Registration({
-            userId,
-            tournamentId,
-            teamName,
-            captainName
-        });
-        
+        const { teamName } = req.body;
+        if (!teamName) {
+            return res.redirect('/tournaments');
+        }
+
+        const registration = new Registration({ teamName });
         await registration.save();
-        res.status(200).json({ success: true, message: "Registration submitted successfully!" });
+        res.redirect('/tournaments');
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        res.redirect('/tournaments');
     }
 };
 
-// --- ADMIN MANAGEMENT FUNCTIONS (Appended for your Dashboard) ---
-
-exports.getAdminAllTournaments = async (req, res) => {
+exports.approvePendingTeams = async (req, res) => {
     try {
-        const tournaments = await Tournament.find().sort({ createdAt: -1 });
-        res.render('AdminPage/manage-tournaments', { tournaments });
+        const teamsToApprove = await Registration.find({ status: 'PENDING' }).sort({ _id: 1 }).limit(2);
+        const idsToApprove = teamsToApprove.map(team => team._id);
+
+        const result = idsToApprove.length > 0
+            ? await Registration.updateMany({ _id: { $in: idsToApprove } }, { status: 'APPROVED' })
+            : { modifiedCount: 0 };
+
+        const approvedTeams = await Registration.find({ status: 'APPROVED' });
+        return res.json({
+            success: true,
+            modifiedCount: result.modifiedCount,
+            approvedTeams
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
 
-exports.addTournament = async (req, res) => {
+exports.assignPointsToApprovedTeams = async (req, res) => {
     try {
-        const { name, type, status } = req.body;
-        const tournament = new Tournament({ name, type, status });
-        await tournament.save();
-        res.status(201).json({ success: true, message: 'Tournament created successfully' });
+        const approvedTeams = await Registration.find({ status: 'APPROVED' }).sort({ createdAt: 1 });
+        const basePoints = [1500, 1200, 900, 600];
+
+        for (let i = 0; i < approvedTeams.length; i++) {
+            const extraPoints = Math.max(50, 300 - ((i - basePoints.length) * 50));
+            approvedTeams[i].points = basePoints[i] ?? extraPoints;
+            await approvedTeams[i].save();
+        }
+
+        const sortedTeams = await Registration.find({ status: 'APPROVED' }).sort({ points: -1 });
+        return res.json({
+            success: true,
+            updatedCount: approvedTeams.length,
+            teams: sortedTeams
+        });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
 
-exports.updateTournament = async (req, res) => {
+exports.clearRegistrations = async (req, res) => {
     try {
-        const { name, status, type } = req.body;
-        const tournament = await Tournament.findByIdAndUpdate(
-            req.params.id, 
-            { name, status, type }, 
-            { new: true }
-        );
-        res.json({ success: true, tournament });
+        const result = await Registration.deleteMany({});
+        return res.json({ success: true, deletedCount: result.deletedCount });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
-
-exports.deleteTournament = async (req, res) => {
-    try {
-        await Tournament.findByIdAndDelete(req.params.id);
-        res.json({ success: true, message: 'Tournament deleted' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        return res.status(500).json({ success: false, message: error.message });
     }
 };

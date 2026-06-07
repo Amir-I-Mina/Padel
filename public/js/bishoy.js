@@ -33,7 +33,6 @@ function show(id) {
 function goReg(type) {
     const title = document.getElementById('title-display');
     const p2Section = document.getElementById('player2-section');
-
     if (type === 'doubles') {
         title.innerText = 'Register for Spring Doubles Cup';
         p2Section.style.display = 'block';
