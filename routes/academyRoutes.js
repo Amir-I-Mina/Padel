@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const academyController = require("../controllers/academyController");
-const {isLoggedIn} = require("../middleware/authMiddleware");
+//const {isLoggedIn} = require("../middleware/authMiddleware");
 
 
 router.get(
@@ -36,13 +36,13 @@ router.post(
 // BOOKINGS
 router.post(
     "/bookings",
-    isLoggedIn,
+    //isLoggedIn,
     academyController.user_bookTraining
 );
 
 router.delete(
     "/bookings/:id",
-    isLoggedIn,
+    //isLoggedIn,
     academyController.user_cancelBooking
 );
 

@@ -95,19 +95,36 @@
         <span class="phoneError"></span>
 
         <label>Location</label>
-        <input type="text" id="location" name="location">
-        <span class="locationError"></span>
+        <select id="location" name="location" required>
+        <option disabled selected>Choose location</option>
+        <option value="Smash Club">Smash Club</option>
+        <option value="Cairo International Stadium">Cairo International Stadium</option>
+        <option value="HPark">HPark</option>
+        <option value="Wadi Degla">Wadi Degla</option>
+        <option value="Shams Club">Shams Club</option>
+        </select>
 
         <label>Experience</label>
         <input type="text" id="experience" name="experience">
         <span class="experienceError"></span>
 
         <label>Available Days</label>
-        <input type="text" id="availableDays" name="availableDays">
+        <select id="availableDays" name="availableDays" required>
+        <option disabled selected>Choose available days</option>
+        <option value="Monday-Wednesday">Monday-Wednesday</option>
+        <option value="Tuesday-Thursday">Tuesday-Thursday</option>
+        <option value="Thursday-Saturday">Thursday-Saturday</option>
+        </select>
         <span class="daysError"></span>
 
+
         <label>Available Times</label>
-        <input type="text" id="availableTimes" name="availableTimes">
+        <select id="availableTimes" name="availableTimes" required>
+        <option disabled selected>Choose available times</option>
+        <option value="6-7">6:00 PM-7:00 PM</option>
+        <option value="7-8">7:00 PM-8:00 PM</option>
+        <option value="8-9">8:00 PM-9:00 PM</option>
+        </select>
         <span class="timesError"></span>
 
         <label>Salary</label>

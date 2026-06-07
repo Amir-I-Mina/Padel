@@ -1,110 +1,34 @@
-const coaches =
-JSON.parse(localStorage.getItem("coaches")) || [];
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".tournament-card button");
+     const confirmationDiv = document.getElementById("confirmation");
 
-window.onload = function () {
+    buttons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const card = btn.closest(".tournament-card");
+            const coachId = card.querySelector("input[name='coachId']").value;
 
-const container =
-    document.getElementById("coachContainer");
+            // Only send coachId (and trainingType if needed)
+            const bookingData = { coachId };
 
-const template =
-    document.getElementById("coachTemplate");
-
-if (!container || !template) {
-    return;
-}
-
-coaches.forEach((coach) => {
-
-    const card = template.cloneNode(true);
-
-    card.style.display = "block";
-
-    card.querySelector(".name").innerText =
-        coach.name;
-
-    card.querySelector(".age").innerText =
-        coach.age;
-
-    card.querySelector(".experience").innerText =
-        coach.experience;
-
-    card.querySelector(".phone").innerText =
-        coach.phone;
-
-    card.querySelector(".location").innerText =
-        coach.location;
-
-    card.querySelector(".days").innerText =
-        coach.availableDays;
-
-    card.querySelector(".time").innerText =
-        coach.availableTimes;
-
-    const button =
-        document.createElement("button");
-
-    button.innerText = "Book Coach";
-
-    button.onclick = async () => {
-
-        try {
-
-            const response = await fetch(
-                "/academy/book-training",
-                {
+            try {
+                const response = await fetch("/academy/bookings", {
                     method: "POST",
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-                    body: JSON.stringify({
-                        coachId: coach._id,
-                        trainingType:
-                            coach.trainingType,
-                        day:
-                            coach.availableDays,
-                        time:
-                            coach.availableTimes,
-                        location:
-                            coach.location
-                    })
-                }
-            );
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(bookingData)
+                });
 
-            const data =
-                await response.json();
+                  const result = await response.json();
 
-            if (data.success) {
-
-                alert(
-                    "Coach booked successfully"
-                );
-            }
-            else {
-
-                alert(data.message);
-            }
-
-        } catch (err) {
-
-            console.error(err);
-
+   if (result.success) {
+          // ✅ Refresh the page automatically
+          window.location.reload();
+        } else {
+          alert("Error: " + result.error);
         }
-
-    };
-
-    card.appendChild(button);
-
-    container.appendChild(card);
-
+      } catch (err) {
+        alert("Server error. Please try again later.");
+        console.error(err);
+      }
+        });
+    });
 });
-
-template.remove();
-
-
-};
-
-
-
-
-

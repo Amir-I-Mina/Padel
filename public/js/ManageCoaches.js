@@ -128,6 +128,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
         const availableTimes = document.getElementById("availableTimes").value.trim();
         const trainingType = document.getElementById("trainingType").value.trim();
         const salary = document.getElementById("salary").value.trim();
+        
         const nameError = document.querySelector(".nameError");
         const ageError = document.querySelector(".ageError");
         const phoneError = document.querySelector(".phoneError");
@@ -160,7 +161,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
             valid = false;
             phoneError.innerText = "Phone is required (6–15 digits).";
         }
-        if (location === "" || !locationRegex.test(location)) {
+        if (location === "") {
             valid = false;
             locationError.innerText = "Location is required (letters only).";
         }
@@ -168,13 +169,13 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
             valid = false;
             experienceError.innerText = "Experience is required (1–99).";
         }
-        if (availableDays === "" || !daysRegex.test(availableDays)) {
+        if (availableDays === "") {
             valid = false;
-            daysError.innerText = "Available Days required (e.g. Monday-Wednesday).";
+            daysError.innerText = "Training type is required.";
         }
-        if (availableTimes === "" || !timesRegex.test(availableTimes)) {
+        if (availableTimes === "" ) {
             valid = false;
-            timesError.innerText = "Available Times required (e.g. 6-7).";
+            timesError.innerText = "Available Times required";
         }
         if (trainingType === "") {
             valid = false;

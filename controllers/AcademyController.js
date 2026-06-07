@@ -49,14 +49,23 @@ const user_getGroupTrainingPage = async (req, res) => {
 
 const user_getDashboard = async (req, res) => {
     try {
+        console.log("1. Dashboard route accessed");
+        
         const bookings = await Booking.find({
-            userId: req.session.user._id
+            userId: "6a25bc7c1c87f19f94201020"
         }).populate("coachId");
 
-        // Render the EJS dashboard view and pass bookings
+        console.log("2. Bookings found:", bookings);
+
         res.render("pages/academy/UserDashboard", { bookings });
+        
+        console.log("3. Page rendered");
     } catch (err) {
-        res.status(500).render("error", { error: err.message });
+        
+        res.status(500).json({ 
+            success: false, 
+            message: err.message 
+        });
     }
 };
 
@@ -114,33 +123,45 @@ const user_findGroupCoaches = async (req, res) => {
 
 const user_bookTraining = async (req, res) => {
     try {
+        const { coachId } = req.body;
 
-        const {
-            coachId,
-            trainingType,
-            day,
-            time,
-            location
-        } = req.body;
+        // Find the coach by ID
+        const coach = await Coach.findById(coachId);
+        if (!coach) {
+            return res.status(404).json({ error: "Coach not found" });
+        }
+         // Normalize trainingType to always be a string
+    
+         let normalizedType = Array.isArray(coach.trainingType)
+            ? coach.trainingType[0]   // take the first value
+            : coach.trainingType;
 
+        // Enforce only "private" or "group"
+        if (!["private", "group"].includes(normalizedType)) {
+            return res.status(400).json({ error: "Invalid training type in coach record" });
+        }
+
+        // Use coach's own data for day, time, location
         const booking = await Booking.create({
-            userId: req.session.user._id,
-            coachId,
-            trainingType,
-            day,
-            time,
-            location
+             userId: "6a25bc7c1c87f19f94201020", // test userId
+            coachId: coach._id,
+            trainingType: normalizedType, // required field
+            day: Array.isArray(coach.availableDays) 
+                 ? coach.availableDays.join(", ") 
+                 : coach.availableDays,
+            time: Array.isArray(coach.availableTimes) 
+                  ? coach.availableTimes.join(", ") 
+                  : coach.availableTimes,
+            location: coach.location
         });
 
-        res.status(201).json(booking);
-
+        res.status(201).json({ success: true, booking });
     } catch (err) {
-
-        res.status(500).json({
-            error: err.message
-        });
+        console.error("Booking error:", err);
+        res.status(500).json({ error: err.message });
     }
 };
+
 
 
 // ======================================
