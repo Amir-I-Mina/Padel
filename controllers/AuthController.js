@@ -89,6 +89,11 @@ const loginUser = async (req, res) => {
         if (user.role === "admin") {
             return res.redirect("/admin/dashboard");
         }
+        req.session.user = {
+     id: user._id,
+     role: user.role,
+     username: user.username
+};
 
         res.redirect("/home");
 
@@ -101,7 +106,15 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = (req, res) => {
-    res.redirect("/login");
+
+    req.session.destroy((err) => {
+
+        if (err) {
+            return res.status(500).send("Logout failed");
+        }
+
+        res.redirect("/login");
+    });
 };
 
 module.exports = {
