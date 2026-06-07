@@ -28,6 +28,8 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
 const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
+const authRoutes = require('./routes/authRoutes');
+app.use('/', authRoutes);
 
 const homeRoutes = require('./routes/homeRoutes');
 app.use('/', homeRoutes);
