@@ -10,10 +10,13 @@ require("../middleware/authMiddleware");
 
 // GET ALL COACHES (Coach Listing)
 router.get(
-    "/coaches-List",
+    "/coaches-page",
     //isAdmin,
-    academyAdminController.admin_getCoachList
+    academyAdminController.admin_getCoachListpage
 );
+
+
+router.get("/coaches-list", academyAdminController.admin_getCoaches);
 
 
 // GET DATA FOR MANAGE COACHES PAGE

@@ -94,13 +94,13 @@ body {
 }
 
 
-.coach-card p {
-    font-size: 13px;
+.coach-card div {
+    font-size: 16px;
     color: #475569;
     margin: 6px 0;
 }
 
-.coach-card p b {
+.coach-card span {
     color: #1e293b;
 }
 

@@ -55,6 +55,7 @@ window.onload = function () {
             document.getElementById("availableDays").value = btn.dataset.days;
             document.getElementById("availableTimes").value = btn.dataset.times;
             document.getElementById("trainingType").value = btn.dataset.type;
+            document.getElementById("salary").value = btn.dataset.salary;
             
             formContainer.style.display = "block";
             
@@ -126,7 +127,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
         const availableDays = document.getElementById("availableDays").value.trim();
         const availableTimes = document.getElementById("availableTimes").value.trim();
         const trainingType = document.getElementById("trainingType").value.trim();
-
+        const salary = document.getElementById("salary").value.trim();
         const nameError = document.querySelector(".nameError");
         const ageError = document.querySelector(".ageError");
         const phoneError = document.querySelector(".phoneError");
@@ -134,6 +135,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
         const experienceError = document.querySelector(".experienceError");
         const daysError = document.querySelector(".daysError");
         const timesError = document.querySelector(".timesError");
+        const salaryError = document.querySelector(".salaryError");
 
         // Regex patterns
         const nameRegex = /^[A-Za-z\s]{2,}$/;
@@ -143,6 +145,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
         const experienceRegex = /^[0-9]{1,2}$/;
         const daysRegex = /^[A-Za-z]+(-[A-Za-z]+)*$/;
         const timesRegex = /^([0-9]{1,2})-([0-9]{1,2})$/;
+        const salaryRegex = /^\d+(\.\d{1,2})?$/;
 
         // Validation checks
         if (name === "" || !nameRegex.test(name)) {
@@ -176,6 +179,10 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
         if (trainingType === "") {
             valid = false;
             document.querySelector(".typeError").innerText = "Training type is required.";
+        }
+        if (salary === "" || !salaryRegex.test(salary)) {
+            valid = false;
+            salaryError.innerText = "Salary is required (non-negative number).";
         }
 
         if (!valid) return;
