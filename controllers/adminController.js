@@ -346,224 +346,144 @@ exports.apiProcessApproval = async (req, res) => {
 };
 
 //  bookings admin
+const Booking = require("../models/courtBooking");
+
+// In-memory arrays (could later be moved to DB collections)
 let clubs = [
-    { id: 1, name: 'Shams Club', price: 450 },
-    { id: 2, name: 'Wadi Degla', price: 450 },
-    { id: 3, name: 'HPark', price: 450 },
-    { id: 4, name: 'Cairo Stadium', price: 450 },
-    { id: 5, name: 'Smash Club', price: 450 }
+  { id: 1, name: "Shams Club", price: 450 },
+  { id: 2, name: "Wadi Degla", price: 450 },
+  { id: 3, name: "HPark", price: 450 },
+  { id: 4, name: "Cairo Stadium", price: 450 },
+  { id: 5, name: "Smash Club", price: 450 }
 ];
 
-let disabledSlots = [];
-
 let promoCodes = [
-    { id: 1, code: 'DISCOUNT10', discount: 10 },
-    { id: 2, code: 'SUMMER20', discount: 20 }
+  { code: "DISCOUNT10", discount: 10 },
+  { code: "SUMMER20", discount: 20 }
 ];
 
 let settings = { defaultPrice: 450 };
 
-
-
-
-const getMapUrl = (clubName) => {
-    const maps = {
-        'Shams Club': 'https://maps.google.com/maps?q=Shams%20Club%20Cairo&t=&z=15&output=embed',
-        'Wadi Degla': 'https://maps.google.com/maps?q=Wadi%20Degla%20Club%20Cairo&t=&z=15&output=embed',
-        'HPark': 'https://maps.google.com/maps?q=HPark%20Cairo&t=&z=15&output=embed',
-        'Cairo Stadium': 'https://maps.google.com/maps?q=Cairo%20International%20Stadium&t=&z=15&output=embed',
-        'Smash Club': 'https://maps.google.com/maps?q=Smash%20Sporting%20Club%20Cairo&t=&z=15&output=embed'
-    };
-    return maps[clubName] || 'https://maps.google.com/maps?q=Cairo&t=&z=15&output=embed';
+let slots = {
+  "Court 1": {},
+  "Court 2": {},
+  "Court 3": {}
 };
+const times = ["10 AM","11 AM","12 PM","1 PM","2 PM","3 PM","4 PM","5 PM","6 PM","7 PM","8 PM","9 PM","10 PM"];
+for (let c in slots) {
+  for (let t of times) slots[c][t] = true;
+}
 
-
-
-
-const getClubsPage = async (req, res) => {
-    res.render('clubs', { clubs, currentPage: 'clubs' });
-};
-
-const selectClub = async (req, res) => {
-    const { clubName } = req.body;
-
-    if (!clubName) {
-        return res.render('clubs', {
-            clubs,
-            error: 'Please select a club',
-            currentPage: 'clubs'
-        });
-    }
-
-    req.session.selectedClub = clubName;
-
-    res.render('booking', {
-        club: clubName,
-        mapUrl: getMapUrl(clubName),
-        currentPage: 'booking'
+// ========== ADMIN DASHBOARD ==========
+const adminDashboard = async (req, res) => {
+  try {
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.render("admin", {
+      clubs,
+      promoCodes,
+      bookings,
+      settings,
+      currentPage: "admin"
     });
+  } catch (err) {
+    res.status(500).send("Error loading admin dashboard");
+  }
 };
 
-const getBookingPage = async (req, res) => {
-    const club = req.session.selectedClub;
-    if (!club) return res.redirect('/clubs');
-
-    res.render('booking', { club, currentPage: 'booking' });
+// ========== CLUBS ==========
+const addClub = (req, res) => {
+  const { name, price } = req.body;
+  clubs.push({ id: clubs.length + 1, name, price });
+  res.json({ success: true, clubs });
 };
 
-const getCheckoutPage = async (req, res) => {
-    const booking = req.session.currentBooking;
-    if (!booking) return res.redirect('/clubs');
-
-    res.render('checkout', { booking, currentPage: 'checkout' });
+const updateClubPrice = (req, res) => {
+  const { name, price } = req.body;
+  const club = clubs.find(c => c.name === name);
+  if (club) club.price = price;
+  res.json({ success: true, clubs });
 };
 
-
-
-const getMyBookings = async (req, res) => {
-    const customerName = req.session.user?.name || 'Guest';
-
-    const bookings = await Booking.find({ customerName })
-        .sort({ createdAt: -1 });
-
-    res.render('myBookings', { bookings, currentPage: 'myBookings' });
+const removeClub = (req, res) => {
+  const { name } = req.body;
+  clubs = clubs.filter(c => c.name !== name);
+  res.json({ success: true, clubs });
 };
 
-
-
-const createBooking = async (req, res) => {
-    try {
-        const { club, court, date, time, paymentMethod, promoCode, customerName } = req.body;
-
-        const existing = await Booking.findOne({
-            club, court, date, time, status: 'confirmed'
-        });
-
-        if (existing) {
-            return res.status(400).json({ error: 'Time slot already taken' });
-        }
-
-        // FIXED: use club price instead of default only
-        const selectedClub = clubs.find(c => c.name === club);
-        let price = selectedClub ? selectedClub.price : settings.defaultPrice;
-
-        const promo = promoCodes.find(p => p.code === promoCode);
-
-        // FIXED: apply discount ONLY ONCE here
-        if (promo) {
-            price = price * (1 - promo.discount / 100);
-        }
-
-        const booking = new Booking({
-            club,
-            court,
-            date,
-            time,
-            price: Math.round(price),
-            paymentMethod: paymentMethod || 'Cash',
-            promoCode: promoCode || '',
-            status: 'confirmed',
-            customerName: customerName || 'Guest'
-        });
-
-        await booking.save();
-        req.session.currentBooking = booking;
-
-        res.json({ success: true, booking });
-
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+// ========== SLOTS ==========
+const disableSlot = (req, res) => {
+  const { court, time } = req.body;
+  if (slots[court] && slots[court][time] !== undefined) {
+    slots[court][time] = false;
+    return res.json({ success: true, slots });
+  }
+  res.status(400).json({ success: false, message: "Invalid slot" });
 };
 
+const enableSlot = (req, res) => {
+  const { court, time } = req.body;
+  if (slots[court] && slots[court][time] !== undefined) {
+    slots[court][time] = true;
+    return res.json({ success: true, slots });
+  }
+  res.status(400).json({ success: false, message: "Invalid slot" });
+};
 
-const confirmBooking = async (req, res) => {
-    try {
-        const { bookingId, paymentMethod } = req.body;
+const resetCourtSlots = (req, res) => {
+  const { court } = req.body;
+  if (slots[court]) {
+    for (let t of times) slots[court][t] = true;
+    return res.json({ success: true, slots });
+  }
+  res.status(400).json({ success: false, message: "Invalid court" });
+};
 
-        const booking = await Booking.findById(bookingId);
-        if (!booking) {
-            return res.render('error', { message: 'Booking not found' });
-        }
+const resetAllSlots = (req, res) => {
+  for (let c in slots) {
+    for (let t of times) slots[c][t] = true;
+  }
+  res.json({ success: true, slots });
+};
 
-        booking.paymentMethod = paymentMethod || booking.paymentMethod;
+// ========== PROMOS ==========
+const addPromoCode = (req, res) => {
+  const { code, discount } = req.body;
+  promoCodes.push({ code, discount });
+  res.json({ success: true, promoCodes });
+};
 
-        await booking.save();
+const removePromoCode = (req, res) => {
+  const { code } = req.body;
+  promoCodes = promoCodes.filter(p => p.code !== code);
+  res.json({ success: true, promoCodes });
+};
 
-        req.session.currentBooking = null;
+const updateGlobalRate = (req, res) => {
+  const { rate } = req.body;
+  settings.defaultPrice = rate;
+  res.json({ success: true, settings });
+};
 
-        res.render('success', {
-            booking,
-            finalPrice: booking.price,
-            currentPage: 'success'
-        });
+// ========== BOOKINGS ==========
+const cancelBooking = async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.id, { status: "cancelled" });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+};
 
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+const clearAllBookings = async (req, res) => {
+  try {
+    await Booking.updateMany({}, { status: "cancelled" });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
 };
 
 
-
-
-
-
-
-
-
-const admin_get_allBookings = async (req, res) => {
-    try {
-        let filter = {};
-
-        if (req.query.status && req.query.status !== 'all') {
-            filter.status = req.query.status;
-        }
-
-        if (req.query.club && req.query.club !== 'all') {
-            filter.club = req.query.club;
-        }
-
-        if (req.query.search) {
-            filter.$or = [
-                { customerName: { $regex: req.query.search, $options: 'i' } },
-                { club: { $regex: req.query.search, $options: 'i' } }
-            ];
-        }
-
-        const bookings = await Booking.find(filter).sort({ createdAt: -1 });
-
-        res.json({ success: true, bookings });
-
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
-
-
-const admin_updateBooking = async (req, res) => {
-    try {
-        const updates = {};
-        const fields = ['status', 'price', 'paymentMethod', 'promoCode', 'customerName'];
-
-        fields.forEach(field => {
-            if (req.body[field] !== undefined) {
-                updates[field] = req.body[field];
-            }
-        });
-
-        const booking = await Booking.findByIdAndUpdate(
-            req.params.id,
-            updates,
-            { new: true }
-        );
-
-        res.json({ success: true, booking });
-
-    } catch (err) {
-        res.status(400).json({ success: false, message: err.message });
-    }
-};
 
 
 
@@ -586,14 +506,18 @@ module.exports = {
     admin_addCoach,
     admin_updateCoach,
     admin_deleteCoach,
-   getClubsPage,
-    selectClub,
-    getBookingPage,
-    getCheckoutPage,
-    getMyBookings,
-    createBooking,
-    confirmBooking,
-    admin_get_allBookings,
-    admin_updateBooking
+   adminDashboard,
+  addClub,
+  updateClubPrice,
+  removeClub,
+  disableSlot,
+  enableSlot,
+  resetCourtSlots,
+  resetAllSlots,
+  addPromoCode,
+  removePromoCode,
+  updateGlobalRate,
+  cancelBooking,
+  clearAllBookings
 };
 
