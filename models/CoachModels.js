@@ -55,11 +55,13 @@ const coachSchema = new mongoose.Schema({
         required: true
     }],
 
-    image: {
-        type: String,
-        default: "",
+    salary: {
+        type: Number,
+        required: true,
+        min: 0,
         trim: true
     }
+
 
 }, {
     timestamps: true

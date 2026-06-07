@@ -18,19 +18,21 @@ const getHomePage = async (req, res) => {
             .limit(3);
 
         
-        res.render('home', {
-            featuredCourts,
-            tournaments
-        });
+      res.render('home', {
+     featuredCourts,
+     tournaments,
+     user: req.session.user
+});
 
     } catch (err) {
 
         console.log(err);
 
-        res.render('home', {
-            featuredCourts: [],
-            tournaments: []
-        });
+      res.render('home', {
+     featuredCourts: [],
+     tournaments: [],
+     user: req.session.user
+});
 
     }
 };

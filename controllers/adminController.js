@@ -20,7 +20,6 @@ const admin_get_users = (req, res) => {
 
 
 
-// ─── PRODUCT MANAGEMENT ───
 
 const admin_get_products = async (req, res) => {
     try {
@@ -131,18 +130,31 @@ const admin_deleteProduct = async (req, res) => {
     }
 };
 
-// ======================================
-// Academy Admin
-// ======================================
 
-const admin_getCoachList = async (req, res) => {
+
+const admin_getCoachListpage = async (req, res) => {
+    try {
+        const coaches = await Coach.find();
+        res.render("pages/academy/listOfCoaches", { coaches });
+    } catch (err) {
+        console.error("Error rendering coach list page:", err);
+        res.status(500).send("Error loading page");
+    }
+};
+
+const admin_getCoaches = async (req, res) => {
     try {
         const coaches = await Coach.find();
 
-        res.render("pages/academy/listOfCoaches", { coaches });
+        // ✅ Validation: check if we got data
+        if (!coaches || coaches.length === 0) {
+            return res.json({ success: false, message: "No coaches found" });
+        }
+
+        res.json({ success: true, coaches });
     } catch (err) {
-        
-        res.status(500).render("error", { error: err.message });
+        console.error("Error fetching coaches:", err);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 };
 
@@ -567,7 +579,8 @@ module.exports = {
     admin_get_dashboard,
     admin_get_homeManagement,
     admin_get_users,
-    admin_getCoachList,
+    admin_getCoachListpage,
+    admin_getCoaches,
     admin_getManageCoaches,
     admin_getCoachById,
     admin_addCoach,

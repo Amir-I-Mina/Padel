@@ -5,7 +5,6 @@ const academyController = require("../controllers/academyController");
 const {isLoggedIn} = require("../middleware/authMiddleware");
 
 
-// GET DATA
 router.get(
     "/private-training",
     academyController.user_getPrivateTrainingPage
