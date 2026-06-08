@@ -8,11 +8,11 @@ router.get("/login", authController.getLogin);
 
 router.get("/signup", authController.getSignup);
 
-router.get("/otp", authController.getOTP);
+
 
 router.post("/signup", authController.signupUser);
 
-router.post("/otp", authController.verifyOTP);
+
 
 router.post("/login", authController.loginUser);
 

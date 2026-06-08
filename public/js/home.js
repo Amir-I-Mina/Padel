@@ -100,32 +100,7 @@ return false;
 }
 
 
-function validateOTP(){
-    let otp = document.getElementById("otp").value;
 
-    document.getElementById("otpError").innerText = "";
-
-    if(otp.length !== 6){
-        document.getElementById("otpError").innerText = "OTP must be 6 digits";
-        return false;
-    }
-
-    let step3 = document.getElementById("step3");
-    if(step3){
-        step3.classList.add("active");
-    }
-
-    setTimeout(() => {
-        document.querySelectorAll(".step").forEach(step => {
-            step.classList.add("done");
-            step.classList.remove("active");
-        });
-
-        window.location.href = "/home";
-    }, 1500);
-
-    return false;
-}
 
 
 

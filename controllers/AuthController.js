@@ -8,9 +8,7 @@ const getSignup = (req, res) => {
     res.render("pages/signup");
 };
 
-const getOTP = (req, res) => {
-    res.render("pages/otp");
-};
+
 
 const signupUser = async (req, res) => {
     try {
@@ -45,30 +43,7 @@ const signupUser = async (req, res) => {
     }
 };
 
-const verifyOTP = async (req, res) => {
-    try {
 
-        const { phone } = req.body;
-
-        const user = await User.findOne({ phone });
-
-        if (!user) {
-            return res.status(404).send("User not found");
-        }
-
-        user.isVerified = true;
-
-        await user.save();
-
-        res.redirect("/login");
-
-    } catch (error) {
-
-        console.log(error);
-        res.status(500).send("OTP verification failed");
-
-    }
-};
 
 const loginUser = async (req, res) => {
     try {
@@ -132,9 +107,9 @@ const logoutUser = (req, res) => {
 module.exports = {
     getLogin,
     getSignup,
-    getOTP,
+   
     signupUser,
-    verifyOTP,
+   
     loginUser,
     logoutUser
 };
