@@ -1,6 +1,7 @@
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
+const Registration = require('../models/registrationSchema');
 const Bookings = require('../models/courtBooking');
 
 
@@ -287,54 +288,85 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 // Tournament & Registration Admin
 // ======================================
-exports.getAdminAllTournaments = async (req, res) => {
+const admin_get_tournaments = async (req, res) => {
     try {
         const tournaments = await Tournament.find().sort({ createdAt: -1 });
-        res.render('AdminPage/manage-tournaments', { 
-            tournaments, 
-            currentPage: 'tournaments' 
+        res.render('pages/tournaments_admin', {
+            tournaments,
+            currentPage: 'tournaments'
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-exports.addTournament = async (req, res) => {
+const admin_addTournament = async (req, res) => {
     try {
         const { name, type, status } = req.body;
         const tournament = new Tournament({ name, type, status });
         await tournament.save();
-        res.status(201).json({ success: true, message: 'Tournament created successfully' });
+        res.status(201).json({ success: true, message: 'Tournament created successfully', tournament });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-exports.updateTournament = async (req, res) => {
+const admin_updateTournament = async (req, res) => {
     try {
         const { name, status, type } = req.body;
         const tournament = await Tournament.findByIdAndUpdate(
-            req.params.id, 
-            { name, status, type }, 
+            req.params.id,
+            { name, status, type },
             { new: true }
         );
+        if (!tournament) {
+            return res.status(404).json({ success: false, message: 'Tournament not found' });
+        }
         res.json({ success: true, tournament });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-exports.deleteTournament = async (req, res) => {
+const admin_deleteTournament = async (req, res) => {
     try {
-        await Tournament.findByIdAndDelete(req.params.id);
+        const tournament = await Tournament.findByIdAndDelete(req.params.id);
+        if (!tournament) {
+            return res.status(404).json({ success: false, message: 'Tournament not found' });
+        }
         res.json({ success: true, message: 'Tournament deleted' });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
-// MODERATION: Approve or Reject
-exports.apiProcessApproval = async (req, res) => {
+const admin_get_approvals = async (req, res) => {
+    try {
+        const registrations = await Registration.find().sort({ createdAt: -1 });
+        res.render('pages/approvals', { registrations });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const admin_get_tree_editor = async (req, res) => {
+    try {
+        const approvedTeams = await Registration.find({ status: 'APPROVED' }).sort({ createdAt: 1 });
+        res.render('pages/tree_editor', { approvedTeams });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const admin_get_points = async (req, res) => {
+    try {
+        res.render('pages/points');
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const admin_api_processApproval = async (req, res) => {
     try {
         const { id, action } = req.body; // action: 'APPROVED' or 'REJECTED'
         await Registration.findByIdAndUpdate(id, { status: action });
@@ -505,18 +537,28 @@ module.exports = {
     admin_addCoach,
     admin_updateCoach,
     admin_deleteCoach,
-   adminDashboard,
-  addClub,
-  updateClubPrice,
-  removeClub,
-  disableSlot,
-  enableSlot,
-  resetCourtSlots,
-  resetAllSlots,
-  addPromoCode,
-  removePromoCode,
-  updateGlobalRate,
-  cancelBooking,
-  clearAllBookings
+    adminDashboard,
+    addClub,
+    updateClubPrice,
+    removeClub,
+    disableSlot,
+    enableSlot,
+    resetCourtSlots,
+    resetAllSlots,
+    addPromoCode,
+    removePromoCode,
+    updateGlobalRate,
+    cancelBooking,
+    clearAllBookings,
+    admin_get_tournaments,
+    admin_addTournament,
+    admin_updateTournament,
+    admin_deleteTournament,
+    admin_get_approvals,
+    admin_get_tree_editor,
+    admin_get_points,
+    admin_api_processApproval
 };
+
+
 

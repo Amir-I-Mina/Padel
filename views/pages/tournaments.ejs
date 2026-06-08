@@ -28,7 +28,7 @@
             <div class="card-grid">
                 <% if (typeof tournaments !== 'undefined' && tournaments.length) { %>
                     <% tournaments.forEach(function(t){ %>
-                        <% const cardImg = t.image || '/images/placeholder.svg'; %>
+                        <% const cardImg = t.image || (t.type === 'Solo' ? '/images/Gemini_Generated_Image_ohnunohnunohnuno.png' : '/images/Gemini_Generated_Image_g5b0p8g5b0p8g5b0.png'); %>
                         <% const regType = (t.type === "Solo") ? 'solo' : 'doubles'; %>
                         <div class="tournament-card">
                             <div class="card-image" style="background-image: url('<%= cardImg %>');"></div>
@@ -42,7 +42,7 @@
                     <% }) %>
                 <% } else { %>
                     <div class="tournament-card">
-                        <div class="card-image" style="background-image: url('/images/placeholder.svg');"></div>
+                        <div class="card-image" style="background-image: url('/images/Gemini_Generated_Image_g5b0p8g5b0p8g5b0.png');"></div>
                         <div class="card-content">
                             <span class="status-badge">OPEN</span>
                             <h2>Spring Doubles Cup</h2>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="tournament-card">
-                        <div class="card-image" style="background-image: url('/images/placeholder.svg');"></div>
+                        <div class="card-image" style="background-image: url('/images/Gemini_Generated_Image_ohnunohnunohnuno.png');"></div>
                         <div class="card-content">
                             <span class="status-badge">OPEN</span>
                             <h2>Solo Masters League</h2>
