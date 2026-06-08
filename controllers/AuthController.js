@@ -1,15 +1,15 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const getLogin = (req, res) => {
-    res.render("login");
+    res.render("pages/login");
 };
 
 const getSignup = (req, res) => {
-    res.render("signup");
+    res.render("pages/signup");
 };
 
 const getOTP = (req, res) => {
-    res.render("otp");
+    res.render("pages/otp");
 };
 
 const signupUser = async (req, res) => {

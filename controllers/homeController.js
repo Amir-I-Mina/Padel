@@ -18,20 +18,20 @@ const getHomePage = async (req, res) => {
             .limit(3);
 
         
-      res.render('home', {
-     featuredCourts,
-     tournaments,
-     user: req.session.user
+   res.render('pages/home', {
+    featuredCourts,
+    tournaments,
+    user: req.session.user
 });
 
     } catch (err) {
 
         console.log(err);
 
-      res.render('home', {
-     featuredCourts: [],
-     tournaments: [],
-     user: req.session.user
+   res.render('pages/home', {
+    featuredCourts: [],
+    tournaments: [],
+    user: req.session.user
 });
 
     }
@@ -46,7 +46,7 @@ const getCourtsPage = async (req, res) => {
 
         const courts = await Court.find();
 
-        res.render('courts', { courts });
+        res.render('pages/courts', { courts });
 
     } catch (err) {
 
@@ -69,7 +69,7 @@ const getCourtDetails = async (req, res) => {
             return res.status(404).send('Court not found');
         }
 
-        res.render('court-details', { court });
+        res.render('pages/court-details', { court });
 
     } catch (err) {
 
@@ -88,7 +88,7 @@ const getTournamentsPage = async (req, res) => {
 
         const tournaments = await Tournament.find();
 
-        res.render('tournaments', { tournaments });
+        res.render('pages/tournaments', { tournaments });
 
     } catch (err) {
 
@@ -103,7 +103,7 @@ const getTournamentsPage = async (req, res) => {
 
 const getMatchesPage = (req, res) => {
 
-    res.render('matches');
+    res.render('pages/matches');
 
 };
 
@@ -112,7 +112,7 @@ const getMatchesPage = (req, res) => {
 
 const getAcademyPage = (req, res) => {
 
-    res.render('academy');
+    res.render('pages/academy/academy');
 
 };
 

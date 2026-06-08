@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const isLoggedIn = (req, res, next) => {
 
     if (!req.session.user) {
