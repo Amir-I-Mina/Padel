@@ -8,30 +8,31 @@
 
 
 <div class="navbar">
-    <div class="logo"> Yalla Padel </div>
+
+    <div class="logo">Yalla Padel</div>
 
     <div class="nav-links">
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
+
         <% if (!user) { %>
-    <a href="/login" class="login-btn">Login</a>
-<% } else { %>
-    <a href="/logout" class="login-btn">Logout</a>
-<% } %>
+
+            <a href="/login" class="login-btn">Login</a>
+
+        <% } else { %>
+
+            <img
+                src="<%= user.profilePicture %>"
+                alt="Profile Picture"
+                class="navbar-profile">
+
+            <a href="/logout" class="login-btn">Logout</a>
+
+        <% } %>
+
     </div>
-    <% if (!user) { %>
-    <a href="/login" class="login-btn">Login</a>
-<% } else { %>
 
-    <img
-        src="<%= user.profilePicture %>"
-        alt="Profile Picture"
-        class="navbar-profile">
-
-    <a href="/logout" class="login-btn">Logout</a>
-
-<% } %>
 </div>
 
    
