@@ -30,7 +30,7 @@
 
     <p>Enter the OTP sent to your phone</p>
 
-    <form onsubmit="return validateOTP()">
+    <form action="/otp" method="POST" onsubmit="return validateOTP()">
       <input type="text" id="otp" placeholder="Enter OTP">
       <span id="otpError" class="error"></span>
 
