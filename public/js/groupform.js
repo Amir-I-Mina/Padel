@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem("days", JSON.stringify(days));
         localStorage.setItem("time", JSON.stringify(time));
 
-        console.log("Saved:", location, days, time); // 🔥 debug
+        console.log("Saved:", location, days, time);
 
         window.location.href = "coach.html";
     });

@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ✅ Collect hidden booking fields
     const bookingData = {
       coachId: paymentForm.querySelector("input[name='coachId']").value,
+      coachName: paymentForm.querySelector("input[name='coachName']").value,
       trainingType: paymentForm.querySelector("input[name='trainingType']").value,
       day: paymentForm.querySelector("input[name='day']").value,
       time: paymentForm.querySelector("input[name='time']").value,
