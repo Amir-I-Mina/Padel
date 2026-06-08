@@ -35,7 +35,7 @@ const tournamentRoutes = require('./routes/tournamentRoutes');
 app.use('/', tournamentRoutes);
 
 const homeRoutes = require('./routes/homeRoutes');
-app.use('/home', homeRoutes);
+app.use('/', homeRoutes);
 
 const academyRoutes = require("./routes/academyRoutes");
 const academyAdminRoutes = require("./routes/academyAdminRoutes");
