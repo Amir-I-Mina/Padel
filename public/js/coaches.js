@@ -1,39 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll(".form-card button");
-     const confirmationDiv = document.getElementById("confirmation");
-
-    buttons.forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const card = btn.closest(".form-card");
-            const coachId = card.querySelector("input[name='coachId']").value;
-
-            // Only send coachId (and trainingType if needed)
-            const bookingData = { coachId };
-
-            try {
-                const response = await fetch("/academy/bookings", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(bookingData)
-                });
-
-                  const result = await response.json();
-
-   if (result.success) {
-          // ✅ Refresh the page automatically
-          window.location.reload();
-        } else {
-          alert("Error: " + result.error);
-        }
-      } catch (err) {
-        alert("Server error. Please try again later.");
-        console.error(err);
-      }
-        });
-    });
-
-
-    // payment.js
   const paymentForm = document.getElementById("paymentForm");
   const trainingPrice = document.getElementById("trainingPrice");
   const confirmationMessage = document.getElementById("confirmationMessage");
@@ -46,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     trainingPrice.textContent = "Amount to Pay: 3,000 EGP";
   }
 
-  paymentForm.addEventListener("submit", (e) => {
+  paymentForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const cardNumber = document.getElementById("cardNumber").value.trim();
@@ -75,11 +40,36 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ✅ Show confirmation div instead of redirect
-    confirmationMessage.style.display = "block";
+    // ✅ Collect hidden booking fields
+    const bookingData = {
+      coachId: paymentForm.querySelector("input[name='coachId']").value,
+      trainingType: paymentForm.querySelector("input[name='trainingType']").value,
+      day: paymentForm.querySelector("input[name='day']").value,
+      time: paymentForm.querySelector("input[name='time']").value,
+      location: paymentForm.querySelector("input[name='location']").value
+    };
 
-    // Optionally disable the form so user can’t resubmit
-    paymentForm.querySelector("button").disabled = true;
+    try {
+      const response = await fetch("/academy/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        confirmationMessage.style.display = "block";
+        confirmationMessage.innerHTML = `<p>Payment successful! Your booking has been confirmed.</p>`;
+        paymentForm.querySelector("button").disabled = true;
+      } else {
+        alert("Error: " + result.error);
+      }
+    } catch (err) {
+      alert("Server error. Please try again later.");
+      console.error(err);
+    }
   });
 });
+
 

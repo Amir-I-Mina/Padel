@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const academyController = require("../controllers/academyController");
-//const {isLoggedIn} = require("../middleware/authMiddleware");
+const {isLoggedIn} = require("../middleware/authMiddleware");
 
 
 router.get(
@@ -17,10 +17,12 @@ router.get(
 
 router.get(
     "/UserDashboard",
+    isLoggedIn,
     academyController.user_getUserDashboard
 );
 router.post(
     "/showPayment",
+    isLoggedIn,
     academyController.user_showPaymentPage
 );
 
@@ -28,11 +30,13 @@ router.post(
 // FIND COACHES
 router.post(
     "/private-coaches",
+    isLoggedIn,
     academyController.user_findPrivateCoaches
 );
 
 router.post(
     "/group-coaches",
+    isLoggedIn,
     academyController.user_findGroupCoaches
 );
 
@@ -40,13 +44,13 @@ router.post(
 // BOOKINGS
 router.post(
     "/bookings",
-    //isLoggedIn,
+    isLoggedIn,
     academyController.user_bookTraining
 );
 
 router.delete(
     "/bookings/:id",
-    //isLoggedIn,
+    isLoggedIn,
     academyController.user_cancelBooking
 );
 

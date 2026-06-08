@@ -1,120 +1,237 @@
-/* payment.css */
-
-/* General page layout */
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  margin: 0;
-  padding: 0;
+    background-color: #f8fafc;
 }
 
-/* Navbar */
 .navbar {
-  background: #222;
-  color: #fff;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background-color: #1e293b;
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
 }
 
-.navbar .logo {
-  font-size: 20px;
-  font-weight: bold;
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
 }
 
-.navbar .nav-links a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 20px;
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: white;
 }
 
-.navbar .nav-links a:hover {
-  text-decoration: underline;
+.nav-links a:hover {
+    color: rgb(37, 99, 235);
 }
 
-/* Page container */
 .page-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
+    max-width: 1000px;
+    margin: 60px auto;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
 }
 
-/* Info section */
+/* LEFT SIDE */
 .info-section {
-  text-align: center;
-  margin-bottom: 20px;
+    padding: 50px 40px;
+    flex: 1;
+    background-color: #f1f5f9;
 }
 
 .info-section h2 {
-  color: #333;
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #1f2937;
 }
 
 .info-section p {
-  color: #666;
+    color: #6b7280;
+    font-size: 14px;
 }
 
-/* Form card */
-.form-card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.back {
+    text-decoration: none;
+    color: #374151;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 20px;
 }
 
-.form-card p {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #444;
+.back:hover {
+    color: rgb(37, 99, 235);
 }
 
-.form-card label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-  color: #333;
+/* RIGHT SIDE FORM */
+.payment-container {
+    padding: 50px 40px;
+    flex: 1;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
 }
 
-.form-card input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.2s;
+.payment-container h2 {
+    color: white;
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
-.form-card input:focus {
-  border-color: #007bff;
-  outline: none;
+/* LABELS */
+.payment-container label {
+    font-size: 14px;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: bold;
 }
 
-/* Button */
-.form-card button {
-  width: 100%;
-  padding: 12px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
+/* INPUTS */
+.payment-container input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 18px 0;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background-color: #334155;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+    font-size: 14px;
 }
 
-.form-card button:hover {
-  background: #0056b3;
+/* FOCUS EFFECT */
+.payment-container input[type="text"]:focus {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
 }
 
-/* Confirmation message */
-#confirmationMessage {
-  display: none;
-  margin-top: 20px;
-  padding: 12px;
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-  border-radius: 6px;
-  font-weight: bold;
-  text-align: center;
+.payment-container input::placeholder {
+    color: #9ca3af;
+}
+
+/* ROW - EXPIRY & CVV SIDE BY SIDE */
+.row {
+    display: flex;
+    gap: 60px;
+}
+
+.col {
+    flex: 1;
+}
+
+/* BUTTON */
+.payment-container button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.payment-container button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.payment-container button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* SECURE BADGE */
+.secure {
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 10px;
+}
+
+/* CONFIRMATION MESSAGE */
+.confirmation {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.confirmation.show {
+    display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .page-container {
+        flex-direction: column;
+        margin: 30px auto;
+    }
+
+    .info-section {
+        padding: 40px 30px;
+    }
+
+    .payment-container {
+        padding: 40px 30px;
+    }
+
+    .info-section h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-container {
+        margin: 15px;
+        border-radius: 15px;
+    }
+
+    .info-section {
+        padding: 25px 20px;
+    }
+
+    .payment-container {
+        padding: 25px 20px;
+    }
+
+    .info-section h2 {
+        font-size: 20px;
+    }
+
+    .navbar {
+        padding: 12px 20px;
+    }
+
+    .navbar .logo {
+        font-size: 18px;
+    }
+
+    .nav-links a {
+        margin-left: 15px;
+        font-size: 13px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

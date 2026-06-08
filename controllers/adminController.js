@@ -131,7 +131,9 @@ const admin_deleteProduct = async (req, res) => {
     }
 };
 
-
+////////////////////////////////////
+//      academy Admin management   ///
+/////////////////////////////////////
 
 const admin_getCoachListpage = async (req, res) => {
     try {

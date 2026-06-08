@@ -19,40 +19,44 @@
     <p>Please complete payment before your booking is confirmed.</p>
   </div>
 
-  <div class="form-card">
-    <form id="paymentForm" action="/academy/bookings" method="POST">
+ <div class="payment-container">
+  <h2>Payment Details</h2>
+  <form id="paymentForm" method="POST">
+    <!-- Hidden booking fields -->
+    <input type="hidden" name="coachId" value="<%= coach._id %>">
+    <input type="hidden" name="coachName" value="<%= coach.name %>">
+    <input type="hidden" name="trainingType" value="<%= type %>">
+    <input type="hidden" name="day" value="<%= coach.availableDays[0] %>">
+    <input type="hidden" name="time" value="<%= coach.availableTimes[0] %>">
+    <input type="hidden" name="location" value="<%= coach.location %>">
 
-<input type="hidden" name="coachId" value="<%= coach._id %>">
-  <input type="hidden" name="coachname" value="<%= coach.name %>">
-  <input type="hidden" name="trainingType" value="<%= type %>">
-  <input type="hidden" name="day" value="<%= coach.availableDays[0] %>">
-  <input type="hidden" name="time" value="<%= coach.availableTimes[0] %>">
-  <input type="hidden" name="location" value="<%= coach.location %>">
-      
-      <% if (type === "private") { %>
-        <p><strong>Amount to Pay:</strong> 6,000 EGP</p>
-        <input type="hidden" name="amount" value="6000">
-      <% } else if (type === "group") { %>
-        <p><strong>Amount to Pay:</strong> 3,000 EGP</p>
-        <input type="hidden" name="amount" value="3000">
-      <% } %>
+    <!-- Cardholder Name -->
+    <label for="cardName">Cardholder Name</label>
+    <input type="text" id="cardName" placeholder="John Doe" required>
 
-      <label for="cardNumber">Card Number</label>
-      <input type="text" id="cardNumber" name="cardNumber" required>
+    <!-- Card Number -->
+    <label for="cardNumber">Card Number</label>
+    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
 
-      <label for="expiry">Expiry Date</label>
-      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+    <!-- Expiry & CVV side by side -->
+    <div class="row">
+      <div class="col">
+        <label for="expiry">Expiry (MM/YY)</label>
+        <input type="text" id="expiry" placeholder="MM/YY" required>
+      </div>
+      <div class="col">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" placeholder="123" required>
+      </div>
+    </div>
 
-      <label for="cvv">CVV</label>
-      <input type="text" id="cvv" name="cvv" required>
+    <button type="submit">Pay & Confirm Booking</button>
+  </form>
 
-      <button type="submit">Pay & Confirm Booking</button>
-    </form>
+  <div id="confirmationMessage" class="confirmation">
   </div>
 </div>
-<div id="confirmationMessage" style="display:none; margin-top:20px; padding:10px; background:#d4edda; color:#155724; border:1px solid #c3e6cb; border-radius:5px;">
-  ✅ Payment successful! Your booking is confirmed.
-</div>
+
 <script src="/js/coaches.js"></script>
 </body>
 </html>
