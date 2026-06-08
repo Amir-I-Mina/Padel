@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     total: Number,
+    deliveryFee: {
+        type: Number,
+        default: 60
+    },
     customer: {
         name: String,
         phone: String,

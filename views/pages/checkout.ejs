@@ -9,11 +9,20 @@
 
 <body>
 
+<<<<<<< Updated upstream
 <div class="navbar">
     <div class="logo">🎾 Yalla Padel</div>
 
     <div class="nav-links">
         <a href="/">Home</a>
+=======
+    <div class="navbar">
+        <div class="brand-text">Yalla Padel</div>
+        <div>
+            <button class="nav-link" onclick="location.href='/'">HOME</button>
+            <button class="nav-link" onclick="location.href='/products/store'">STORE</button>
+        </div>
+>>>>>>> Stashed changes
     </div>
 </div>
 
@@ -21,17 +30,81 @@
 
 <div class="box">
 
+<<<<<<< Updated upstream
     <p><b>📍 Club:</b> <%= booking.club %></p>
 
     <p><b>🎾 Court:</b> <%= booking.court %></p>
+=======
+    <div class="checkout-layout" id="checkoutLayout">
+        <div>
+            <div class="card">
+                <div class="card-title"><span>1</span> Your Information</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="customerName" placeholder="Ahmed Mohamed">
+                        <div class="error-msg" id="nameError">Please enter your name</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="customerPhone" placeholder="01XXXXXXXXX">
+                        <div class="error-msg" id="phoneError">Please enter a valid phone number</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <textarea id="customerAddress" placeholder="Street, Area, City..."></textarea>
+                    <div class="error-msg" id="addressError">Please enter your delivery address</div>
+                </div>
+            </div>
+>>>>>>> Stashed changes
 
     <p><b>📅 Date:</b> <%= booking.date %></p>
 
+<<<<<<< Updated upstream
     <p><b>⏰ Time:</b> <%= booking.time %></p>
 
     <hr>
 
     <form action="/confirm-booking" method="POST">
+=======
+        <div>
+            <div class="card">
+                <div class="card-title"><span>3</span> Order Summary</div>
+                <div id="orderItemsList">
+                    <p class="empty-cart-msg">Your cart is empty</p>
+                </div>
+                <div class="totals" id="orderTotals" style="display:none;">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="subtotalVal">0 EGP</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery</span>
+                        <span id="deliveryVal">60 EGP</span>
+                    </div>
+                    <div class="total-row grand">
+                        <span>Total</span>
+                        <span id="totalVal">0 EGP</span>
+                    </div>
+                </div>
+                <button class="btn-place-order" id="placeOrderBtn" onclick="placeOrder()">PLACE ORDER</button>
+                <div class="loading-spinner" id="loadingSpinner"></div>
+                <button class="btn-back" onclick="location.href='/products/store'">← Back to Store</button>
+                <div class="secure-badge">🔒 Secure checkout</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Order Placed!</div>
+        <p class="success-sub">Thank you! Your order has been received and will be delivered soon.</p>
+        <div class="order-id-badge">Order ID: <strong id="successOrderId">—</strong></div>
+        <br>
+        <button class="btn-continue" onclick="location.href='/'">CONTINUE SHOPPING</button>
+    </div>
+>>>>>>> Stashed changes
 
         <input
             type="hidden"
@@ -48,6 +121,7 @@
 
         <br><br>
 
+<<<<<<< Updated upstream
         <label>🏷 Promo Code</label>
 
         <input
@@ -68,10 +142,129 @@
         >
             Confirm Booking
         </button>
+=======
+            let html = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                html += `
+                    <div class="order-item">
+                        <div class="order-item-info">
+                            <div class="order-item-name">${item.name}</div>
+                            <div class="order-item-details">
+                                Qty: ${item.quantity}
+                                ${item.options ? ' · ' + item.options : ''}
+                            </div>
+                        </div>
+                        <div class="order-item-price">${itemTotal.toLocaleString()} EGP</div>
+                    </div>
+                `;
+            });
+
+            const deliveryFee = subtotal >= 2000 ? 0 : 60;
+            const finalTotal = subtotal + deliveryFee;
+
+            list.innerHTML = html;
+            totals.style.display = 'block';
+            document.getElementById('subtotalVal').innerText = subtotal.toLocaleString() + ' EGP';
+            document.getElementById('deliveryVal').innerText = deliveryFee === 0 ? 'Free 🎉' : deliveryFee + ' EGP';
+            document.getElementById('totalVal').innerText = finalTotal.toLocaleString() + ' EGP';
+        }
+
+        function validate() {
+            let valid = true;
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+>>>>>>> Stashed changes
 
     </form>
 
+<<<<<<< Updated upstream
 </div>
+=======
+            if (name.length < 3) {
+                document.getElementById('nameError').classList.add('show');
+                document.getElementById('customerName').classList.add('error');
+                valid = false;
+            }
+
+            const phoneRegex = /^[0-9]{10,15}$/;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').classList.add('show');
+                document.getElementById('customerPhone').classList.add('error');
+                valid = false;
+            }
+
+            if (address.length < 5) {
+                document.getElementById('addressError').classList.add('show');
+                document.getElementById('customerAddress').classList.add('error');
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        async function placeOrder() {
+            if (cart.length === 0) { alert('Your cart is empty!'); return; }
+            if (!validate()) return;
+
+            const btn = document.getElementById('placeOrderBtn');
+            const spinner = document.getElementById('loadingSpinner');
+
+            btn.style.display = 'none';
+            spinner.style.display = 'block';
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const deliveryFee = subtotal >= 2000 ? 0 : 60;
+            const finalTotal = subtotal + deliveryFee;
+
+            const orderData = {
+                items: cart,
+                total: finalTotal,
+                deliveryFee: deliveryFee,
+                customer: {
+                    name: document.getElementById('customerName').value.trim(),
+                    phone: document.getElementById('customerPhone').value.trim(),
+                    address: document.getElementById('customerAddress').value.trim()
+                },
+                paymentMethod: document.getElementById('paymentMethod').value,
+                notes: document.getElementById('orderNotes').value.trim()
+            };
+
+            try {
+                const response = await fetch('/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.removeItem('padelCart');
+                    document.getElementById('checkoutLayout').style.display = 'none';
+                    document.querySelector('.steps').style.display = 'none';
+                    document.getElementById('successScreen').classList.add('show');
+                    document.getElementById('successOrderId').innerText = data.orderId;
+                    document.getElementById('step3').classList.add('active');
+                } else {
+                    alert('Something went wrong: ' + data.message);
+                    btn.style.display = 'block';
+                    spinner.style.display = 'none';
+                }
+            } catch (err) {
+                alert('Connection error. Please try again.');
+                btn.style.display = 'block';
+                spinner.style.display = 'none';
+            }
+        }
+
+        loadCheckout();
+    </script>
+>>>>>>> Stashed changes
 
 </body>
 </html>
