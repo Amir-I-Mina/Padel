@@ -10,7 +10,6 @@ router.get("/home-management", adminController.admin_get_homeManagement);
 
 router.get("/users", adminController.admin_get_users);
 
-router.get("/tree-editor", adminController.admin_get_treeEditor);
 
 
 module.exports = router;

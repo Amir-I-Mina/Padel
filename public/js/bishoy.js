@@ -30,17 +30,15 @@ function show(id) {
 }
 
 // Function to trigger registration and update the title
-function goReg(tournamentId, tournamentName, type) {
+function goReg(type) {
     const title = document.getElementById('title-display');
     const p2Section = document.getElementById('player2-section');
-    const tournamentIdInput = document.getElementById('tournamentId');    
-    title.innerText = tournamentName ? `Register for ${tournamentName}` : 'Tournament Registration';
-    if (tournamentIdInput) {
-        tournamentIdInput.value = tournamentId || '';
-    }
+    
     if (type === 'doubles') {
+        title.innerText = 'Register for Spring Doubles Cup';
         p2Section.style.display = 'block';
     } else {
+        title.innerText = 'Register for Solo Masters League';
         p2Section.style.display = 'none';
     }
     

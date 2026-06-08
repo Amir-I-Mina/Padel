@@ -30,14 +30,13 @@
                     <% tournaments.forEach(function(t){ %>
                         <% const cardImg = t.image || '/images/placeholder.svg'; %>
                         <% const regType = (t.type === "Solo") ? 'solo' : 'doubles'; %>
-                        <% const safeId = t._id || '' %>
                         <div class="tournament-card">
                             <div class="card-image" style="background-image: url('<%= cardImg %>');"></div>
                             <div class="card-content">
                                 <span class="status-badge"><%= t.status %></span>
                                 <h2><%= t.name %></h2>
                                 <p><%= t.type || '2v2 Team • 2 Players Required' %></p>
-                                <button class="btn-action" onclick="goReg('<%= safeId %>', '<%= t.name %>', '<%= regType %>')">Register</button>
+                                <button class="btn-action" onclick="goReg('<%= regType %>')">Register</button>
                             </div>
                         </div>
                     <% }) %>
@@ -48,7 +47,7 @@
                             <span class="status-badge">OPEN</span>
                             <h2>Spring Doubles Cup</h2>
                             <p>2v2 Team • 2 Players Required</p>
-                            <button class="btn-action" onclick="goReg('', 'Spring Doubles Cup', 'doubles')">Register Team</button>
+                            <button class="btn-action" onclick="goReg('doubles')">Register Team</button>
                         </div>
                     </div>
 
@@ -58,7 +57,7 @@
                             <span class="status-badge">OPEN</span>
                             <h2>Solo Masters League</h2>
                             <p>1v1 Individual • 1 Player Only</p>
-                            <button class="btn-action" onclick="goReg('', 'Solo Masters League', 'solo')">Register Solo</button>
+                            <button class="btn-action" onclick="goReg('solo')">Register Solo</button>
                         </div>
                     </div>
                 <% } %>
@@ -74,7 +73,6 @@
             </div>
             <div class="form-inputs">
                 <form action="/tournaments" method="POST">
-                    <input type="hidden" name="tournamentId" id="tournamentId" value="">
                     <label>Team Name</label>
                     <input name="teamName" type="text" class="input-field" required>
                     <label>Player 1</label>

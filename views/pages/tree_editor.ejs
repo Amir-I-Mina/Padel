@@ -26,15 +26,6 @@
     <main class="container">
         <div class="panel">
             <h2>Tournament Bracket - Setup Matches</h2>
-            <p style="color: #444; margin-bottom: 15px;">
-                <% if (tournament && tournament.name) { %>
-                    Editing bracket for <strong><%= tournament.name %></strong>.
-                <% } else if (tournamentId) { %>
-                    Tournament ID <strong><%= tournamentId %></strong> is not available or has no approved teams yet.
-                <% } else { %>
-                    No tournament selected. Open the tree editor from the admin tournament list.
-                <% } %>
-            </p>
             <% if (approvedTeams && approvedTeams.length >= 2) { %>
                 <div id="match-container" style="margin-top:20px;">
                     <p style="color: #666; margin-bottom: 20px;">
