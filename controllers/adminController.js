@@ -144,6 +144,9 @@ const admin_deleteProduct = async (req, res) => {
 //      academy Admin management   ///
 /////////////////////////////////////
 
+const admin_getAcademyMenu = (req, res) => {
+    res.render("pages/academy/adminMenu");
+};
 const admin_getCoachListpage = async (req, res) => {
     try {
         const coaches = await Coach.find();
@@ -516,6 +519,7 @@ module.exports = {
     admin_get_dashboard,
     admin_get_homeManagement,
     admin_get_users,
+    admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,
     admin_addCoach,
