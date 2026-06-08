@@ -74,7 +74,7 @@ body {
 
 /* RIGHT SIDE FORM */
 .payment-container {
-    padding: 50px 40px;
+    padding: 50px 50px;
     flex: 1;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: white;
@@ -83,7 +83,7 @@ body {
 .payment-container h2 {
     color: white;
     font-size: 22px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
 /* LABELS */
@@ -94,6 +94,7 @@ body {
     margin-bottom: 6px;
     font-weight: bold;
 }
+
 
 /* INPUTS */
 .payment-container input[type="text"] {
