@@ -1,36 +1,39 @@
 const Booking = require("../models/courtBooking");
 
 
+// SELECT CLUB
 const selectClub = (req, res) => {
   const { clubName } = req.body;
+
+  if (!req.session.clubs) {
+    return res.status(400).send("Clubs not loaded in session");
+  }
+
   const club = req.session.clubs.find(c => c.name === clubName);
 
-  if (club) {
-    req.session.selectedClub = club;
-    res.redirect("/booking");
-  } else {
-    res.status(404).send("Club not found");
+  if (!club) {
+    return res.status(404).send("Club not found");
   }
+
+  req.session.selectedClub = club;
+
+  // ✅ Redirect to booking page under /court
+  res.redirect("/court/booking");
 };
 
-
-const getBookingPage = (req, res) => {
-  const club = req.session.selectedClub;
-  if (!club) return res.redirect("/clubs");
-
-  res.render("booking", { club });
-};
-
-
+// CREATE BOOKING
 const createBooking = async (req, res) => {
   try {
     const { court, date, time, paymentMethod, promoCode, customerName, teamName } = req.body;
     const club = req.session.selectedClub;
 
+    if (!club) {
+      return res.redirect("/court/booking");
+    }
+
     let finalPrice = club.price;
 
-    
-    const promo = req.session.promoCodes.find(p => p.code === promoCode);
+    const promo = req.session.promoCodes?.find(p => p.code === promoCode);
     if (promo) {
       finalPrice = finalPrice * (1 - promo.discount / 100);
     }
@@ -49,39 +52,14 @@ const createBooking = async (req, res) => {
 
     await booking.save();
     req.session.booking = booking;
-    res.redirect("/checkout");
+
+    // ✅ Redirect to checkout under /court
+    res.redirect("/court/checkout");
   } catch (err) {
     res.status(400).send("Error creating booking: " + err.message);
   }
 };
 
-
-const getCheckoutPage = (req, res) => {
-  const booking = req.session.booking;
-  if (!booking) return res.redirect("/clubs");
-
-  const club = req.session.selectedClub;
-
-  res.render("checkout", { booking, club });
-};
-
-
-const confirmBooking = async (req, res) => {
-  try {
-    const { paymentMethod } = req.body;
-    const booking = req.session.booking;
-
-    if (!booking) return res.redirect("/clubs");
-
-    booking.paymentMethod = paymentMethod;
-    booking.status = "confirmed";
-    await booking.save();
-
-    res.render("success", { booking });
-  } catch (err) {
-    res.status(400).send("Error confirming booking: " + err.message);
-  }
-};
 
 module.exports = {
   selectClub,
