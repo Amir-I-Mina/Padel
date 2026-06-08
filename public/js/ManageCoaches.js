@@ -215,9 +215,11 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
 
             if (result.success) {
                 if (coachForm.dataset.mode === "add") {
-                    alert("Coach added successfully!");
+                    
+                    window.location.reload();
                 } else {
-                    alert("Coach updated successfully!");
+                    
+                    window.location.reload();
                 }
 
                 coachForm.reset();
@@ -228,7 +230,7 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
             }
         } catch (err) {
             console.error("Fetch error:", err);
-            alert("Something went wrong sending the request.");
+            
         }
     });
 };

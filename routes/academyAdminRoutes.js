@@ -4,14 +4,14 @@ const router = express.Router();
 const academyAdminController =
     require("../controllers/adminController");
 
-    const { isLoggedIn, isAdmin } =
-require("../middleware/authMiddleware");
+    //const { isLoggedIn, isAdmin } =
+//require("../middleware/authMiddleware");
 
 
 // GET ALL COACHES (Coach Listing)
 router.get(
     "/coaches-page",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_getCoachListpage
 );
 
@@ -22,7 +22,7 @@ router.get("/coaches-list", academyAdminController.admin_getCoaches);
 // GET DATA FOR MANAGE COACHES PAGE
 router.get(
     "/manage-coaches",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_getManageCoaches
 );
 
@@ -30,7 +30,7 @@ router.get(
 // GET ONE COACH
 router.get(
     "/coaches/:id",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_getCoachById
 );
 
@@ -38,7 +38,7 @@ router.get(
 // ADD COACH
 router.post(
     "/Add-coaches",
-   isAdmin,
+   // isAdmin,
     academyAdminController.admin_addCoach
 );
 
@@ -46,7 +46,7 @@ router.post(
 // UPDATE COACH
 router.put(
     "/editcoaches/:id",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_updateCoach
 );
 
@@ -54,7 +54,7 @@ router.put(
 // DELETE COACH
 router.delete(
     "/delete-coach/:id",
-    isAdmin,
+    //isAdmin,
     academyAdminController.admin_deleteCoach
 );
 
