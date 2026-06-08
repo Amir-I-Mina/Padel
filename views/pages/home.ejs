@@ -20,6 +20,18 @@
     <a href="/logout" class="login-btn">Logout</a>
 <% } %>
     </div>
+    <% if (!user) { %>
+    <a href="/login" class="login-btn">Login</a>
+<% } else { %>
+
+    <img
+        src="<%= user.profilePicture %>"
+        alt="Profile Picture"
+        class="navbar-profile">
+
+    <a href="/logout" class="login-btn">Logout</a>
+
+<% } %>
 </div>
 
    
@@ -57,9 +69,10 @@
 
 <div class="container">
 
-   <% if (user) { %>
+  <% if (user) { %>
     <h2>Hey <%= user.username %></h2>
 <% } %>
+
 
      
     <div class="about" id="about">

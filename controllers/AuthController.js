@@ -74,12 +74,12 @@ if (!validPassword) {
 
        
 
-        req.session.user = {
-            id: user._id,
-            username: user.username,
-            role: user.role
-        };
-
+       req.session.user = {
+    id: user._id,
+    username: user.username,
+    role: user.role,
+    profilePicture: user.profilePicture
+};
         if (user.role === "admin") {
             return res.redirect("/admin/dashboard");
         }
