@@ -8,6 +8,9 @@ const Bookings = require('../models/courtBooking');
 
 
 const admin_get_dashboard = (req, res) => {
+
+    console.log("ADMIN DASHBOARD FUNCTION RUNNING");
+
     res.render("pages/admin/dashboard", {
         user: req.session.user
     });
