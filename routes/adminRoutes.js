@@ -10,4 +10,9 @@ router.get("/home-management", isAdmin, adminController.admin_get_homeManagement
 
 router.get("/users", isAdmin, adminController.admin_get_users);
 
+router.get("/academy", isAdmin, adminController.admin_getAcademyMenu);
+
+
+router.get("/products", isAdmin, adminController.admin_get_products);
+
 module.exports = router;
