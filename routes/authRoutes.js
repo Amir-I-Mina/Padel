@@ -8,7 +8,9 @@ router.get("/login", authController.getLogin);
 
 router.get("/signup", authController.getSignup);
 
+router.get("/forgot-password", authController.getForgotPassword);
 
+router.post("/forgot-password", authController.resetPassword);
 
 router.post("/signup", authController.signupUser);
 

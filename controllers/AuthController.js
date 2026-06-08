@@ -101,13 +101,43 @@ const logoutUser = (req, res) => {
     });
 
 };
+const getForgotPassword = (req, res) => {
+    res.render("pages/forgotPassword");
+};
+
+const resetPassword = async (req, res) => {
+    try {
+
+        const { phone, password } = req.body;
+
+        const user = await User.findOne({ phone });
+
+        if (!user) {
+            return res.status(400).send("Phone number not found");
+        }
+
+        const hashedPassword =
+            await bcrypt.hash(password, 10);
+
+        user.password = hashedPassword;
+
+        await user.save();
+
+        res.redirect("/login");
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).send("Password reset failed");
+    }
+};
 
 module.exports = {
     getLogin,
     getSignup,
-   
+    getForgotPassword,
+    resetPassword,
     signupUser,
-   
     loginUser,
     logoutUser
 };
