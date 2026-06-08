@@ -56,6 +56,8 @@ const loginUser = async (req, res) => {
         const { phone, password } = req.body;
 
        const user = await User.findOne({ phone });
+       console.log("User found:", user);
+       console.log("Role:", user?.role);
 
 if (!user) {
     return res.status(400).send("Invalid phone or password");
@@ -80,6 +82,7 @@ if (!validPassword) {
     role: user.role,
     profilePicture: user.profilePicture
 };
+  console.log("Checking admin role...");
         if (user.role === "admin") {
             return res.redirect("/admin/dashboard");
         }
