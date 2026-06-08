@@ -2,7 +2,7 @@ const Order = require('../models/orders');
 
 exports.createOrder = async (req, res) => {
     try {
-        const { items, total, customer } = req.body;
+        const { items, total, customer, deliveryFee } = req.body;
 
         if (!items || items.length === 0) {
             return res.status(400).json({ success: false, message: 'Cart is empty' });
@@ -12,7 +12,7 @@ exports.createOrder = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Customer info missing' });
         }
 
-        const order = new Order({ items, total, customer });
+        const order = new Order({ items, total, customer, deliveryFee });
         await order.save();
 
         res.json({ success: true, message: 'Order placed!', orderId: order._id });

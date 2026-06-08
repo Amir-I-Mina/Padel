@@ -25,18 +25,18 @@
 </div>
     <p>Go ahead and join our family now</p>
 
-<form  onsubmit="return validate()">
-<input type="text" id="username" placeholder="username">
+<form action="/signup" method="POST" onsubmit="return validate()">
+<input type="text" id="username" name="username" placeholder="username">
 <span id="usernameError" class="error"></span>
 <br>
-<input type="tel" id="pho" name="ph"  placeholder="phone number">
+<input type="tel" id="pho" name="phone" placeholder="phone number">
 <span id="phoneError" class="error"></span>
 
 <br>
-<input type="password" id="password" name="pass" placeholder="password">
+<input type="password" id="password" name="password" placeholder="password">
  <span id="passwordError" class="error"></span>
  <br>
- <input type="password" id="confirm" placeholder="confirmation password">
+ <input type="password" id="confirm" name="confirm" placeholder="confirmation password">
   <span id="confirmError" class="error"></span>
  <br>
 
@@ -44,7 +44,7 @@
  
 <button id="button" type="submit">Signup</button>
 <br>
- <p>Already have an account ?<a href="login.ejs">Login</a></p>
+ <p>Already have an account ?<a href="/login">Login</a></p>
 
 
 

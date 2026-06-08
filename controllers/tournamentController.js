@@ -4,8 +4,8 @@ const Registration = require('../models/registrationSchema');
 
 exports.getAllTournaments = async (req, res) => {
     const sampleTournaments = [
-        { name: 'Spring Doubles Cup', type: '2v2', status: 'OPEN', image: '/images/sample1.svg' },
-        { name: 'Solo Masters League', type: 'Solo', status: 'OPEN', image: '/images/sample2.svg' }
+        { name: 'Spring Doubles Cup', type: '2v2', status: 'OPEN', image: '/images/Gemini_Generated_Image_g5b0p8g5b0p8g5b0.png' },
+        { name: 'Solo Masters League', type: 'Solo', status: 'OPEN', image: '/images/Gemini_Generated_Image_ohnunohnunohnuno.png' }
     ];
 
     console.log('GET ALL TOURNAMENTS called; mongoose readyState =', mongoose.connection.readyState);
@@ -47,20 +47,14 @@ exports.getTournamentById = async (req, res) => {
 
 exports.handleTeamRegistration = async (req, res) => {
     try {
-        const { teamName, tournamentId } = req.body;
-        if (!teamName || !tournamentId) {
+         const { teamName } = req.body;
+        if (!teamName) {
             return res.redirect('/tournaments');
         }
-
-        const registrationData = { teamName };
-         if (tournamentId) {
-            registrationData.tournamentId = tournamentId;
-        }
-        const registration = new Registration(registrationData);
+        const registration = new Registration({ teamName });
         await registration.save();
         res.redirect('/tournaments');
     } catch (error) {
-        console.error('Team registration error:', error.message);
         res.redirect('/tournaments');
     }
 };

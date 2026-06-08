@@ -6,6 +6,14 @@
     <title>Matches | Yalla Padel</title>
     <link rel="stylesheet" href="/CSS/bishoy.css">
     <link rel="stylesheet" href="/CSS/matches.css">
+    <style>
+        .tournament-view {
+            display: none;
+        }
+        .tournament-view.tournament-active {
+            display: block;
+        }
+    </style>
 </head>
 <body class="matches-page">
 
@@ -16,7 +24,6 @@
             <a class="nav-link" href="/tournaments">Tournaments</a>
             <a class="nav-link" href="/matches">Matches</a>
             <a class="nav-link" href="/leaderboard">Leaderboard</a>
-            <a class="nav-link" href="/admin/tournaments">Admin</a>
         </div>
     </nav>
 
@@ -35,7 +42,7 @@
 
             <!-- Bracket View -->
             <% tournaments.forEach((tournament, idx) => { %>
-                <div id="tournament-<%= tournament._id %>" class="tournament-view" style="display: <%= idx === 0 ? 'block' : 'none' %>;">
+                <div id="tournament-<%= tournament._id %>" class="tournament-view <% if (idx === 0) { %>tournament-active<% } %>">
                     <h3 style="text-align: center; margin-bottom: 30px;">
                         <%= tournament.name %> - <%= tournament.type %> Tournament
                     </h3>

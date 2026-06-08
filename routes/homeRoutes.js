@@ -1,4 +1,4 @@
-const { isLoggedIn } = require("../middleware/authMiddleware");
+
 const express = require('express');
 const router = express.Router();
 
@@ -6,7 +6,7 @@ const homeController = require('../controllers/homeController');
 
 
 // HOME
-router.get('/home', isLoggedIn, homeController.getHomePage);
+router.get('/home', homeController.getHomePage);
 
 
 // COURTS

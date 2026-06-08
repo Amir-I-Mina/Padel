@@ -103,7 +103,7 @@ const getTournamentsPage = async (req, res) => {
 
 const getMatchesPage = (req, res) => {
 
-    res.render('pages/matches');
+    res.render('pages/Matches');
 
 };
 

@@ -48,12 +48,11 @@ function validateL(){
         valid = false;
     }
 
-    if(valid){
-        localStorage.setItem("username", username);
-        window.location.href = "home.html"; 
-    }
+   if(valid){
+    return true;
+}
 
-    return false;
+return false;
 }
 
 
@@ -93,12 +92,11 @@ function validate(){
         valid = false;
     }
 
-    if(valid){
-        localStorage.setItem("username", username);
-        window.location.href = "otp.html";
-    }
+   if(valid){
+    return true;
+}
 
-    return false;
+return false;
 }
 
 
@@ -123,7 +121,7 @@ function validateOTP(){
             step.classList.remove("active");
         });
 
-        window.location.href = "home.html";
+        window.location.href = "/home";
     }, 1500);
 
     return false;
