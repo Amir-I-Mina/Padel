@@ -16,8 +16,6 @@ router.get(
 );
 
 
-router.get("/coaches-list", academyAdminController.admin_getCoaches);
-
 
 // GET DATA FOR MANAGE COACHES PAGE
 router.get(
@@ -27,18 +25,11 @@ router.get(
 );
 
 
-// GET ONE COACH
-router.get(
-    "/coaches/:id",
-    //isAdmin,
-    academyAdminController.admin_getCoachById
-);
-
 
 // ADD COACH
 router.post(
     "/Add-coaches",
-   // isAdmin,
+    //isAdmin,
     academyAdminController.admin_addCoach
 );
 

@@ -145,22 +145,6 @@ const admin_getCoachListpage = async (req, res) => {
     }
 };
 
-const admin_getCoaches = async (req, res) => {
-    try {
-        const coaches = await Coach.find();
-
-        // ✅ Validation: check if we got data
-        if (!coaches || coaches.length === 0) {
-            return res.json({ success: false, message: "No coaches found" });
-        }
-
-        res.json({ success: true, coaches });
-    } catch (err) {
-        console.error("Error fetching coaches:", err);
-        res.status(500).json({ success: false, message: "Server error" });
-    }
-};
-
 
 const admin_getManageCoaches = async (req, res) => {
     try {
@@ -173,36 +157,6 @@ const admin_getManageCoaches = async (req, res) => {
         res.status(500).render("error", { error: err.message });
     }
 };
-
-
-
-const admin_getCoachById = async (req, res) => {
-    try {
-
-        const coach = await Coach.findById(req.params.id);
-
-        if (!coach) {
-
-            return res.status(404).json({
-                success: false,
-                message: "Coach not found"
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            coach
-        });
-
-    } catch (err) {
-
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-};
-
 
 
 const admin_addCoach = async (req, res) => {
@@ -533,9 +487,7 @@ module.exports = {
     admin_get_homeManagement,
     admin_get_users,
     admin_getCoachListpage,
-    admin_getCoaches,
     admin_getManageCoaches,
-    admin_getCoachById,
     admin_addCoach,
     admin_updateCoach,
     admin_deleteCoach,

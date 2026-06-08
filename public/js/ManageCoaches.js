@@ -8,7 +8,6 @@ window.onload = function () {
 
     // Show Add form
     addCoachBtn.addEventListener("click", () => {
-        coachForm.reset();
         formTitle.innerText = "Add Coach";
         coachForm.dataset.mode = "add";
         formContainer.style.display = "block";
@@ -29,7 +28,7 @@ window.onload = function () {
             });
             // Toggle current menu
             menu.style.display = menu.style.display === "none" ? "block" : "none";
-        } else if (!e.target.closest(".menu-container")) {
+        } else if (!e.target.classList.contains(".menu-dots") ) {
             document.querySelectorAll(".dropdown-menu").forEach(m => {
                 m.style.display = "none";
             });
@@ -41,7 +40,7 @@ window.onload = function () {
         if (e.target.classList.contains("edit-btn")) {
             const btn = e.target;
             
-            coachForm.reset();
+            
             formTitle.innerText = "Edit Coach";
             coachForm.dataset.mode = "edit";
             coachForm.dataset.id = btn.dataset.id;
@@ -59,8 +58,6 @@ window.onload = function () {
             
             formContainer.style.display = "block";
             
-            // Close dropdown
-            e.target.closest(".dropdown-menu").style.display = "none";
         }
     });
 
@@ -94,6 +91,7 @@ document.getElementById("confirmDelete").addEventListener("click", async () => {
         if (result.success) {
             coachToDelete.card.remove();
             document.getElementById("deleteModal").style.display = "none";
+            window.location.reload();
         } else {
             alert("Error: " + (result.message || "Something went wrong"));
         }
@@ -215,16 +213,14 @@ document.getElementById("cancelDelete").addEventListener("click", () => {
 
             if (result.success) {
                 if (coachForm.dataset.mode === "add") {
-                    
                     window.location.reload();
                 } else {
-                    
                     window.location.reload();
                 }
 
-                coachForm.reset();
+                
                 formContainer.style.display = "none";
-                location.reload();
+                
             } else {
                 alert("Error: " + (result.message || "Something went wrong"));
             }

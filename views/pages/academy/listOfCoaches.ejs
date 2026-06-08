@@ -22,18 +22,24 @@
 </div>
 
 <div id="dashboardContainer">
-<!-- hidden template card -->
-<div class="coach-card" style="display:none">
-  <div class="Name">Coach Name: <span class="name"></span></div>
-  <div class="Phone">Phone: <span class="phone"></span></div>
-  <div class="Experience">Experience: <span class="experience"></span></div>
-  <div class="Location">Location: <span class="location"></span></div>
-  <div class="Days">Days: <span class="days"></span></div>
-  <div class="Time">Time: <span class="time"></span></div>
-  <div class="Salary">Salary: <span class="salary"></span></div>
-</div>
+    <% if (coaches && coaches.length > 0) { %>
+        <% coaches.forEach(coach => { %>
+            <div class="coach-card">
+                <div class="Name">Coach Name: <span class="name"><%= coach.name %></span></div>
+                <div class="Phone">Phone: <span class="phone"><%= coach.phone %></span></div>
+                <div class="Experience">Experience: <span class="experience"><%= coach.experience %></span></div>
+                <div class="Location">Location: <span class="location"><%= coach.location %></span></div>
+                <div class="Days">Days: <span class="days"><%= coach.days %></span></div>
+                <div class="Time">Time: <span class="time"><%= coach.time %></span></div>
+                <div class="Salary">Salary: <span class="salary"><%= coach.salary %></span></div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>No coaches found.</p>
+    <% } %>
 </div>
 
-<script src="/js/listOfCoaches.js"></script>
+
 </body>
 </html>
+
