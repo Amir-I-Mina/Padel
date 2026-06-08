@@ -22,7 +22,7 @@
 </div>
     <p>Go ahead and join our family now</p>
 
-<form action="/signup" method="POST" onsubmit="return validate()">
+<form action="/signup" method="POST" enctype="multipart/form-data" onsubmit="return validate()">
 <input type="text" id="username" name="username" placeholder="username">
 <span id="usernameError" class="error"></span>
 <br>
@@ -37,7 +37,8 @@
   <span id="confirmError" class="error"></span>
  <br>
 
-
+<input
+    type="file" name="profilePicture" accept="image/*">
  
 <button id="button" type="submit">Signup</button>
 <br>
