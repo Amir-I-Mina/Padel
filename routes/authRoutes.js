@@ -1,5 +1,5 @@
 const express = require("express");
-
+const upload = require("../middleware/upload");
 const router = express.Router();
 
 const authController = require("../controllers/AuthController");
@@ -12,7 +12,11 @@ router.get("/forgot-password", authController.getForgotPassword);
 
 router.post("/forgot-password", authController.resetPassword);
 
-router.post("/signup", authController.signupUser);
+router.post(
+    "/signup",
+    upload.single("profilePicture"),
+    authController.signupUser
+);
 
 
 
