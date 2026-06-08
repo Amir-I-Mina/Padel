@@ -1,65 +1,85 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-const form = document.getElementById("bookingForm");
+// Club locations with coordinates
+const clubLocations = {
+    "Smash Club": { lat: 30.11940, lng: 31.40226 },
+    "Cairo International Stadium": { lat: 30.06922, lng: 31.31224 },
+    "HPark": { lat: 30.07546, lng: 31.31412 },
+    "Wadi Degla": { lat: 30.09284, lng: 31.38422 },
+    "Shams Club": { lat: 30.11790, lng: 31.1903 }
+};
 
-form.addEventListener("submit", async (e) => {
+let map = null;
 
-    e.preventDefault();
+window.addEventListener("load", function() {
+    const locationSelect = document.getElementById("location");
+    const locationBtn = document.getElementById("locationBtn");
+    const mapModal = document.getElementById("mapModal");
 
-    const trainingType =
-        form.dataset.type;
+    // Enable button when location is selected
+    locationSelect.addEventListener("change", () => {
+        if (locationSelect.value && locationSelect.value !== "Choose location") {
+            locationBtn.disabled = false;
+        } else {
+            locationBtn.disabled = true;
+        }
+    });
 
-    const endpoint =
-        trainingType === "private"
-            ? "/academy/find-private-coaches"
-            : "/academy/find-group-coaches";
+    // Show map when button is clicked
+    locationBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showMapModal();
+    });
 
-    const location =
-        document.getElementById("location").value;
+    // Close modal when clicking outside
+    mapModal.addEventListener("click", (e) => {
+        if (e.target === mapModal) {
+            closeMapModal();
+        }
+    });
+});
 
-    const day =
-        document.querySelector('input[name="days"]:checked')?.value;
+function showMapModal() {
+    const locationSelect = document.getElementById("location");
+    const selectedClub = locationSelect.value;
+    const coords = clubLocations[selectedClub];
+    const mapModal = document.getElementById("mapModal");
 
-    const time =
-        document.querySelector('input[name="time"]:checked')?.value;
+    if (!coords) return;
 
-    try {
+    // Show modal
+    mapModal.classList.add("active");
 
-        const response = await fetch(
-            endpoint,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    location,
-                    day,
-                    time
-                })
-            }
-        );
+    // Update title
+    document.getElementById("mapTitle").textContent = selectedClub;
 
-        const data = await response.json();
-
-        if (data.success) {
-
-            localStorage.setItem(
-                "coaches",
-                JSON.stringify(data.coaches)
-            );
-
-            window.location.href =
-                "/academy/coach-list";
+    // Initialize map
+    setTimeout(() => {
+        if (!map) {
+            map = L.map('locationMap').setView([coords.lat, coords.lng], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        } else {
+            map.setView([coords.lat, coords.lng], 15);
+            map.eachLayer(layer => {
+                if (layer instanceof L.Marker) {
+                    map.removeLayer(layer);
+                }
+            });
         }
 
-    } catch (err) {
+        // Add marker
+        L.marker([coords.lat, coords.lng])
+            .addTo(map)
+            .bindPopup(`<b>${selectedClub}</b>`)
+            .openPopup();
+    }, 10);
+}
 
-        console.error(err);
+function closeMapModal() {
+    const mapModal = document.getElementById("mapModal");
+    mapModal.classList.remove("active");
+}
 
-    }
-
-});
 
 
-});

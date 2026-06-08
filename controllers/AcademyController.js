@@ -187,6 +187,27 @@ const user_cancelBooking = async (req, res) => {
         });
     }
 };
+const user_showPaymentPage = async (req, res) => {
+  try {
+    const { coachId } = req.body;
+    const coach = await Coach.findById(coachId);
+
+    if (!coach) {
+      return res.status(404).send("Coach not found");
+    }
+
+    // Pass coach and type into the EJS template
+    res.render("pages/academy/paymentAcademy", {
+      coach,
+      type: Array.isArray(coach.trainingType) ? coach.trainingType[0] : coach.trainingType
+    });
+  } catch (err) {
+    res.status(500).send("Server error: " + err.message);
+  }
+};
+
+
+
 
 
 module.exports = {
@@ -196,5 +217,7 @@ module.exports = {
     user_findPrivateCoaches,
     user_findGroupCoaches,
     user_bookTraining,
-    user_cancelBooking
+    user_cancelBooking,
+    user_showPaymentPage,
+  
 };

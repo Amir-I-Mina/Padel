@@ -1,6 +1,7 @@
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
+const Registration = require('../models/registrationSchema');
 const Bookings = require('../models/courtBooking');
 
 
@@ -287,6 +288,23 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 // Tournament & Registration Admin
 // ======================================
+exports.admin_get_treeEditor = async (req, res) => {
+    try {
+        const { tournamentId } = req.query;
+        let approvedTeams = [];
+        let tournament = null;
+
+        if (tournamentId && mongoose.Types.ObjectId.isValid(tournamentId)) {
+            tournament = await Tournament.findById(tournamentId);
+            approvedTeams = await Registration.find({ status: 'APPROVED', tournamentId }).sort({ createdAt: 1 });
+        }
+
+        res.render('pages/tree_editor', { approvedTeams, tournament, tournamentId });
+    } catch (error) {
+        console.error('Tree editor load error:', error.message);
+        res.render('pages/tree_editor', { approvedTeams: [], tournament: null, tournamentId: null });
+    }
+};
 
 exports.getAdminAllTournaments = async (req, res) => {
     try {

@@ -47,15 +47,20 @@ exports.getTournamentById = async (req, res) => {
 
 exports.handleTeamRegistration = async (req, res) => {
     try {
-        const { teamName } = req.body;
-        if (!teamName) {
+        const { teamName, tournamentId } = req.body;
+        if (!teamName || !tournamentId) {
             return res.redirect('/tournaments');
         }
 
-        const registration = new Registration({ teamName });
+        const registrationData = { teamName };
+         if (tournamentId) {
+            registrationData.tournamentId = tournamentId;
+        }
+        const registration = new Registration(registrationData);
         await registration.save();
         res.redirect('/tournaments');
     } catch (error) {
+        console.error('Team registration error:', error.message);
         res.redirect('/tournaments');
     }
 };

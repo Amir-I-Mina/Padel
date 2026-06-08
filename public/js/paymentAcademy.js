@@ -1,39 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll(".form-card button");
-     const confirmationDiv = document.getElementById("confirmation");
-
-    buttons.forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const card = btn.closest(".form-card");
-            const coachId = card.querySelector("input[name='coachId']").value;
-
-            // Only send coachId (and trainingType if needed)
-            const bookingData = { coachId };
-
-            try {
-                const response = await fetch("/academy/bookings", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(bookingData)
-                });
-
-                  const result = await response.json();
-
-   if (result.success) {
-          // ✅ Refresh the page automatically
-          window.location.reload();
-        } else {
-          alert("Error: " + result.error);
-        }
-      } catch (err) {
-        alert("Server error. Please try again later.");
-        console.error(err);
-      }
-        });
-    });
-
-
-    // payment.js
+// payment.js
+window.addEventListener("DOMContentLoaded", () => {
   const paymentForm = document.getElementById("paymentForm");
   const trainingPrice = document.getElementById("trainingPrice");
   const confirmationMessage = document.getElementById("confirmationMessage");
@@ -82,4 +48,3 @@ document.addEventListener("DOMContentLoaded", () => {
     paymentForm.querySelector("button").disabled = true;
   });
 });
-

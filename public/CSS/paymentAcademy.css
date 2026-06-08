@@ -1,0 +1,120 @@
+/* payment.css */
+
+/* General page layout */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  background: #222;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.navbar .nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Page container */
+.page-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Info section */
+.info-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.info-section h2 {
+  color: #333;
+}
+
+.info-section p {
+  color: #666;
+}
+
+/* Form card */
+.form-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.form-card p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.form-card label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.2s;
+}
+
+.form-card input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button */
+.form-card button {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-card button:hover {
+  background: #0056b3;
+}
+
+/* Confirmation message */
+#confirmationMessage {
+  display: none;
+  margin-top: 20px;
+  padding: 12px;
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}

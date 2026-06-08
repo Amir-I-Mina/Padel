@@ -4,7 +4,11 @@
     <title>Private Training</title>
 
     <link rel="stylesheet" href="/CSS/form.css">
-</head>
+    
+    
+    <!-- Leaflet CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <body>
 
@@ -35,19 +39,21 @@
 
     <div class="form-card">
 
-        <!-- IMPORTANT: connect to backend route -->
         <form id="bookingForm" action="/academy/private-coaches" method="POST" data-type="private">
-
+            
             <label for="location">Location</label>
 
-            <select id="location" name="location" required>
-                <option disabled selected>Choose location</option>
-                <option value="Smash Club">Smash Club</option>
-                <option value="Cairo International Stadium">Cairo International Stadium</option>
-                <option value="HPark">HPark</option>
-                <option value="Wadi Degla">Wadi Degla</option>
-                <option value="Shams Club">Shams Club</option>
-            </select>
+            <div class="location-input-group">
+                <select id="location" name="location" required>
+                    <option disabled selected>Choose location</option>
+                    <option value="Smash Club">Smash Club</option>
+                    <option value="Cairo International Stadium">Cairo International Stadium</option>
+                    <option value="HPark">HPark</option>
+                    <option value="Wadi Degla">Wadi Degla</option>
+                    <option value="Shams Club">Shams Club</option>
+                </select>
+                <button type="button" id="locationBtn" class="location-icon" disabled>📍</button>
+            </div>
 
 
             <label><b>Days</b></label><br><br>
@@ -71,6 +77,25 @@
     </div>
 
 </div>
+
+
+<!-- Map Modal -->
+<div id="mapModal" class="map-modal">
+    <div class="map-modal-content">
+        <div class="map-modal-header">
+            <h2 id="mapTitle">Location</h2>
+            <button class="close-btn" onclick="closeMapModal()">✕</button>
+        </div>
+        <div id="locationMap"></div>
+    </div>
+</div>
+
+
+<!-- Leaflet JS -->
+
+
+<!-- Your JS -->
+
 
 </body>
 </html>
