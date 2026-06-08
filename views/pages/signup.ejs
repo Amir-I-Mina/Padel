@@ -37,8 +37,17 @@
   <span id="confirmError" class="error"></span>
  <br>
 
+<label for="profilePicture">Profile Picture</label>
 <input
-    type="file" name="profilePicture" accept="image/*">
+    type="file"
+    id="profilePicture"
+    name="profilePicture"
+    accept="image/*">
+    <img
+    id="preview"
+    src=""
+    alt="Preview"
+    style="display:none; width:120px; height:120px; border-radius:50%;">
  
 <button id="button" type="submit">Signup</button>
 <br>
@@ -55,5 +64,19 @@
 
 <script src="../js/home.js">
     
+</script>
+<script>
+document.getElementById("profilePicture")
+.addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if (file) {
+        const preview = document.getElementById("preview");
+
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+    }
+});
 </script>
 </body>

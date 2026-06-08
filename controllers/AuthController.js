@@ -23,10 +23,15 @@ const signupUser = async (req, res) => {
 
        const hashedPassword = await bcrypt.hash(password, 10);
 
-   const newUser = new User({
+  const profilePicture = req.file
+    ? "/uploads/" + req.file.filename
+    : "/images/default-user.png";
+
+const newUser = new User({
     username,
     phone,
     password: hashedPassword,
+    profilePicture,
     isVerified: true,
     role: "user"
 });

@@ -101,3 +101,12 @@ input {
     display: block;
     margin-top: 5px;
 }
+#profilePicture {
+    margin: 10px 0;
+}
+
+#preview {
+    margin: 10px auto;
+    display: block;
+    object-fit: cover;
+}
