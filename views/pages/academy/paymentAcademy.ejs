@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Training Payment</title>
+  <link rel="stylesheet" href="/CSS/paymentAcademy.css">
+</head>
+<body>
+
+<div class="navbar">
+  <div class="logo">Yalla Padel</div>
+  <div class="nav-links">
+    <a href="/academy">Home</a>
+  </div>
+</div>
+
+<div class="page-container">
+  <div class="info-section">
+    <h2>Confirm Your Booking</h2>
+    <p>Please complete payment before your booking is confirmed.</p>
+  </div>
+
+  <div class="form-card">
+    <form id="paymentForm" action="/academy/payment" method="POST">
+      
+      <% if (type === "private") { %>
+        <p><strong>Amount to Pay:</strong> 6,000 EGP</p>
+        <input type="hidden" name="amount" value="6000">
+      <% } else if (type === "group") { %>
+        <p><strong>Amount to Pay:</strong> 3,000 EGP</p>
+        <input type="hidden" name="amount" value="3000">
+      <% } %>
+
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" name="cardNumber" required>
+
+      <label for="expiry">Expiry Date</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" required>
+
+      <button type="submit">Pay & Confirm Booking</button>
+    </form>
+  </div>
+</div>
+<div id="confirmationMessage" style="display:none; margin-top:20px; padding:10px; background:#d4edda; color:#155724; border:1px solid #c3e6cb; border-radius:5px;">
+  ✅ Payment successful! Your booking is confirmed.
+</div>
+
+</body>
+</html>

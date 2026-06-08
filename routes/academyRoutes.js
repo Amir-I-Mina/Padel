@@ -19,7 +19,14 @@ router.get(
     "/UserDashboard",
     academyController.user_getUserDashboard
 );
-
+router.get(
+    "/showPayment",
+    academyController.user_showPaymentPage
+);
+router.post(
+    "/payment",
+    academyController.user_processPayment
+);
 
 // FIND COACHES
 router.post(
