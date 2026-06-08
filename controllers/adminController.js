@@ -8,11 +8,15 @@ const Bookings = require('../models/courtBooking');
 
 
 const admin_get_dashboard = (req, res) => {
-    res.render("admin/dashboard");
+    res.render("pages/admin/dashboard", {
+        user: req.session.user
+    });
 };
 
 const admin_get_homeManagement = (req, res) => {
-    res.render("admin/homeManagement");
+    res.render("pages/admin/homeManagement", {
+        user: req.session.user
+    });
 };
 
 const admin_get_users = (req, res) => {
