@@ -1,3 +1,4 @@
+const User = require("../models/UserModel");
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
@@ -19,8 +20,21 @@ const admin_get_homeManagement = (req, res) => {
     });
 };
 
-const admin_get_users = (req, res) => {
-    res.render("admin/users");
+const admin_get_users = async (req, res) => {
+    try {
+
+        const users = await User.find();
+
+        res.render("admin/users", {
+            users
+        });
+
+    } catch (err) {
+
+        console.log(err);
+        res.status(500).send("Error loading users");
+
+    }
 };
 
 
