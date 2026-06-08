@@ -20,7 +20,14 @@
   </div>
 
   <div class="form-card">
-    <form id="paymentForm" action="/academy/payment" method="POST">
+    <form id="paymentForm" action="/academy/bookings" method="POST">
+
+<input type="hidden" name="coachId" value="<%= coach._id %>">
+  <input type="hidden" name="coachname" value="<%= coach.name %>">
+  <input type="hidden" name="trainingType" value="<%= type %>">
+  <input type="hidden" name="day" value="<%= coach.availableDays[0] %>">
+  <input type="hidden" name="time" value="<%= coach.availableTimes[0] %>">
+  <input type="hidden" name="location" value="<%= coach.location %>">
       
       <% if (type === "private") { %>
         <p><strong>Amount to Pay:</strong> 6,000 EGP</p>
@@ -46,6 +53,6 @@
 <div id="confirmationMessage" style="display:none; margin-top:20px; padding:10px; background:#d4edda; color:#155724; border:1px solid #c3e6cb; border-radius:5px;">
   ✅ Payment successful! Your booking is confirmed.
 </div>
-
+<script src="/js/coaches.js"></script>
 </body>
 </html>

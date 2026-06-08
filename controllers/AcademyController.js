@@ -193,66 +193,21 @@ const user_showPaymentPage = async (req, res) => {
     const coach = await Coach.findById(coachId);
 
     if (!coach) {
-      return res.status(404).render("error", { error: "Coach not found" });
+      return res.status(404).send("Coach not found");
     }
 
-    // Normalize training type
-    let normalizedType = Array.isArray(coach.trainingType)
-      ? coach.trainingType[0]
-      : coach.trainingType;
-
-    // Decide price
-    const amount = normalizedType === "private" ? 6000 : 3000;
-
-    // Store booking data temporarily in session
-    req.session.bookingData = {
-      userId: "6a25bc7c1c87f19f94201020", // test user
-      coachId: coach._id,
-      trainingType: normalizedType,
-      day: coach.availableDays,
-      time: coach.availableTimes,
-      location: coach.location,
-      amount
-    };
-
-    // Render payment page
-    res.render("pages/academy/paymentAcademy", { type: normalizedType, amount });
-  } catch (err) {
-    res.status(500).render("error", { error: err.message });
-  }
-};
-
-// Process payment
-const user_processPayment = async (req, res) => {
-  try {
-    const { cardNumber, expiry, cvv } = req.body;
-
-    // Dummy validation (replace with Stripe/PayPal later)
-    if (cardNumber.length !== 16) {
-      return res.status(400).json({ success: false, message: "Invalid card number" });
-    }
-
-    // Retrieve booking data stored in session
-    const bookingData = req.session.bookingData;
-    if (!bookingData) {
-      return res.status(400).json({ success: false, message: "No booking data found" });
-    }
-
-    // Save booking in DB after payment success
-    const booking = await Booking.create({
-      bookingData,
-      status: "confirmed"
+    // Pass coach and type into the EJS template
+    res.render("pages/academy/paymentAcademy", {
+      coach,
+      type: Array.isArray(coach.trainingType) ? coach.trainingType[0] : coach.trainingType
     });
-
-    // Clear session
-    req.session.bookingData = null;
-
-    // Respond with success JSON
-    res.json({ success: true, booking });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).send("Server error: " + err.message);
   }
 };
+
+
+
 
 
 module.exports = {
@@ -264,5 +219,5 @@ module.exports = {
     user_bookTraining,
     user_cancelBooking,
     user_showPaymentPage,
-    user_processPayment
+  
 };
