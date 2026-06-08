@@ -2,30 +2,62 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/CSS/admin-dashboard.css">
 </head>
 <body>
 
-<h1>Admin Dashboard</h1>
+<div class="navbar">
+    <div class="logo">Yalla Padel Admin</div>
 
-<h2>Welcome <%= user.username %></h2>
+    <div class="admin-info">
+        <img
+            src="<%= user.profilePicture %>"
+            alt="Admin"
+            class="admin-profile">
 
-<p>You are logged in as an admin.</p>
+        <span><%= user.username %></span>
 
-<a href="/academy/admin/manage-coaches">
-    <button>Academy Management</button>
-</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+</div>
 
-<br><br>
+<div class="container">
 
-<a href="/court/admin/admin">
-    <button>Court Management</button>
-</a>
+    <h1>Welcome, <%= user.username %></h1>
+    <p class="subtitle">
+        Manage all Yalla Padel services from one place.
+    </p>
 
-<br><br>
+    <div class="dashboard-grid">
 
-<a href="/logout">
-    <button>Logout</button>
-</a>
+        <a href="/academy/admin/manage-coaches" class="card">
+            <h2>Academy</h2>
+            <p>Manage coaches and academy services.</p>
+        </a>
+
+        <a href="/court/admin/admin" class="card">
+            <h2>Courts</h2>
+            <p>Manage courts, bookings and pricing.</p>
+        </a>
+
+        <a href="#" class="card">
+            <h2>Products</h2>
+            <p>Manage store products and inventory.</p>
+        </a>
+
+        <a href="#" class="card">
+            <h2>Tournaments</h2>
+            <p>Manage tournaments and registrations.</p>
+        </a>
+
+        <a href="#" class="card">
+            <h2>Users</h2>
+            <p>Manage user accounts and permissions.</p>
+        </a>
+
+    </div>
+
+</div>
 
 </body>
 </html>
