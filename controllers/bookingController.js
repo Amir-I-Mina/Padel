@@ -63,8 +63,8 @@ const createBooking = async (req, res) => {
 
 module.exports = {
   selectClub,
-  getBookingPage,
+  //getBookingPage,
   createBooking,
-  getCheckoutPage,
-  confirmBooking
+  //getCheckoutPage,
+  //confirmBooking
 };
