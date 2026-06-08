@@ -25,7 +25,7 @@ const admin_get_users = async (req, res) => {
 
         const users = await User.find();
 
-        res.render("admin/users", {
+        res.render("pages/admin/users", {
             users
         });
 
