@@ -97,7 +97,7 @@ const logoutUser = (req, res) => {
             return res.status(500).send("Logout failed");
         }
 
-        res.redirect("/login");
+        res.redirect("/home");
     });
 
 };
