@@ -121,7 +121,7 @@ function validateOTP(){
             step.classList.remove("active");
         });
 
-        window.location.href = "home.ejs";
+        window.location.href = "/home";
     }, 1500);
 
     return false;
