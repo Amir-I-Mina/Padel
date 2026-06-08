@@ -18,12 +18,7 @@ const getBookingPage = (req, res) => {
   const club = req.session.selectedClub;
   if (!club) return res.redirect("/clubs");
 
-  res.render("booking", {
-    club: club.name,
-    price: club.price,
-    image: club.image,
-    mapUrl: club.mapUrl
-  });
+  res.render("booking", { club });
 };
 
 
@@ -67,11 +62,7 @@ const getCheckoutPage = (req, res) => {
 
   const club = req.session.selectedClub;
 
-  res.render("checkout", {
-    booking,
-    image: club.image,
-    mapUrl: club.mapUrl
-  });
+  res.render("checkout", { booking, club });
 };
 
 
