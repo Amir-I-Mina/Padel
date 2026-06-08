@@ -46,16 +46,8 @@ app.use("/academy/admin", academyAdminRoutes);
 const admincourt = require("./routes/admincourt");
 const CourtRoutes = require("./routes/CourtRoutes");
 
-app.use("/booking", CourtRoutes);
-app.use("/booking/admin", admincourt);
-
-
-
-
-
-
-
-
+app.use("/court", CourtRoutes);
+app.use("/court/admin", admincourt)
 
 const dbURI = 'mongodb://Padelweb:padel12345@ac-tgk4oui-shard-00-00.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-01.dfnd8so.mongodb.net:27017,ac-tgk4oui-shard-00-02.dfnd8so.mongodb.net:27017/?ssl=true&replicaSet=atlas-57qqm7-shard-0&authSource=admin&appName=PadelWebDatabase';
 
