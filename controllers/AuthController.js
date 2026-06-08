@@ -27,13 +27,13 @@ const signupUser = async (req, res) => {
     username,
     phone,
     password: hashedPassword,
-    isVerified: false,
+    isVerified: true,
     role: "user"
 });
 
         await newUser.save();
 
-        res.redirect("/otp");
+        res.redirect("/login");
 
     } catch (error) {
 
@@ -67,9 +67,7 @@ if (!validPassword) {
             return res.status(400).send("Invalid phone or password");
         }
 
-        if (!user.isVerified) {
-            return res.status(400).send("Please verify your account first");
-        }
+       
 
         req.session.user = {
             id: user._id,
