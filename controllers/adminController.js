@@ -25,39 +25,30 @@ const admin_get_users = (req, res) => {
 const admin_get_products = async (req, res) => {
     try {
         const products = await Product.find().sort({ createdAt: -1 });
-        res.render('admin/products', { products, currentPage: 'products' });
+       res.render('pages/products', { products, currentPage: 'products' });
     } catch (err) {
         console.log(err);
         res.status(500).send('Error loading products');
     }
 };
 
-const admin_get_allProducts = async (req, res) => {
-    try {
-        const { search } = req.query;
-        let query = {};
-
-        if (search) {
-            query.$or = [
-                { name:     { $regex: search, $options: 'i' } },
-                { desc:     { $regex: search, $options: 'i' } },
-                { category: { $regex: search, $options: 'i' } }
-            ];
-        }
-
-        const products = await Product.find(query).sort({ createdAt: -1 });
-        res.json({ success: true, products });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
 const admin_addProduct = async (req, res) => {
     try {
-        const { name, price, desc, category, hasOptions, sizes, colors, image } = req.body;
+        const { name, price, desc, category, hasOptions, sizes, colors } = req.body;
 
         if (!name || !price) {
             return res.status(400).json({ success: false, message: 'Name and price are required' });
+        }
+
+        // handle image upload
+        let imagePath = 'placeholder.png';
+        if (req.files && req.files.image) {
+            const imageFile = req.files.image;
+            const fileName = Date.now() + '_' + imageFile.name;
+            const uploadPath = __dirname + '/../public/images/' + fileName;
+
+            await imageFile.mv(uploadPath);
+            imagePath = '/images/' + fileName;
         }
 
         const product = new Product({
@@ -65,10 +56,10 @@ const admin_addProduct = async (req, res) => {
             price:      parseFloat(price),
             desc:       desc       || '',
             category:   category   || 'general',
-            hasOptions: hasOptions || false,
-            sizes:      hasOptions ? (sizes  || ['S','M','L','XL']) : [],
-            colors:     hasOptions ? (colors || ['White','Black','Navy']) : [],
-            image:      image      || 'placeholder.png',
+            hasOptions: hasOptions === 'true',
+            sizes:      hasOptions === 'true' ? (sizes || ['S','M','L','XL']) : [],
+            colors:     hasOptions === 'true' ? (colors || ['White','Black','Navy']) : [],
+            image:      imagePath,
             inStock:    true
         });
 
@@ -469,6 +460,27 @@ const clearAllBookings = async (req, res) => {
     res.status(400).json({ success: false, message: err.message });
   }
 };
+
+const admin_get_allProducts = async (req, res) => {
+    try {
+        const { search } = req.query;
+        let query = {};
+
+        if (search) {
+            query.$or = [
+                { name:     { $regex: search, $options: 'i' } },
+                { desc:     { $regex: search, $options: 'i' } },
+                { category: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const products = await Product.find(query).sort({ createdAt: -1 });
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
 
 
 
