@@ -11,7 +11,6 @@
 
 <div class="navbar">
     <div class="logo">🎾 Yalla Padel</div>
-
     <div class="nav-links">
         <a href="/">Home</a>
     </div>
@@ -19,7 +18,7 @@
 
 <h1>PADEL CLUBS</h1>
 
-<% if (typeof error !== 'undefined') { %>
+<% if (typeof error !== 'undefined' && error !== null && error !== "") { %>
     <div class="error-message">
         <p><%= error %></p>
     </div>
@@ -27,61 +26,201 @@
 
 <div class="container">
 
+    <!-- SHAMS CLUB -->
     <div class="card">
         <div class="img-box">
             <img src="/images/OIP (2).jfif" alt="Shams Club">
             <span class="price">450 EGP/HOUR</span>
 
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Shams Club">
+            <form action="/court/createbooking" method="POST">
+                <input type="hidden" name="club" value="Shams Club">
+
+                <select name="court" required>
+                    <option value="">Choose Court</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <input type="date" name="date" class="dateInput" required>
+
+                <select name="time" required>
+                    <option value="">Choose Time</option>
+                    <option value="10:00">10 AM</option>
+                    <option value="11:00">11 AM</option>
+                    <option value="12:00">12 PM</option>
+                    <option value="13:00">1 PM</option>
+                    <option value="14:00">2 PM</option>
+                    <option value="15:00">3 PM</option>
+                    <option value="16:00">4 PM</option>
+                    <option value="17:00">5 PM</option>
+                    <option value="18:00">6 PM</option>
+                    <option value="19:00">7 PM</option>
+                    <option value="20:00">8 PM</option>
+                    <option value="21:00">9 PM</option>
+                    <option value="22:00">10 PM</option>
+                </select>
+
                 <button type="submit">Shams Club</button>
             </form>
         </div>
     </div>
 
+    <!-- WADI DEGLA -->
     <div class="card">
         <div class="img-box">
             <img src="/images/OIP (4).jfif" alt="Wadi Degla">
             <span class="price">450 EGP/HOUR</span>
 
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Wadi Degla">
+            <form action="/court/createbooking" method="POST">
+                <input type="hidden" name="club" value="Wadi Degla">
+
+                <select name="court" required>
+                    <option value="">Choose Court</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <input type="date" name="date" class="dateInput" required>
+
+                <select name="time" required>
+                    <option value="">Choose Time</option>
+                    <option value="10:00">10 AM</option>
+                    <option value="11:00">11 AM</option>
+                    <option value="12:00">12 PM</option>
+                    <option value="13:00">1 PM</option>
+                    <option value="14:00">2 PM</option>
+                    <option value="15:00">3 PM</option>
+                    <option value="16:00">4 PM</option>
+                    <option value="17:00">5 PM</option>
+                    <option value="18:00">6 PM</option>
+                    <option value="19:00">7 PM</option>
+                    <option value="20:00">8 PM</option>
+                    <option value="21:00">9 PM</option>
+                    <option value="22:00">10 PM</option>
+                </select>
+
                 <button type="submit">Wadi Degla</button>
             </form>
         </div>
     </div>
 
+    <!-- HPARK -->
     <div class="card">
         <div class="img-box">
             <img src="/images/OIP.jfif" alt="HPark">
             <span class="price">450 EGP/HOUR</span>
 
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="HPark">
+            <form action="/court/createbooking" method="POST">
+                <input type="hidden" name="club" value="HPark">
+
+                <select name="court" required>
+                    <option value="">Choose Court</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <input type="date" name="date" class="dateInput" required>
+
+                <select name="time" required>
+                    <option value="">Choose Time</option>
+                    <option value="10:00">10 AM</option>
+                    <option value="11:00">11 AM</option>
+                    <option value="12:00">12 PM</option>
+                    <option value="13:00">1 PM</option>
+                    <option value="14:00">2 PM</option>
+                    <option value="15:00">3 PM</option>
+                    <option value="16:00">4 PM</option>
+                    <option value="17:00">5 PM</option>
+                    <option value="18:00">6 PM</option>
+                    <option value="19:00">7 PM</option>
+                    <option value="20:00">8 PM</option>
+                    <option value="21:00">9 PM</option>
+                    <option value="22:00">10 PM</option>
+                </select>
+
                 <button type="submit">HPark</button>
             </form>
         </div>
     </div>
 
+    <!-- CAIRO STADIUM -->
     <div class="card">
         <div class="img-box">
-            <img src="/images/OIP (2).jfif" alt="Cairo Stadium">
+            <img src="/images/OIP (3).jfif" alt="Cairo Stadium">
             <span class="price">450 EGP/HOUR</span>
 
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Cairo Stadium">
+            <form action="/court/createbooking" method="POST">
+                <input type="hidden" name="club" value="Cairo Stadium">
+
+                <select name="court" required>
+                    <option value="">Choose Court</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <input type="date" name="date" class="dateInput" required>
+
+                <select name="time" required>
+                    <option value="">Choose Time</option>
+                    <option value="10:00">10 AM</option>
+                    <option value="11:00">11 AM</option>
+                    <option value="12:00">12 PM</option>
+                    <option value="13:00">1 PM</option>
+                    <option value="14:00">2 PM</option>
+                    <option value="15:00">3 PM</option>
+                    <option value="16:00">4 PM</option>
+                    <option value="17:00">5 PM</option>
+                    <option value="18:00">6 PM</option>
+                    <option value="19:00">7 PM</option>
+                    <option value="20:00">8 PM</option>
+                    <option value="21:00">9 PM</option>
+                    <option value="22:00">10 PM</option>
+                </select>
+
                 <button type="submit">Cairo Stadium</button>
             </form>
         </div>
     </div>
 
+    <!-- SMASH CLUB -->
     <div class="card">
         <div class="img-box">
             <img src="/images/OIP (1).jfif" alt="Smash Club">
             <span class="price">450 EGP/HOUR</span>
 
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Smash Club">
+            <form action="/court/createbooking" method="POST">
+                <input type="hidden" name="club" value="Smash Club">
+
+                <select name="court" required>
+                    <option value="">Choose Court</option>
+                    <option value="Court 1">Court 1</option>
+                    <option value="Court 2">Court 2</option>
+                    <option value="Court 3">Court 3</option>
+                </select>
+
+                <input type="date" name="date" class="dateInput" required>
+
+                <select name="time" required>
+                    <option value="">Choose Time</option>
+                    <option value="10:00">10 AM</option>
+                    <option value="11:00">11 AM</option>
+                    <option value="12:00">12 PM</option>
+                    <option value="13:00">1 PM</option>
+                    <option value="14:00">2 PM</option>
+                    <option value="15:00">3 PM</option>
+                    <option value="16:00">4 PM</option>
+                    <option value="17:00">5 PM</option>
+                    <option value="18:00">6 PM</option>
+                    <option value="19:00">7 PM</option>
+                    <option value="20:00">8 PM</option>
+                    <option value="21:00">9 PM</option>
+                    <option value="22:00">10 PM</option>
+                </select>
+
                 <button type="submit">Smash Club</button>
             </form>
         </div>
@@ -89,30 +228,12 @@
 
 </div>
 
-</body>
-</html>     <img src="/images/OIP (2).jfif" alt="Cairo Stadium">
-            <span class="price">450 EGP/HOUR</span>
-
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Cairo Stadium">
-                <button type="submit">Cairo Stadium</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="img-box">
-            <img src="/images/OIP (1).jfif" alt="Smash Club">
-            <span class="price">450 EGP/HOUR</span>
-
-            <form action="/select-club" method="POST">
-                <input type="hidden" name="clubName" value="Smash Club">
-                <button type="submit">Smash Club</button>
-            </form>
-        </div>
-    </div>
-
-</div>
+<script>
+    const today = new Date().toISOString().split("T")[0];
+    document.querySelectorAll(".dateInput").forEach(input => {
+        input.min = today;
+    });
+</script>
 
 </body>
 </html>

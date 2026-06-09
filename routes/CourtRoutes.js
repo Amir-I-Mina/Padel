@@ -3,19 +3,10 @@ const router = express.Router();
 
 const bookingController = require("../controllers/bookingController");
 
+router.get("/courthome", bookingController.showClubs);
 
-router.post("/select-club", bookingController.selectClub);
-
-
-//router.get("/booking", bookingController.getBookingPage);
-
-
-router.post("/booking", bookingController.createBooking);
-
-
-//router.get("/checkout", bookingController.getCheckoutPage);
-
-
-//router.post("/confirm-booking", bookingController.confirmBooking);
+// Club routes
+router.post("/createbooking", bookingController.createBooking);
+router.post("/confirm-booking", bookingController.confirmBooking);
 
 module.exports = router;

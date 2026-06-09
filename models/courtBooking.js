@@ -12,9 +12,8 @@ const bookingSchema = new mongoose.Schema({
         trim: true
     },
     date: {
-        type: String,
-        required: true,
-        trim: true
+        type: Date,
+        required: true
     },
     time: {
         type: String,
@@ -23,13 +22,12 @@ const bookingSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
         default: 450
     },
     paymentMethod: {
         type: String,
-        enum: ["Cash", "Credit Card", "Debit Card"],
-        default: "Cash"
+        enum: ["Cash", "Credit Card", "Debit Card", null],
+        default: null
     },
     promoCode: {
         type: String,
@@ -41,6 +39,7 @@ const bookingSchema = new mongoose.Schema({
         enum: ["confirmed", "cancelled"],
         default: "confirmed"
     }
+
 }, {
     timestamps: true
 });
