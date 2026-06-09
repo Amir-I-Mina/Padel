@@ -8,7 +8,10 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+<<<<<<< Updated upstream
 //app.use(fileUpload());
+=======
+>>>>>>> Stashed changes
 const session = require("express-session");
 
 app.use(session({
@@ -28,8 +31,7 @@ app.use('/products', productRoutes);
 const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
 const adminProductRoutes = require('./routes/AdminProductRoutes');
-app.use('/admin', adminProductRoutes);
-
+app.use('/admin', fileUpload(), adminProductRoutes);
 const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
 const authRoutes = require('./routes/authRoutes');
