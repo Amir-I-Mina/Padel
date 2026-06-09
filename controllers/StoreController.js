@@ -1,4 +1,4 @@
-const Product = require('../models/productSchema');
+const Product = require('../models/ProductSchema');
 const path = require('path');
 
 exports.getAllProducts = async (req, res) => {
@@ -57,7 +57,7 @@ exports.getAdminAllProducts = async (req, res) => {
 exports.manage_get_products = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    res.render('AdminPage/manage-products', { products, currentPage: 'products' });
+    res.render('admin/products', { products, currentPage: 'products' });
   } catch (err) {
     console.log(err);
     res.status(500).send('Error loading products');
