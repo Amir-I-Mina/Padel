@@ -14,11 +14,7 @@ const admin_get_dashboard = (req, res) => {
     });
 };
 
-const admin_get_homeManagement = (req, res) => {
-    res.render("pages/admin/homeManagement", {
-        user: req.session.user
-    });
-};
+
 
 const admin_get_users = async (req, res) => {
     try {
@@ -628,7 +624,6 @@ module.exports = {
     admin_deleteUser,
     admin_makeAdmin,
     admin_removeAdmin,
-    admin_get_homeManagement,
     admin_update_homeManagement,
     admin_getAcademyMenu,
     admin_getCoachListpage,
