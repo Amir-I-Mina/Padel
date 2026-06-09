@@ -57,7 +57,7 @@ exports.getAdminAllProducts = async (req, res) => {
 exports.manage_get_products = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    res.render('admin/products', { products, currentPage: 'products' });
+    res.render('pages/products', { products, currentPage: 'products' });
   } catch (err) {
     console.log(err);
     res.status(500).send('Error loading products');
