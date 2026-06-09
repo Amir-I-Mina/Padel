@@ -38,8 +38,25 @@ const admin_get_users = async (req, res) => {
 };
 const admin_deleteUser = async (req, res) => {
     try {
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        const adminCount = await User.countDocuments({
+            role: "admin"
+        });
+
+        if (user.role === "admin" && adminCount === 1) {
+            return res.status(400).send("Cannot delete the last admin");
+        }
+
         await User.findByIdAndDelete(req.params.id);
+
         res.redirect("/admin/users");
+
     } catch (err) {
         res.status(500).send("Error deleting user");
     }
@@ -58,6 +75,33 @@ const admin_makeAdmin = async (req, res) => {
     }
 };
 const admin_removeAdmin = async (req, res) => {
+    try {
+
+        const adminCount = await User.countDocuments({
+            role: "admin"
+        });
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        if (adminCount === 1 && user.role === "admin") {
+            return res.status(400).send("Cannot remove the last admin");
+        }
+
+        await User.findByIdAndUpdate(
+            req.params.id,
+            { role: "user" }
+        );
+
+        res.redirect("/admin/users");
+
+    } catch (err) {
+        res.status(500).send("Error updating role");
+    }
+};const admin_removeAdmin = async (req, res) => {
     try {
         await User.findByIdAndUpdate(
             req.params.id,
