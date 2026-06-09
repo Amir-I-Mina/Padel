@@ -360,7 +360,6 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 const admin_gettournaments = (req, res) => {
     res.render("pages/tournaments_admin", {
-        user: req.session.user
     });
 };
 const admin_get_tournaments = async (req, res) => {
