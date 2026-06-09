@@ -4,7 +4,7 @@ const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
 const Registration = require('../models/registrationSchema');
 const Bookings = require('../models/courtBooking');
-
+const HomeContent = require("../models/HomeContent");
 
 
 
@@ -14,11 +14,7 @@ const admin_get_dashboard = (req, res) => {
     });
 };
 
-const admin_get_homeManagement = (req, res) => {
-    res.render("pages/admin/homeManagement", {
-        user: req.session.user
-    });
-};
+
 
 const admin_get_users = async (req, res) => {
     try {
@@ -38,15 +34,113 @@ const admin_get_users = async (req, res) => {
 };
 const admin_deleteUser = async (req, res) => {
     try {
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        const adminCount = await User.countDocuments({
+            role: "admin"
+        });
+
+        if (user.role === "admin" && adminCount === 1) {
+            return res.status(400).send("Cannot delete the last admin");
+        }
+
         await User.findByIdAndDelete(req.params.id);
+
         res.redirect("/admin/users");
+
     } catch (err) {
         res.status(500).send("Error deleting user");
     }
 };
 
+const admin_makeAdmin = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(
+            req.params.id,
+            { role: "admin" }
+        );
 
+        res.redirect("/admin/users");
+    } catch (err) {
+        res.status(500).send("Error updating role");
+    }
+};
+const admin_removeAdmin = async (req, res) => {
+    try {
 
+        const adminCount = await User.countDocuments({
+            role: "admin"
+        });
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).send("User not found");
+        }
+
+        if (adminCount === 1 && user.role === "admin") {
+            return res.status(400).send("Cannot remove the last admin");
+        }
+
+        await User.findByIdAndUpdate(
+            req.params.id,
+            { role: "user" }
+        );
+
+        res.redirect("/admin/users");
+
+    } catch (err) {
+        res.status(500).send("Error updating role");
+    }
+};
+
+const admin_get_homeManagement = async (req, res) => {
+
+    let content = await HomeContent.findOne();
+
+    if (!content) {
+        content = {
+            title: "",
+            subtitle: "",
+            announcement: ""
+        };
+    }
+
+    res.render(
+        "pages/admin/homeManagement",
+        { content }
+    );
+};
+const admin_update_homeManagement = async (req, res) => {
+
+    const { title, subtitle, announcement } = req.body;
+
+    let content = await HomeContent.findOne();
+
+    if (!content) {
+
+        content = new HomeContent({
+            title,
+            subtitle,
+            announcement
+        });
+
+    } else {
+
+        content.title = title;
+        content.subtitle = subtitle;
+        content.announcement = announcement;
+    }
+
+    await content.save();
+
+    res.redirect("/admin/home-management");
+};
 
 const admin_get_products = async (req, res) => {
     try {
@@ -57,7 +151,6 @@ const admin_get_products = async (req, res) => {
         res.status(500).send('Error loading products');
     }
 };
-
 const admin_addProduct = async (req, res) => {
     try {
         const { name, price, desc, category, hasOptions, sizes, colors } = req.body;
@@ -66,15 +159,10 @@ const admin_addProduct = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Name and price are required' });
         }
 
-        // handle image upload
-        let imagePath = 'placeholder.png';
-        if (req.files && req.files.image) {
-            const imageFile = req.files.image;
-            const fileName = Date.now() + '_' + imageFile.name;
-            const uploadPath = __dirname + '/../public/images/' + fileName;
-
-            await imageFile.mv(uploadPath);
-            imagePath = '/images/' + fileName;
+        // handle image upload using multer
+        let imagePath = '/images/placeholder.png';
+        if (req.file) {
+            imagePath = '/uploads/' + req.file.filename;
         }
 
         const product = new Product({
@@ -95,6 +183,7 @@ const admin_addProduct = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+
 
 const admin_updateProduct = async (req, res) => {
     try {
@@ -264,6 +353,7 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 // Tournament & Registration Admin
 // ======================================
+
 const admin_get_tournaments = async (req, res) => {
     try {
         const tournaments = await Tournament.find().sort({ createdAt: -1 });
@@ -528,6 +618,9 @@ module.exports = {
     admin_get_homeManagement,
     admin_get_users,
     admin_deleteUser,
+    admin_makeAdmin,
+    admin_removeAdmin,
+    admin_update_homeManagement,
     admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,

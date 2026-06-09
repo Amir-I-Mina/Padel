@@ -2,53 +2,8 @@
 <html>
 <head>
     <title>Users Management</title>
-
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#f4f6f9;
-            padding:30px;
-        }
-
-        h1{
-            color:#1e293b;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            margin-top:20px;
-        }
-
-        th, td{
-            padding:12px;
-            border:1px solid #ddd;
-            text-align:left;
-        }
-
-        th{
-            background:#1e293b;
-            color:white;
-        }
-
-        img{
-            width:50px;
-            height:50px;
-            border-radius:50%;
-            object-fit:cover;
-        }
-
-        .back-btn{
-            display:inline-block;
-            margin-top:20px;
-            padding:10px 20px;
-            background:#2563eb;
-            color:white;
-            text-decoration:none;
-            border-radius:6px;
-        }
-    </style>
+<link rel="stylesheet" href="/CSS/users.css">
+   
 </head>
 
 <body>
@@ -84,10 +39,32 @@
             <td>
                 <%= user.role %>
             </td>
-            <td>
-    <form action="/admin/users/delete/<%= user._id %>" method="POST">
-        <button type="submit">Delete</button>
-    </form>
+     <td>
+    <div class="actions">
+
+        <form action="/admin/users/delete/<%= user._id %>" method="POST">
+            <button class="btn btn-delete" type="submit">
+                Delete
+            </button>
+        </form>
+
+        <% if(user.role === "user") { %>
+            <form action="/admin/users/make-admin/<%= user._id %>" method="POST">
+                <button class="btn btn-admin" type="submit">
+                    Make Admin
+                </button>
+            </form>
+        <% } %>
+
+        <% if(user.role === "admin") { %>
+            <form action="/admin/users/remove-admin/<%= user._id %>" method="POST">
+                <button class="btn btn-remove" type="submit">
+                    Remove Admin
+                </button>
+            </form>
+        <% } %>
+
+    </div>
 </td>
 
         </tr>

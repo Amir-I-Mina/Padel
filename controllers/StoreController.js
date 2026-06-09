@@ -1,5 +1,5 @@
-const Product = require('../models/productSchema');
-
+const Product = require('../models/ProductSchema');
+const path = require('path');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -57,7 +57,7 @@ exports.getAdminAllProducts = async (req, res) => {
 exports.manage_get_products = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    res.render('AdminPage/manage-products', { products, currentPage: 'products' });
+    res.render('pages/products', { products, currentPage: 'products' });
   } catch (err) {
     console.log(err);
     res.status(500).send('Error loading products');
@@ -66,10 +66,19 @@ exports.manage_get_products = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
   try {
-    const { name, price, desc, category, hasOptions, sizes, colors, image } = req.body;
+    const { name, price, desc, category, hasOptions, sizes, colors } = req.body;
 
     if (!name || !price) {
       return res.status(400).json({ success: false, message: 'Name and price are required' });
+    }
+
+    let imageName = 'placeholder.png';
+
+    if (req.files && req.files.image) {
+      const imageFile = req.files.image;
+      imageName = Date.now() + '_' + imageFile.name;
+      const uploadPath = path.join(__dirname, '../public/images/', imageName);
+      await imageFile.mv(uploadPath);
     }
 
     const product = new Product({
@@ -77,10 +86,10 @@ exports.addProduct = async (req, res) => {
       price: parseFloat(price),
       desc:       desc       || '',
       category:   category   || 'general',
-      hasOptions: hasOptions || false,
-      sizes:      hasOptions ? (sizes  || ['S','M','L','XL']) : [],
-      colors:     hasOptions ? (colors || ['White','Black','Navy']) : [],
-      image:      image      || 'placeholder.png',
+      hasOptions: hasOptions === 'true',
+      sizes:      hasOptions === 'true' ? (sizes  || ['S','M','L','XL']) : [],
+      colors:     hasOptions === 'true' ? (colors || ['White','Black','Navy']) : [],
+      image:      imageName,
       inStock:    true
     });
 
@@ -90,7 +99,6 @@ exports.addProduct = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-
 exports.updateProduct = async (req, res) => {
   try {
     const { name, price, desc, category, hasOptions, sizes, colors, image } = req.body;
