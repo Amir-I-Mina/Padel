@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const trainingPrice = document.getElementById("trainingPrice");
   const confirmationMessage = document.getElementById("confirmationMessage");
 
-  const trainingType = paymentForm.dataset.type;
+  const trainingType = document.querySelector('input[name="trainingType"]').value;;
 
   if (trainingType === "private") {
-    trainingPrice.textContent = "Amount to Pay: 6,000 EGP";
+    trainingPrice.value = " 6,000 EGP";
   } else if (trainingType === "group") {
-    trainingPrice.textContent = "Amount to Pay: 3,000 EGP";
+    trainingPrice.value = " 3,000 EGP";
   }
 
   paymentForm.addEventListener("submit", async (e) => {

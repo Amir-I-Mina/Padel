@@ -1,3 +1,4 @@
+const User = require("../models/UserModel");
 const Coach = require("../models/CoachModels");
 const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
@@ -8,15 +9,40 @@ const Bookings = require('../models/courtBooking');
 
 
 const admin_get_dashboard = (req, res) => {
-    res.render("admin/dashboard");
+    res.render("pages/admin/dashboard", {
+        user: req.session.user
+    });
 };
 
 const admin_get_homeManagement = (req, res) => {
-    res.render("admin/homeManagement");
+    res.render("pages/admin/homeManagement", {
+        user: req.session.user
+    });
 };
 
-const admin_get_users = (req, res) => {
-    res.render("admin/users");
+const admin_get_users = async (req, res) => {
+    try {
+
+        const users = await User.find();
+
+        res.render("pages/admin/users", {
+            users
+        });
+
+    } catch (err) {
+
+        console.log(err);
+        res.status(500).send("Error loading users");
+
+    }
+};
+const admin_deleteUser = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.redirect("/admin/users");
+    } catch (err) {
+        res.status(500).send("Error deleting user");
+    }
 };
 
 
@@ -126,6 +152,9 @@ const admin_deleteProduct = async (req, res) => {
 //      academy Admin management   ///
 /////////////////////////////////////
 
+const admin_getAcademyMenu = (req, res) => {
+    res.render("pages/academy/adminMenu");
+};
 const admin_getCoachListpage = async (req, res) => {
     try {
         const coaches = await Coach.find();
@@ -498,6 +527,8 @@ module.exports = {
     admin_get_dashboard,
     admin_get_homeManagement,
     admin_get_users,
+    admin_deleteUser,
+    admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,
     admin_addCoach,
