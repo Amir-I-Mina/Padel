@@ -62,6 +62,7 @@
         <th>Username</th>
         <th>Phone</th>
         <th>Role</th>
+        <th>Actions</th>
     </tr>
 
     <% users.forEach(user => { %>
@@ -83,6 +84,11 @@
             <td>
                 <%= user.role %>
             </td>
+            <td>
+    <form action="/admin/users/delete/<%= user._id %>" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+</td>
 
         </tr>
 
