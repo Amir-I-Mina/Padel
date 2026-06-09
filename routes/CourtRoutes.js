@@ -3,7 +3,7 @@ const router = express.Router();
 
 const bookingController = require("../controllers/bookingController");
 
-router.get("/courthome", bookingController.showClubs);
+router.get("/courts", bookingController.showClubs);
 
 // Club routes
 router.post("/createbooking", bookingController.createBooking);

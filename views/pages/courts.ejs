@@ -8,6 +8,12 @@
 
 <body>
 
+<%
+    const safeClub = typeof club !== 'undefined' ? club : "";
+    const safeMap = typeof mapUrl !== 'undefined' ? mapUrl : "";
+    const safeError = typeof error !== 'undefined' ? error : null;
+%>
+
 <div class="navbar">
     <div class="logo">Yalla Padel</div>
 
@@ -19,31 +25,35 @@
 <h1>🎾 BOOK COURTS</h1>
 
 <h2 style="text-align:center">
-    Club: <%= club %>
+    Club: <%= safeClub %>
 </h2>
 
 <div style="text-align:center; margin-bottom:20px;">
-    <iframe
-        src="<%= mapUrl %>"
-        width="700"
-        height="350"
-        style="border:0;"
-        loading="lazy">
-    </iframe>
+    <% if (safeMap !== "") { %>
+        <iframe
+            src="<%= safeMap %>"
+            width="700"
+            height="350"
+            style="border:0;"
+            loading="lazy">
+        </iframe>
+    <% } else { %>
+        <p style="color:gray;">No map available</p>
+    <% } %>
 </div>
 
-<% if (typeof error !== 'undefined' && error !== null && error !== "") { %>
+<% if (safeError) { %>
     <p style="color:red;text-align:center">
-        <%= error %>
+        <%= safeError %>
     </p>
 <% } %>
 
 <div style="text-align:center;margin-bottom:20px;">
-<form action="/court/createbooking" method="POST">
-        <input type="hidden" name="club" value="<%= club %>">
+    <form action="/court/createbooking" method="POST">
+
+        <input type="hidden" name="club" value="<%= safeClub %>">
 
         <label>Select Court</label>
-
         <select name="court" required>
             <option value="">Choose Court</option>
             <option value="Court 1">Court 1</option>
@@ -54,18 +64,11 @@
         <br><br>
 
         <label>Select Date</label>
-
-        <input
-            type="date"
-            name="date"
-            id="dateInput"
-            required
-        >
+        <input type="date" name="date" id="dateInput" required>
 
         <br><br>
 
         <label>Select Time</label>
-
         <select name="time" required>
             <option value="">Choose Time</option>
             <option value="10:00">10 AM</option>
