@@ -13,9 +13,6 @@ router.get('/home', homeController.getHomePage);
 router.get('/courts', homeController.getCourtsPage);
 
 
-// SINGLE COURT
-router.get('/court/:id', homeController.getCourtDetails);
-
 
 // TOURNAMENTS
 router.get('/tournaments', homeController.getTournamentsPage);
