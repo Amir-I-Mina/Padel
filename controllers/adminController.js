@@ -151,7 +151,6 @@ const admin_get_products = async (req, res) => {
         res.status(500).send('Error loading products');
     }
 };
-
 const admin_addProduct = async (req, res) => {
     try {
         const { name, price, desc, category, hasOptions, sizes, colors } = req.body;
@@ -160,15 +159,10 @@ const admin_addProduct = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Name and price are required' });
         }
 
-        // handle image upload
-        let imagePath = 'placeholder.png';
-        if (req.files && req.files.image) {
-            const imageFile = req.files.image;
-            const fileName = Date.now() + '_' + imageFile.name;
-            const uploadPath = __dirname + '/../public/images/' + fileName;
-
-            await imageFile.mv(uploadPath);
-            imagePath = '/images/' + fileName;
+        // handle image upload using multer
+        let imagePath = '/images/placeholder.png';
+        if (req.file) {
+            imagePath = '/uploads/' + req.file.filename;
         }
 
         const product = new Product({
@@ -189,6 +183,7 @@ const admin_addProduct = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+
 
 const admin_updateProduct = async (req, res) => {
     try {

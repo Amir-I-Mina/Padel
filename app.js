@@ -28,7 +28,7 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/admin', adminRoutes);
 
 const adminProductRoutes = require('./routes/AdminProductRoutes');
-app.use('/admin', fileUpload(), adminProductRoutes);  // ← fileUpload only here
+app.use('/admin', adminProductRoutes);
 
 const orderRoutes = require('./routes/orders');
 app.use('/orders', orderRoutes);
