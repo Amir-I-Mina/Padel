@@ -84,10 +84,22 @@
             <td>
                 <%= user.role %>
             </td>
-            <td>
+      <td>
+
     <form action="/admin/users/delete/<%= user._id %>" method="POST">
         <button type="submit">Delete</button>
     </form>
+
+    <% if(user.role === "user") { %>
+        <form action="/admin/users/make-admin/<%= user._id %>" method="POST">
+            <button type="submit">Make Admin</button>
+        </form>
+    <% } else { %>
+        <form action="/admin/users/remove-admin/<%= user._id %>" method="POST">
+            <button type="submit">Remove Admin</button>
+        </form>
+    <% } %>
+
 </td>
 
         </tr>

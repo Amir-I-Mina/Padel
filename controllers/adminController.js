@@ -45,6 +45,30 @@ const admin_deleteUser = async (req, res) => {
     }
 };
 
+const admin_makeAdmin = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(
+            req.params.id,
+            { role: "admin" }
+        );
+
+        res.redirect("/admin/users");
+    } catch (err) {
+        res.status(500).send("Error updating role");
+    }
+};
+const admin_removeAdmin = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(
+            req.params.id,
+            { role: "user" }
+        );
+
+        res.redirect("/admin/users");
+    } catch (err) {
+        res.status(500).send("Error updating role");
+    }
+};
 
 
 
@@ -528,6 +552,8 @@ module.exports = {
     admin_get_homeManagement,
     admin_get_users,
     admin_deleteUser,
+    admin_makeAdmin,
+    admin_removeAdmin,
     admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,
