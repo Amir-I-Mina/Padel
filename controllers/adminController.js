@@ -4,7 +4,7 @@ const Product = require('../models/ProductSchema');
 const Tournament = require('../models/tournamentSchema');
 const Registration = require('../models/registrationSchema');
 const Bookings = require('../models/courtBooking');
-
+const HomeContent = require("../models/HomeContent");
 
 
 
@@ -103,7 +103,48 @@ const admin_removeAdmin = async (req, res) => {
     }
 };
 
+const admin_get_homeManagement = async (req, res) => {
 
+    let content = await HomeContent.findOne();
+
+    if (!content) {
+        content = {
+            title: "",
+            subtitle: "",
+            announcement: ""
+        };
+    }
+
+    res.render(
+        "pages/admin/homeManagement",
+        { content }
+    );
+};
+const admin_update_homeManagement = async (req, res) => {
+
+    const { title, subtitle, announcement } = req.body;
+
+    let content = await HomeContent.findOne();
+
+    if (!content) {
+
+        content = new HomeContent({
+            title,
+            subtitle,
+            announcement
+        });
+
+    } else {
+
+        content.title = title;
+        content.subtitle = subtitle;
+        content.announcement = announcement;
+    }
+
+    await content.save();
+
+    res.redirect("/admin/home-management");
+};
 
 const admin_get_products = async (req, res) => {
     try {
@@ -587,6 +628,8 @@ module.exports = {
     admin_deleteUser,
     admin_makeAdmin,
     admin_removeAdmin,
+    admin_get_homeManagement,
+    admin_update_homeManagement,
     admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,

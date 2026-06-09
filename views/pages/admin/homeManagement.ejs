@@ -7,10 +7,40 @@
 
 <h1>Home Management</h1>
 
-<p>This page will be used to manage the homepage content.</p>
+<form action="/admin/home-management" method="POST">
+
+    <label>Homepage Title</label>
+    <br>
+    <input
+        type="text"
+        name="title"
+        value="<%= content.title %>">
+    <br><br>
+
+    <label>Homepage Subtitle</label>
+    <br>
+    <input
+        type="text"
+        name="subtitle"
+        value="<%= content.subtitle %>">
+    <br><br>
+
+    <label>Announcement</label>
+    <br>
+    <textarea
+        name="announcement"><%= content.announcement %></textarea>
+    <br><br>
+
+    <button type="submit">
+        Save Changes
+    </button>
+
+</form>
+
+<br>
 
 <a href="/admin/dashboard">
-    <button>Back to Dashboard</button>
+    Back to Dashboard
 </a>
 
 </body>
