@@ -48,6 +48,36 @@
             text-decoration:none;
             border-radius:6px;
         }
+        .actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    color:white;
+    font-size:14px;
+    font-weight:500;
+}
+
+.btn-delete{
+    background:#dc2626;
+}
+
+.btn-admin{
+    background:#16a34a;
+}
+
+.btn-remove{
+    background:#f59e0b;
+}
+
+.btn:hover{
+    opacity:0.9;
+}
     </style>
 </head>
 
@@ -84,22 +114,32 @@
             <td>
                 <%= user.role %>
             </td>
-      <td>
+     <td>
+    <div class="actions">
 
-    <form action="/admin/users/delete/<%= user._id %>" method="POST">
-        <button type="submit">Delete</button>
-    </form>
-
-    <% if(user.role === "user") { %>
-        <form action="/admin/users/make-admin/<%= user._id %>" method="POST">
-            <button type="submit">Make Admin</button>
+        <form action="/admin/users/delete/<%= user._id %>" method="POST">
+            <button class="btn btn-delete" type="submit">
+                Delete
+            </button>
         </form>
-    <% } else { %>
-        <form action="/admin/users/remove-admin/<%= user._id %>" method="POST">
-            <button type="submit">Remove Admin</button>
-        </form>
-    <% } %>
 
+        <% if(user.role === "user") { %>
+            <form action="/admin/users/make-admin/<%= user._id %>" method="POST">
+                <button class="btn btn-admin" type="submit">
+                    Make Admin
+                </button>
+            </form>
+        <% } %>
+
+        <% if(user.role === "admin") { %>
+            <form action="/admin/users/remove-admin/<%= user._id %>" method="POST">
+                <button class="btn btn-remove" type="submit">
+                    Remove Admin
+                </button>
+            </form>
+        <% } %>
+
+    </div>
 </td>
 
         </tr>
