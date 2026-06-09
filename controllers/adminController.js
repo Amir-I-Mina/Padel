@@ -353,10 +353,7 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 // Tournament & Registration Admin
 // ======================================
-const admin_gettournaments = (req, res) => {
-    res.render("pages/tournaments_admin", {
-    });
-};
+
 const admin_get_tournaments = async (req, res) => {
     try {
         const tournaments = await Tournament.find().sort({ createdAt: -1 });
@@ -643,7 +640,6 @@ module.exports = {
     updateGlobalRate,
     cancelBooking,
     clearAllBookings,
-    admin_gettournaments,
     admin_get_tournaments,
     admin_addTournament,
     admin_updateTournament,
