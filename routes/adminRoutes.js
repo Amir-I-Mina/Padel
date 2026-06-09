@@ -12,7 +12,7 @@ router.post("/users/delete/:id", isAdmin, adminController.admin_deleteUser);
 router.post("/users/make-admin/:id", isAdmin, adminController.admin_makeAdmin);
 router.post("/users/remove-admin/:id", isAdmin, adminController.admin_removeAdmin);
 router.get("/academy", isAdmin, adminController.admin_getAcademyMenu);
-router.get("/tournaments_admin", isAdmin, adminController.admin_gettournaments_admin);
+router.get("/tournaments", isAdmin, adminController.admin_gettournaments);
 router.get("/products", isAdmin, storeController.manage_get_products);
 router.get("/products/all", isAdmin, storeController.getAdminAllProducts);
 router.post("/products/add", isAdmin, storeController.addProduct);

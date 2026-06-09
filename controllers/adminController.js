@@ -358,7 +358,7 @@ const admin_deleteCoach = async (req, res) => {
 // ======================================
 // Tournament & Registration Admin
 // ======================================
-const admin_gettournaments_admin = (req, res) => {
+const admin_gettournaments = (req, res) => {
     res.render("pages/tournaments_admin", {
         user: req.session.user
     });
@@ -649,7 +649,7 @@ module.exports = {
     updateGlobalRate,
     cancelBooking,
     clearAllBookings,
-    admin_gettournaments_admin,
+    admin_gettournaments,
     admin_get_tournaments,
     admin_addTournament,
     admin_updateTournament,
