@@ -7,39 +7,26 @@
 <body>
 
 <h1>Home Management</h1>
-
+<p class="subtitle">
+    Control homepage announcements and website availability.
+</p>
 <form action="/admin/home-management" method="POST">
 
-    <label>Homepage Title</label>
-    <br>
-    <input
-        type="text"
-        name="title"
-        value="<%= content.title %>">
+    <input type="text" name="announcement">
+
     <br><br>
 
-    <label>Homepage Subtitle</label>
-    <br>
-    <input
-        type="text"
-        name="subtitle"
-        value="<%= content.subtitle %>">
+    <label>
+        <input type="checkbox" name="courtLocked">
+        Lock Court Booking
+    </label>
+
     <br><br>
 
-    <label>Announcement</label>
-    <br>
-    <textarea
-        name="announcement"><%= content.announcement %></textarea>
-    <br><br>
-
-    <button type="submit">
-        Save Changes
-    </button>
+    <button type="submit">Save</button>
 
 </form>
-
 <br>
-
 <a href="/admin/dashboard">
     Back to Dashboard
 </a>

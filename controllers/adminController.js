@@ -100,7 +100,6 @@ const admin_removeAdmin = async (req, res) => {
 };
 
 const admin_get_homeManagement = async (req, res) => {
-
     let content = await HomeContent.findOne();
 
     if (!content) {
@@ -111,35 +110,20 @@ const admin_get_homeManagement = async (req, res) => {
         };
     }
 
-    res.render(
-        "pages/admin/homeManagement",
-        { content }
-    );
+    res.render("pages/admin/homeManagement", { content });
 };
 const admin_update_homeManagement = async (req, res) => {
+    try {
 
-    const { title, subtitle, announcement } = req.body;
+        req.session.announcement = req.body.announcement;
 
-    let content = await HomeContent.findOne();
+        req.session.courtLocked = req.body.courtLocked === "on";
 
-    if (!content) {
+        res.redirect("/admin/home-management");
 
-        content = new HomeContent({
-            title,
-            subtitle,
-            announcement
-        });
-
-    } else {
-
-        content.title = title;
-        content.subtitle = subtitle;
-        content.announcement = announcement;
+    } catch (err) {
+        res.status(500).send("Update failed");
     }
-
-    await content.save();
-
-    res.redirect("/admin/home-management");
 };
 
 const admin_get_products = async (req, res) => {

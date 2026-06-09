@@ -1,41 +1,30 @@
+const HomeContent = require("../models/HomeContent");
 const Court = require('../models/courtBooking');
 const Tournament = require('../models/tournamentSchema');
 
 
 
-
 const getHomePage = async (req, res) => {
+    const featuredCourts = await Court.find({ available: true }).limit(4);
+    const tournaments = await Tournament.find().limit(3);
 
-    try {
+    const content = {
+        announcement: req.session.announcement
+    };
 
-       
-        const featuredCourts = await Court.find({ available: true })
-            .limit(4);
+    
+    req.session.announcement = null;
 
-       
-        const tournaments = await Tournament.find()
-            .sort({ createdAt: -1 })
-            .limit(3);
-
-        
-   res.render('pages/home', {
+   res.render("pages/home", {
     featuredCourts,
     tournaments,
-    user: req.session.user
+    user: req.session.user,
+    content,
+    courtLocked: req.session.courtLocked
 });
-
-    } catch (err) {
-
-        console.log(err);
-
-   res.render('pages/home', {
-    featuredCourts: [],
-    tournaments: [],
-    user: req.session.user
-});
-
-    }
 };
+
+
 
 
 
@@ -126,6 +115,7 @@ module.exports = {
     getCourtDetails,
     getTournamentsPage,
     getMatchesPage,
-    getAcademyPage
+    getAcademyPage,
+    
 
 };
