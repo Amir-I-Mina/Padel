@@ -36,6 +36,14 @@ const admin_get_users = async (req, res) => {
 
     }
 };
+const admin_deleteUser = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.redirect("/admin/users");
+    } catch (err) {
+        res.status(500).send("Error deleting user");
+    }
+};
 
 
 
@@ -519,6 +527,7 @@ module.exports = {
     admin_get_dashboard,
     admin_get_homeManagement,
     admin_get_users,
+    admin_deleteUser,
     admin_getAcademyMenu,
     admin_getCoachListpage,
     admin_getManageCoaches,
