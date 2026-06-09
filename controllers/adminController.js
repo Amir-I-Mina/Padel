@@ -101,17 +101,6 @@ const admin_removeAdmin = async (req, res) => {
     } catch (err) {
         res.status(500).send("Error updating role");
     }
-};const admin_removeAdmin = async (req, res) => {
-    try {
-        await User.findByIdAndUpdate(
-            req.params.id,
-            { role: "user" }
-        );
-
-        res.redirect("/admin/users");
-    } catch (err) {
-        res.status(500).send("Error updating role");
-    }
 };
 
 
